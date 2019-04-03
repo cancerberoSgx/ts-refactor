@@ -1,6 +1,6 @@
 import { ParsedArgs } from './toolOption'
 import { Project } from 'ts-morph'
-import { buildProject, checkFilesInProject, getSourceFileRelativePath } from './project'
+import { buildProject, checkFilesInProject, getFileRelativePath } from './project'
 import { inquireMissing } from './cli/inquireMissing'
 import { resolve } from 'path'
 import { getFix } from './fixes'
@@ -13,10 +13,8 @@ export async function main(args: Partial<ParsedArgs>) {
 
   checkFilesInProject(options.inputFiles, project)
 
-  const fix = getFix(options.fixName)
-  if (!fix) {
-    throw `Sorry, the fix ${options.fixName} is not supported yet.`
-  }
+  const fix = getFix(options.fixName)! //checked at requireMissing
+
   const result = fix.fn({ ...options, project })
 
   if (result.files.length === 0) {

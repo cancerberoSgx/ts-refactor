@@ -1,5 +1,6 @@
 import { Fix, FixOptions, FIX } from './fix'
 import { organizeImportsFix } from './fix/organizeImports'
+import { moveFileFix } from './fix/moveFile'
 
 const fixes: Fix<FixOptions>[] = []
 
@@ -16,3 +17,4 @@ export function getFix(name: FIX) {
 }
 
 registerFix(organizeImportsFix)
+registerFix(moveFileFix)

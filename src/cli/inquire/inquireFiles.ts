@@ -1,6 +1,5 @@
 import { prompt, registerPrompt } from 'inquirer'
 import { File } from '../../fix'
-
 registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'))
 
 export async function inquireFiles(allFiles: File[], message = 'Select files'): Promise<File[]> {

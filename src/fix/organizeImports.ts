@@ -1,5 +1,5 @@
 import { FIX, Fix, FixOptions, FixResult } from '../fix'
-import { getSourceFileRelativePath, isSourceFile } from '../project'
+import { getFileRelativePath, isSourceFile } from '../project'
 
 interface OrganizeImportsOptions extends FixOptions {}
 /**
@@ -12,17 +12,16 @@ export function organizeImports(options: OrganizeImportsOptions) {
     .map(f => (isSourceFile(f) ? [f] : f.getDescendantSourceFiles()))
     .flat()
     .filter((f, i, a) => a.indexOf(f) === i)
-
   inputFiles.forEach(file => {
     const t0 = Date.now()
     if (isSourceFile(file)) {
       file.organizeImports()
       result.files.push({
-        name: getSourceFileRelativePath(file, project),
+        name: getFileRelativePath(file, project),
         time: Date.now() - t0
       })
     } else {
-      throw `${getSourceFileRelativePath(file, project)} not a source file`
+      throw `${getFileRelativePath(file, project)} not a source file`
     }
   })
   return result

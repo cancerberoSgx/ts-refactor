@@ -18,9 +18,14 @@ export function checkFilesInProject(files: (SourceFile | Directory)[], project: 
   })
 }
 
-export function getSourceFileRelativePath(f: SourceFile | Directory, project: Project) {
+export function getFileRelativePath(f: SourceFile | Directory, project: Project) {
   const rootDir = project.getRootDirectories()[0]
   return rootDir.getRelativePathTo(f as SourceFile)
+}
+
+export function getFileFromRelativePath(path: string, project: Project) {
+  const rootDir = project.getRootDirectories()[0]
+  return rootDir.getDirectory(path) || rootDir.getSourceFile(path)
 }
 
 export function getFilePath(f: SourceFile | Directory, project: Project) {
