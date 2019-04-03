@@ -28,25 +28,30 @@ describe('ts-node src/cli/cliMain.ts', () => {
       '--debug',
       `Usage: tstool fixName [...fixOptions] ...inputFiles`
      ].forEach(option=>expect(data).toContain(option))
-     const code= await client.enterAndWaitForData('echo "exit code $?"', 'exit code')
-    expect(code).toContain('exit code 0')
+    expect(await client.enterAndWaitForData('echo "exit code $?"', 'exit code')).toContain('exit code 0')
     done()
   })
 
   it('--strangeArgument should exit with code != 0', async done => {
     await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts --strangeArgument','Unknown tool option strangeArgument')
-    const code= await client.enterAndWaitForData('echo "exit code $?"', 'exit code')
-    expect(code).not.toContain('exit code 0')
+    expect(await client.enterAndWaitForData('echo "exit code $?"', 'exit code')).not.toContain('exit code 0')
     done()
   })
 
-  it('without arguments should ask for a fix. Also the fix list has a Exit option which exit with code 0', async done => {
+  it('without arguments should ask for a fix and I can exit with ctrl-c', async done => {
+    await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts','Select a code fix')
+    await client.write(ansi.keys.getSequenceFor({name: 'c', ctrl: true}))
+    expect(await client.enterAndWaitForData('echo "control restored"', 'control restored')).toContain('control restored')
+    done()
+  })
+
+  it('fixes has a last Exit option which exit with code 0', async done => {
     await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts','Select a code fix')
     await client.write(ansi.cursor.up())
     await client.enterAndWaitForData('', 'Bye')
-    const code= await client.enterAndWaitForData('echo "exit code $?"', 'exit code')
-    expect(code).toContain('exit code 0')
+    expect(await client.enterAndWaitForData('echo "exit code $?"', 'exit code')).toContain('exit code 0')
     done()
   })
+
 })
 
