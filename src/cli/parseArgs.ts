@@ -1,17 +1,17 @@
 import { CATEGORY, categories } from '../category'
 import { FIX, fixes } from '../fix'
-import { ToolOptions, ToolOptionName, toolOptionTypes, ToolOptionType, toolOptionNames } from '../toolOption'
+import {
+  ToolOptions,
+  ToolOptionName,
+  toolOptionTypes,
+  ToolOptionType,
+  toolOptionNames,
+  ParsedArgs
+} from '../toolOption'
 
-interface RawArgs {
+export interface RawArgs {
   _: string[]
   [appOptions: string]: string | boolean | string[]
-}
-
-interface ParsedArgs {
-  category: CATEGORY
-  fix: FIX
-  files: string[]
-  toolOptions: ToolOptions
 }
 
 export function parseArgs(args: RawArgs): Partial<ParsedArgs> {

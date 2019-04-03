@@ -11,14 +11,6 @@ export enum FIX {
 
 export const fixes = getEnumKeys(FIX)
 
-type CategoryFixes = { [category in CATEGORY]: FIX[] }
-
-export const categoryFixes: CategoryFixes = {
-  [CATEGORY.convert]: [FIX.organizeImports],
-  [CATEGORY.fix]: [FIX.missingImports, FIX.unusedIdentifiers],
-  [CATEGORY.move]: [FIX.moveFile, FIX.moveDeclaration]
-}
-
 export interface Fix {
   categories: CATEGORY[]
   name: FIX
@@ -27,7 +19,7 @@ export interface Fix {
 export interface FixResult {
   files: FixResultFile[]
 }
-interface FixResultFile{
+interface FixResultFile {
   name: string
   time: number
 }

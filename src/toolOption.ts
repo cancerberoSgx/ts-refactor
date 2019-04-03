@@ -2,6 +2,13 @@ import { CATEGORY } from './category'
 import { FIX } from './fix'
 import { getEnumKeys } from './misc'
 
+export interface ParsedArgs {
+  category: CATEGORY
+  fix: FIX
+  files: string[]
+  toolOptions: ToolOptions
+}
+
 export interface ToolOptions {
   /**
    * Make sure there are no interactions (useful for CI - automated scripts)
@@ -32,7 +39,7 @@ export enum ToolOptionName {
   help = 'help',
   noInteractive = 'noInteractive',
   tsConfigPath = 'tsConfigPath',
-  dontWrite='dontWrite'
+  dontWrite = 'dontWrite'
 }
 
 export enum ToolOptionType {
@@ -45,7 +52,7 @@ export const toolOptionTypes = {
   [ToolOptionName.help]: ToolOptionType.boolean,
   [ToolOptionName.noInteractive]: ToolOptionType.boolean,
   [ToolOptionName.tsConfigPath]: ToolOptionType.string,
-  [ToolOptionName.dontWrite]: ToolOptionType.boolean,
+  [ToolOptionName.dontWrite]: ToolOptionType.boolean
 }
 
 export const toolOptionNames = getEnumKeys(ToolOptionName)
