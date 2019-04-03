@@ -27,7 +27,7 @@ export function parseArgs(args: RawArgs): Partial<ParsedArgs> {
   if (argsToolOptionNames.length) {
     argsToolOptionNames.forEach(o => {
       if (!toolOptionNames.includes(o)) {
-        throw `Unknown tool option ${o}. Must be one of [${argsToolOptionNames.join(', ')}]`
+        throw `Unknown tool option ${o}. Must be one of [${toolOptionNames.join(', ')}]`
       }
       ;(options.toolOptions as any)[o] = getToolOptionValue(o, args[o])
     })

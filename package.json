@@ -16,6 +16,7 @@
   "author": "Sebastian Gurin",
   "license": "MIT",
   "dependencies": {
+    "cli-driver": "0.1.3",
     "inquirer": "^6.2.2",
     "inquirer-autocomplete-prompt": "^1.0.1",
     "inquirer-checkbox-plus-prompt": "^1.0.1",
@@ -28,7 +29,6 @@
     "@types/jasmine": "^2.8.16",
     "@types/node": "^10.5.2",
     "@types/shelljs": "^0.8.4",
-    "extract-interface-docs": "file:../extract-interface-docs",
     "jasmine": "^3.3.1",
     "prettier": "^1.16.4",
     "ts-node": "^7.0.1",
