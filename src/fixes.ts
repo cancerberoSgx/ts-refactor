@@ -1,4 +1,5 @@
 import { Fix, FixOptions, FIX } from './fix'
+import { organizeImportsFix } from './fix/organizeImports'
 
 const fixes: Fix<FixOptions>[] = []
 
@@ -11,5 +12,7 @@ export function getFixes() {
 }
 
 export function getFix(name: FIX) {
-  return fixes.find(f => f.name === name)
+  return fixes.find(f => f.name.toString() == name.toString())
 }
+
+registerFix(organizeImportsFix)

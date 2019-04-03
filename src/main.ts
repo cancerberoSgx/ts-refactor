@@ -9,7 +9,7 @@ export async function main(args: Partial<ParsedArgs>) {
   const tsConfigFilePath = (args.toolOptions && args.toolOptions.tsConfigPath) || './tsconfig.json'
   const project = buildProject({ tsConfigFilePath })
   const options = await inquireMissing(args, project)
-  console.log(options.fixName, options.inputFiles.map(f => f.getFilePath()))
+  // console.log(options.fixName, options.inputFiles.map(f => f.getFilePath()))
 
   checkFilesInProject(options.inputFiles, project)
 

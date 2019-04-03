@@ -1,8 +1,9 @@
 import { prompt, registerPrompt } from 'inquirer'
+import { File } from '../../fix'
 
 registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'))
 
-export async function inquireFiles(allFiles: string[]): Promise<string[]> {
+export async function inquireFiles(allFiles: File[]): Promise<File[]> {
   const answers = await prompt<{ files: string }>([
     {
       type: 'checkbox-plus',
@@ -16,8 +17,11 @@ export async function inquireFiles(allFiles: string[]): Promise<string[]> {
       // @ts-ignore
       source: function(answersSoFar: string[], input: string) {
         return Promise.resolve([
-          { name: 'ALL', value: '&ALL' },
-          ...allFiles.filter(f => f.includes(input)).map(f => ({ name: f, value: f }))
+          { name: 'ALL', value: { name: '&ALL', isFolder: false } },
+          ...allFiles
+            .map(f => f.name)
+            .filter(f => f.includes(input))
+            .map(f => ({ name: f, value: f }))
         ]) //TODO: add fuzzy  https://github.com/faressoft/inquirer-checkbox-plus-prompt
       }
     }

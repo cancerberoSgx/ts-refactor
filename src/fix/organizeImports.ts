@@ -1,8 +1,11 @@
-import { resolve } from 'path'
-import { checkFilesInProject, getSourceFileRelativePath } from '../project'
-import { FixResult, FixOptions, FIX, Fix } from '../fix'
-import { registerFix } from '../fixes'
+import { FIX, Fix, FixOptions, FixResult } from '../fix'
+import { getSourceFileRelativePath } from '../project'
+import { SourceFile, TypeGuards } from 'ts-morph'
 
+interface OrganizeImportsOptions extends FixOptions {}
+export function isSourceFile(f: any): f is SourceFile {
+  return f.organizeImports
+}
 /**
  * It will call organize imports on given files or if not given, on every project's file.
  */
@@ -11,22 +14,23 @@ export function organizeImports(options: OrganizeImportsOptions) {
   const result: FixResult = { files: [] }
   inputFiles.forEach(file => {
     const t0 = Date.now()
-    file.organizeImports()
-    result.files.push({
-      name: getSourceFileRelativePath(file, project),
-      time: Date.now() - t0
-    })
+    if (isSourceFile(file)) {
+      file.organizeImports()
+      result.files.push({
+        name: getSourceFileRelativePath(file, project),
+        time: Date.now() - t0
+      })
+    } else {
+      throw `${getSourceFileRelativePath(file, project)} not a source file`
+    }
   })
   return result
 }
 
-interface OrganizeImportsOptions extends FixOptions {}
-
-const fix: Fix<OrganizeImportsOptions> = {
+export const organizeImportsFix: Fix<OrganizeImportsOptions> = {
   name: FIX.organizeImports,
   fn: organizeImports,
   verifyInputFiles(options) {
     return options.inputFiles.length === 0 ? 'At least one input file required' : undefined
   }
 }
-registerFix(fix)
