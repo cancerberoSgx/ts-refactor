@@ -29,6 +29,7 @@ export function organizeImports(options: OrganizeImportsOptions) {
 
 export const organizeImportsFix: Fix<OrganizeImportsOptions> = {
   name: FIX.organizeImports,
+  description: `It will call "organize imports" TypeScript refactor on input files. If any input file is a directory, then it will call the refactor on each of its descendants. If no file is selected it will call the refactor, on every project's file.`,
   fn: organizeImports,
   selectFilesMessage() {
     return 'Select files/folders in which organize imports'

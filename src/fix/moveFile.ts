@@ -12,9 +12,7 @@ import { prompt, registerPrompt } from 'inquirer'
 interface MoveFileOptions extends FixOptions {
   destPath: string
 }
-/**
- * It will move the file or folder to another location
- */
+
 function moveFile(options: MoveFileOptions) {
   const t0 = Date.now()
   const { project } = options
@@ -87,6 +85,7 @@ async function inquireOptions(options: MoveFileOptions) {
 
 export const moveFileFix: Fix<MoveFileOptions, { destPath: string }> = {
   name: FIX.moveFile,
+  description: `It will move the input files and/or folders to another location. If a single input filer is selected then the destination can be a non existent file-like path. The location can always be a non existent directory-like path or an existing directory path no matter the input file selection. In case the destination is an existing directory, input files will be moved inside it.`,
   fn: moveFile,
   selectFilesMessage() {
     return 'Select files and folders to move'

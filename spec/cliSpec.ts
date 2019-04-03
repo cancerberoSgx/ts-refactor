@@ -1,57 +1,125 @@
 import { Driver, ansi } from 'cli-driver'
-import { rm, cp, mkdir } from 'shelljs';
+import { rm, cp, mkdir } from 'shelljs'
+import { Helper } from './cliHelper'
 
-describe('ts-node src/cli/cliMain.ts', () => {
-  let client:Driver
-  beforeAll(async () => {
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 12000
+
+describe('CLI', () => {
+  let client: Driver
+  let helper: Helper
+
+  beforeAll(async done => {
     client = new Driver()
+    helper = new Helper(client)
     await client.start({
-      notSilent: true,
+      // notSilent: true,
+      // waitUntilTimeout: 20000
     })
-  })
-  afterAll(async () => {
-    await client.destroy()
-  })
-  beforeEach(()=>{
     rm('-r', 'tmp')
     mkdir('tmp')
     cp('-r', 'spec/assets/project1', 'tmp')
+    done()
   })
-
-  it('--help should print usage help and exit with code 0', async done => {
-    const data = await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts --help', 'Usage')
-    ;[ '--noInteractive',
-      '--tsConfigPath',
-      '--dontWrite',
-      '--dontConfirm',
-      '--help',
-      '--debug',
-      `Usage: tstool fixName [...fixOptions] ...inputFiles`
-     ].forEach(option=>expect(data).toContain(option))
-    expect(await client.enterAndWaitForData('echo "exit code $?"', 'exit code')).toContain('exit code 0')
+  
+  afterAll(async done => {
+    await client.destroy().catch()
+    helper = null as any
+    rm('-r', 'tmp')
     done()
   })
 
-  it('--strangeArgument should exit with code != 0', async done => {
-    await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts --strangeArgument','Unknown tool option strangeArgument')
-    expect(await client.enterAndWaitForData('echo "exit code $?"', 'exit code')).not.toContain('exit code 0')
-    done()
+  describe('tool options and validation', () => {
+    it('--help should print usage help and exit with code 0', async done => {
+      const data = await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts --help', 'Usage')
+      const helpOptions = [
+        '--noInteractive',
+        '--tsConfigPath',
+        '--dontWrite',
+        '--dontConfirm',
+        '--help',
+        '--debug',
+        `Usage: tstool fixName [...fixOptions] ...inputFiles`
+      ]
+      helpOptions.forEach(option => expect(data).toContain(option))
+      expect(await client.enterAndWaitForData('echo "exit code $?"', 'exit code')).toContain('exit code 0')
+      done()
+    })
+    it('--strangeArgument should error', async done => {
+      await client.enterAndWaitForData(
+        'npx ts-node src/cli/cliMain.ts --strangeArgument',
+        'Unknown tool option strangeArgument'
+      )
+      expect(await client.enterAndWaitForData('echo "exit code $?"', 'exit code')).not.toContain('exit code 0')
+      done()
+    })
+    it('should target another project with --tsConfigPath', async done => {
+      expect(
+        await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts organizeImports', 'Select files')
+      ).not.toContain(' ◯ src/file2.ts')
+      await helper.controlC()
+      // await client.cleanData()
+      expect(
+        await client.enterAndWaitForData(
+          'npx ts-node src/cli/cliMain.ts organizeImports --tsConfigPath tmp/project1/tsconfig.json',
+          'Select files'
+        )
+      ).toContain(' ◯ src/file2.ts')
+      await helper.controlC()
+      done()
+    })
+    xit('With --no-interactive it should fail if there is any missing data', async done => {
+      done()
+    })
   })
 
-  it('without arguments should ask for a fix and I can exit with ctrl-c', async done => {
-    await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts','Select a code fix')
-    await client.write(ansi.keys.getSequenceFor({name: 'c', ctrl: true}))
-    expect(await client.enterAndWaitForData('echo "control restored"', 'control restored')).toContain('control restored')
-    done()
+  describe('code fixes general behavior', () => {
+    it('should ask for a fix if no arguments are given at all and I can exit with ctrl-c', async done => {
+      await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts', 'Select a code fix')
+      await helper.controlC()
+      done()
+    })
+    it('should error if given a non file argument that is not a codeFix', async done => {
+      await client.enterAndWaitForData(
+        'npx ts-node src/cli/cliMain.ts notACodeFix',
+        'Error: Unknown fix notACodeFix. Must be one of'
+      )
+      helper.expectLastExitCode(false)
+      done()
+    })
+    it('fixes has a last Exit option which exit with code 0', async done => {
+      await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts', 'Select a code fix')
+      await client.write(ansi.cursor.up())
+      await client.enterAndWaitForData('', 'Bye')
+      helper.expectLastExitCode(true)
+      done()
+    })
+    xit('fixes have a help option', async done => {
+      done()
+    })
   })
 
-  it('fixes has a last Exit option which exit with code 0', async done => {
-    await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts','Select a code fix')
-    await client.write(ansi.cursor.up())
-    await client.enterAndWaitForData('', 'Bye')
-    expect(await client.enterAndWaitForData('echo "exit code $?"', 'exit code')).toContain('exit code 0')
-    done()
+  describe('moveFile codeFix', () => {
+    it('without arguments, will ask for "select files and folder to move" which contains a first "ALL" option', async done => {
+      await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts', 'Select a code fix')
+      await helper.focusCodeFix(client, 'moveFile')
+      await client.enterAndWaitForData('', 'Select files and folders to move')
+      expect(await helper.isCodeFixOptionNotSelected(client, 'ALL')).toBe(true)
+      await helper.controlC()
+      done()
+    })
+    it('should not ask for input files if there is an file argument', async done => {
+      await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts ./src/main.ts', 'Select a code fix')
+      await helper.focusCodeFix(client, 'moveFile')
+      await client.enterAndWaitForData('', 'Select the destination path')
+      await helper.controlC()
+      done()
+    })
+    it('should not ask for codeFix or input files if both are provided as arguments', async done => {
+      await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts ./src/main.ts', 'Select a code fix')
+      await helper.focusCodeFix(client, 'moveFile')
+      await client.enterAndWaitForData('', 'Select the destination path')
+      await helper.controlC()
+      done()
+    })
   })
-
 })
-

@@ -8,8 +8,7 @@ async function cliMain() {
     printHelp()
     process.exit(0)
   }
-    const result = await main(options)
-    
+  const result = await main(options)
 }
 
 function printHelp() {
@@ -35,11 +34,9 @@ Fixes:
   `)
 }
 
-
 cliMain()
-.then(()=>{
-
-}).catch(error=>{
-  console.error('Error: '+ error);
-  process.exit(1)
-})
+  .then(() => {})
+  .catch(error => {
+    console.error('Error: ' + error)
+    process.exit(1)
+  })

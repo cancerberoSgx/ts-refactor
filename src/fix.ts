@@ -24,6 +24,7 @@ export interface Fix<Options extends FixOptions = FixOptions, ThisFixOptions = a
    * The name of this fix.
    */
   name: FIX
+  description: string
   /**
    * The refactor implementation. This is called after all input files and needed Fix options are resolved (everything is ready to execute the fix).
    */
