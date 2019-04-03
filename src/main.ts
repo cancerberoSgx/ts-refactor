@@ -1,26 +1,50 @@
 import { ParsedArgs } from './toolOption'
 import { Project } from 'ts-morph'
-import { buildProject, checkFilesInProject } from './project'
+import { buildProject, checkFilesInProject, getSourceFileRelativePath } from './project'
 import { inquireMissing } from './cli/inquireMissing'
 import { resolve } from 'path'
 import { getFix } from './fixes'
+import { prompt } from 'inquirer'
 
 export async function main(args: Partial<ParsedArgs>) {
   const tsConfigFilePath = (args.toolOptions && args.toolOptions.tsConfigPath) || './tsconfig.json'
   const project = buildProject({ tsConfigFilePath })
   const options = await inquireMissing(args, project)
-  // console.log(options.fixName, options.inputFiles.map(f => f.getFilePath()))
 
   checkFilesInProject(options.inputFiles, project)
 
   const fix = getFix(options.fixName)
-
-  // console.log(options);
-
   if (!fix) {
     throw `Sorry, the fix ${options.fixName} is not supported yet.`
   }
+  const result = fix.fn({ ...options, project })
 
-  fix.fn({ ...options, project })
-  // console.log(options)
+  if (result.files.length === 0) {
+    throw 'No input files were found. Aborting. '
+  }
+  let confirmed = false
+  if (!args.toolOptions || !args.toolOptions!.dontWrite) {
+    if (!args.toolOptions || !args.toolOptions!.dontConfirm) {
+      const confirmedAnswer = await prompt<{ confirmed: boolean }>([
+        {
+          type: 'confirm',
+          prefix: `The following (${result.files.length}) files will be modified:\n${result.files
+            .map(f => f.name)
+            .join(', ')}\n`,
+          message: `Are you sure you want to continue?`,
+          name: 'confirmed'
+        }
+      ])
+      confirmed = confirmedAnswer.confirmed
+      if (!confirmed) {
+        console.log('Skip writing files')
+      }
+    } else {
+      confirmed = true
+    }
+  }
+  if (confirmed) {
+    project.saveSync()
+    console.log(`Finished writing (${result.files.length}) files.`)
+  }
 }

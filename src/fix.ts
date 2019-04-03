@@ -14,10 +14,12 @@ export const fixNames = getEnumKeys(FIX)
 export interface File {
   name: string
   isFolder: boolean
+  path: string
 }
 export interface Fix<Options extends FixOptions = FixOptions> {
   name: FIX
-  fn: (options: Options) => FixResult
+  fn(options: Options): FixResult
+  selectFilesMessage?(): string
   /**
    * if the input file is applicable to this fix it returns undefined. Otherwise it returns a string message explaining why is not valid
    * (for example, moveDeclaration fix could return "no top level declaration found in the file")

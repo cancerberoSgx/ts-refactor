@@ -1,5 +1,4 @@
 import { Project, SourceFile, Directory } from 'ts-morph'
-import { isSourceFile } from './fix/organizeImports'
 
 export function buildProject(options: { tsConfigFilePath: string }) {
   const project = new Project({
@@ -24,8 +23,10 @@ export function getSourceFileRelativePath(f: SourceFile | Directory, project: Pr
   return rootDir.getRelativePathTo(f as SourceFile)
 }
 
-// interface FileOrDirectory {
-//   getRelativePathTo(sourceFile: SourceFile): string;
-//   getRelativePathTo(directory: Directory): string;
-//   // getFilePath():string
-// }
+export function getFilePath(f: SourceFile | Directory, project: Project) {
+  return isSourceFile(f) ? f.getFilePath() : f.getPath()
+}
+
+export function isSourceFile(f: any): f is SourceFile {
+  return f.organizeImports
+}

@@ -27,6 +27,7 @@ export interface ToolOptions {
    * If true, the tool won't write changes to the files. This is useful to simulate if the fix won't fail, how many changes there would be, etc.
    */
   dontWrite?: boolean
+  dontConfirm?: boolean
   /**
    * Prints debug information to stdout.
    */
