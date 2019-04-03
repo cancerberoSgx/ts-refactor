@@ -1,9 +1,24 @@
 import { CATEGORY, categories } from '../category';
 import { FIX, fixes } from '../fix';
-import { RawArgs, Options } from '../types';
+import { ToolOptions, ToolOptionName, toolOptionTypes, ToolOptionType, toolOptionNames } from '../toolOption';
 
-export function parseArgs(args: RawArgs): Partial<Options> {
-  const options: Partial<Options> = {};
+interface RawArgs {
+  _: string[];
+  [appOptions: string]: string | boolean | string[];
+}
+
+interface ParsedArgs {
+  category: CATEGORY;
+  fix: FIX;
+  files: string[];
+  toolOptions: ToolOptions;
+}
+
+export function parseArgs(args: RawArgs): Partial<ParsedArgs> {
+  const options: Partial<ParsedArgs> = {
+    toolOptions: {}, 
+    files: []
+  };
   if (args._ && args._.length > 0) {
     if (categories.includes(args._[0])) {
       options.category = args._[0] as CATEGORY;
@@ -20,10 +35,31 @@ export function parseArgs(args: RawArgs): Partial<Options> {
       }
     }
     if (args._ && args._.length > 0) {
-      options.files = args._.filter(isFile)
+      options.files.push(...args._.filter(isFile))
     }
   }
+  const argsToolOptionNames = Object.keys(args).filter(a=>a!=='_')
+  if(argsToolOptionNames.length){
+    // const toolOptions: ToolOptions = {}
+    argsToolOptionNames.forEach(o=>{
+      if(!toolOptionNames.includes(o)){
+        throw `Unknown tool option ${o}. Must be one of [${argsToolOptionNames.join(', ')}]`;
+      }
+      options.toolOptions[o] = getToolOptionValue(o, args[o])
+    })
+    // options.toolOptions = toolOptions
+  }
+  
   return options;
+}
+
+function getToolOptionValue(o:string, v: any){
+  if(toolOptionTypes[o]===ToolOptionType.boolean){
+    return !!v
+  }
+  else {
+    return v + ''
+  }
 }
 
 function isFile(s:string){
