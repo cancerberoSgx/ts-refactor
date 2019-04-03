@@ -13,7 +13,7 @@ export async function inquireMissing(
   project: Project
 ): Promise<FixOptions & { fixName: FIX }> {
   let fixName: FIX
-  let inputFileRepresentations: File[] = []
+  let inputFileRepresentations: File[]
   if (!options.fix) {
     fixName = await inquireFix()
   } else {
@@ -26,18 +26,18 @@ export async function inquireMissing(
 
   let allFiles: File[] = project
     .getSourceFiles()
-    .map(f => ({ name: getFileRelativePath(f, project), isFolder: false, path: getFilePath(f, project) }))
+    .map(f => ({ name: getFileRelativePath(f, project), isFolder: false, path: getFilePath(f) }))
     .concat(
       project
         .getDirectories()
-        .map(f => ({ name: getFileRelativePath(f, project), isFolder: true, path: getFilePath(f, project) }))
+        .map(f => ({ name: getFileRelativePath(f, project), isFolder: true, path: getFilePath(f) }))
     )
     .filter(notUndefined)
     .sort((f1, f2) => f1.name.localeCompare(f2.name))
 
-  if (fix && fix.filterInputFiles) {
-    allFiles = fix.filterInputFiles!(allFiles)
-  }
+  // if (fix && fix.extractInputFiles) {
+  //   allFiles = fix.extractInputFiles!(allFiles)
+  // }
   if (options.files && options.files.length > 0) {
     inputFileRepresentations = allFiles.filter(f =>
       (options.files || [])
@@ -50,13 +50,24 @@ export async function inquireMissing(
   } else {
     inputFileRepresentations = await inquireFiles(
       allFiles,
-      fix && fix.selectFilesMessage ? fix.selectFilesMessage!() : undefined
+      fix,
+      project
+      // fix && fix.selectFilesMessage ? fix.selectFilesMessage!() : undefined
     )
   }
-
   options.toolOptions &&
     options.toolOptions.debug &&
     console.log(`Matched files: ${inputFileRepresentations.map(f => f.name).join(', ')}`)
+  inputFileRepresentations = fix.extractInputFiles
+    ? fix.extractInputFiles(
+        inputFileRepresentations,
+        {
+          inputFiles: [],
+          project
+        },
+        options
+      )
+    : inputFileRepresentations
 
   const inputFiles = inputFileRepresentations
     .map(f => (f.isFolder ? project.getDirectory(f.path) : project.getSourceFile(f.path)))
@@ -67,18 +78,15 @@ export async function inquireMissing(
     inputFiles,
     project
   }
-
   if (fix.inquireOptions) {
-    const extraOptions = await fix.inquireOptions(outputOptions)
+    const extraOptions = await fix.inquireOptions(outputOptions, options)
     outputOptions = { ...outputOptions, ...(extraOptions || {}) }
   }
-  // console.log(outputOptions)
-  if (fix && fix.getValidNodes) {
-    outputOptions.nodes = inputFiles
-      .filter(isSourceFile)
-      .map(f => fix.getValidNodes!(f, outputOptions))
-      .flat()
-  }
-  // console.log('inquireMissing files', inputFileRepresentations, inputFiles.map(f => getFileRelativePath(f, project)))
+  // if (fix && fix.getValidNodes) {
+  //   outputOptions.nodes = inputFiles
+  //     .filter(isSourceFile)
+  //     .map(f => fix.getValidNodes!(f, outputOptions))
+  //     .flat()
+  // }
   return outputOptions
 }

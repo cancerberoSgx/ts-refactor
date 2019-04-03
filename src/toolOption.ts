@@ -3,6 +3,7 @@ import { getEnumKeys } from './misc'
 
 export interface ParsedArgs {
   fix: FIX
+  fixOptions: string[]
   files: string[]
   toolOptions: ToolOptions
 }

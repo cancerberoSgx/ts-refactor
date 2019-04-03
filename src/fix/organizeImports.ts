@@ -33,7 +33,7 @@ export const organizeImportsFix: Fix<OrganizeImportsOptions> = {
   selectFilesMessage() {
     return 'Select files/folders in which organize imports'
   },
-  verifyInputFiles(options) {
-    return options.inputFiles.length === 0 ? 'At least one input file or folder is required' : undefined
+  verifyInputFiles(files, options) {
+    return files.length === 0 ? 'At least one input file or folder is required' : undefined
   }
 }

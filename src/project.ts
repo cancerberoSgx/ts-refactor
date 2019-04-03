@@ -1,4 +1,5 @@
 import { Project, SourceFile, Directory } from 'ts-morph'
+import { join, relative } from 'path'
 
 export function buildProject(options: { tsConfigFilePath: string }) {
   const project = new Project({
@@ -23,12 +24,25 @@ export function getFileRelativePath(f: SourceFile | Directory, project: Project)
   return rootDir.getRelativePathTo(f as SourceFile)
 }
 
+export function getBasePath(project: Project) {
+  const rootDir = project.getRootDirectories()[0]
+  return rootDir.getPath()
+}
+
+export function getAbsolutePath(relativePath: string, project: Project) {
+  return join(getBasePath(project), relativePath).replace(/\\/g, '/')
+}
+
+export function getRelativePath(path: string, project: Project) {
+  return relative(getBasePath(project), getAbsolutePath(path, project))
+}
+
 export function getFileFromRelativePath(path: string, project: Project) {
   const rootDir = project.getRootDirectories()[0]
   return rootDir.getDirectory(path) || rootDir.getSourceFile(path)
 }
 
-export function getFilePath(f: SourceFile | Directory, project: Project) {
+export function getFilePath(f: SourceFile | Directory) {
   return isSourceFile(f) ? f.getFilePath() : f.getPath()
 }
 
