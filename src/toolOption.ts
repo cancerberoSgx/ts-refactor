@@ -14,6 +14,10 @@ export interface ToolOptions {
    */
   tsConfigPath?: string
   /**
+   * If true, the tool won't write changes to the files. This is useful to simulate if the fix won't fail, how many changes there would be, etc.
+   */
+  dontWrite?: boolean
+  /**
    * Prints debug information to stdout.
    */
   debug?: boolean
@@ -22,20 +26,26 @@ export interface ToolOptions {
    */
   help?: boolean
 }
+
 export enum ToolOptionName {
   debug = 'debug',
   help = 'help',
   noInteractive = 'noInteractive',
-  tsConfigPath = 'tsConfigPath'
+  tsConfigPath = 'tsConfigPath',
+  dontWrite='dontWrite'
 }
+
 export enum ToolOptionType {
   boolean = 'boolean',
   string = 'string'
 }
+
 export const toolOptionTypes = {
   [ToolOptionName.debug]: ToolOptionType.boolean,
   [ToolOptionName.help]: ToolOptionType.boolean,
   [ToolOptionName.noInteractive]: ToolOptionType.boolean,
-  [ToolOptionName.tsConfigPath]: ToolOptionType.string
+  [ToolOptionName.tsConfigPath]: ToolOptionType.string,
+  [ToolOptionName.dontWrite]: ToolOptionType.boolean,
 }
+
 export const toolOptionNames = getEnumKeys(ToolOptionName)

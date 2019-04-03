@@ -23,3 +23,11 @@ export interface Fix {
   categories: CATEGORY[]
   name: FIX
 }
+
+export interface FixResult {
+  files: FixResultFile[]
+}
+interface FixResultFile{
+  name: string
+  time: number
+}

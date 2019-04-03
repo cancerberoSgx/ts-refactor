@@ -38,16 +38,13 @@ export function parseArgs(args: RawArgs): Partial<ParsedArgs> {
   }
   const argsToolOptionNames = Object.keys(args).filter(a => a !== '_')
   if (argsToolOptionNames.length) {
-    // const toolOptions: ToolOptions = {}
     argsToolOptionNames.forEach(o => {
       if (!toolOptionNames.includes(o)) {
         throw `Unknown tool option ${o}. Must be one of [${argsToolOptionNames.join(', ')}]`
       }
       options.toolOptions[o] = getToolOptionValue(o, args[o])
     })
-    // options.toolOptions = toolOptions
   }
-
   return options
 }
 
