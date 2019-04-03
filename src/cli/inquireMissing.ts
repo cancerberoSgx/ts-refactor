@@ -15,7 +15,7 @@ export async function inquireMissing(
   let fixName: FIX
   let inputFileRepresentations: File[]
   if (!options.fix) {
-    fixName = await inquireFix()
+    fixName = (await inquireFix()) as FIX
   } else {
     fixName = options.fix
   }
@@ -34,10 +34,6 @@ export async function inquireMissing(
     )
     .filter(notUndefined)
     .sort((f1, f2) => f1.name.localeCompare(f2.name))
-
-  // if (fix && fix.extractInputFiles) {
-  //   allFiles = fix.extractInputFiles!(allFiles)
-  // }
   if (options.files && options.files.length > 0) {
     inputFileRepresentations = allFiles.filter(f =>
       (options.files || [])
@@ -48,12 +44,7 @@ export async function inquireMissing(
         .find(fileInOptions => match(f.name, fileInOptions, { dot: true, matchBase: true }))
     )
   } else {
-    inputFileRepresentations = await inquireFiles(
-      allFiles,
-      fix,
-      project
-      // fix && fix.selectFilesMessage ? fix.selectFilesMessage!() : undefined
-    )
+    inputFileRepresentations = await inquireFiles(allFiles, fix, project)
   }
   options.toolOptions &&
     options.toolOptions.debug &&
@@ -82,11 +73,5 @@ export async function inquireMissing(
     const extraOptions = await fix.inquireOptions(outputOptions, options)
     outputOptions = { ...outputOptions, ...(extraOptions || {}) }
   }
-  // if (fix && fix.getValidNodes) {
-  //   outputOptions.nodes = inputFiles
-  //     .filter(isSourceFile)
-  //     .map(f => fix.getValidNodes!(f, outputOptions))
-  //     .flat()
-  // }
   return outputOptions
 }

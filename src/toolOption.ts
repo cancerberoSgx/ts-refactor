@@ -17,7 +17,7 @@ export interface ToolOptions {
   /**
    * Make sure there are no interactions (useful for CI - automated scripts)
    */
-  noInteractive?: boolean
+  dontAsk?: boolean
   /**
    * Path to a `tsconfig.json` project configuration file, in which case that project will be the target one.
    *
@@ -42,7 +42,7 @@ export interface ToolOptions {
 export enum ToolOptionName {
   debug = 'debug',
   help = 'help',
-  noInteractive = 'noInteractive',
+  dontAsk = 'dontAsk',
   tsConfigPath = 'tsConfigPath',
   dontWrite = 'dontWrite'
 }
@@ -55,7 +55,7 @@ export enum ToolOptionType {
 export const toolOptionTypes = {
   [ToolOptionName.debug]: ToolOptionType.boolean,
   [ToolOptionName.help]: ToolOptionType.boolean,
-  [ToolOptionName.noInteractive]: ToolOptionType.boolean,
+  [ToolOptionName.dontAsk]: ToolOptionType.boolean,
   [ToolOptionName.tsConfigPath]: ToolOptionType.string,
   [ToolOptionName.dontWrite]: ToolOptionType.boolean
 }

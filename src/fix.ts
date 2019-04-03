@@ -6,9 +6,19 @@ export enum FIX {
   organizeImports = 'organizeImports',
   moveToANewFile = 'moveToANewFile',
   missingImports = 'missingImports',
+  implementInterface = 'implementInterface',
   unusedIdentifiers = 'unusedIdentifiers',
+  inferFromUsage = 'inferFromUsage',
   moveFile = 'moveFile',
-  moveDeclaration = 'moveDeclaration'
+  format = 'format',
+  moveDeclaration = 'moveDeclaration',
+  rename = 'rename',
+  parametersToDestructuredObject = 'parametersToDestructuredObject',
+  stringLiteralTemplate = 'stringLiteralTemplate',
+  removeComments = 'removeComments',
+  arrowFunction = 'arrowFunction',
+  stringTemplate = 'stringTemplate',
+  createDeclaration = 'createDeclaration'
 }
 
 export const fixNames = getEnumKeys(FIX)

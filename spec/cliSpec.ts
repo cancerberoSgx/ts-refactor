@@ -20,7 +20,7 @@ describe('CLI', () => {
     cp('-r', 'spec/assets/project1', 'tmp')
     done()
   })
-  
+
   afterAll(async done => {
     await client.destroy().catch()
     helper = null as any

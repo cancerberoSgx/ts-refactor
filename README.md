@@ -54,3 +54,5 @@ tstool move declaration FooImpl src/foo/impl.ts src/bar/bar.ts
 ## TODO
 
  * add fuzze to inquireFiles https://github.com/faressoft/inquirer-checkbox-plus-prompt
+ * print the equivalent non interactive command on fininsh
+ * --showDiff and --diffOutput use node_modules/diff/README.md
