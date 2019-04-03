@@ -1,12 +1,12 @@
 import { prompt } from 'inquirer'
-import { FIX, fixes } from '../../fix'
+import { FIX, fixNames } from '../../fix'
 
 export async function inquireFix(): Promise<FIX> {
   const answers = await prompt<{ fix: FIX }>({
     name: 'fix',
     type: 'list',
     message: 'Which fix?',
-    choices: fixes.map(c => ({
+    choices: fixNames.map(c => ({
       name: c,
       value: c
     }))

@@ -1,5 +1,5 @@
-import { CATEGORY, categories } from '../category'
-import { FIX, fixes } from '../fix'
+// import { CATEGORY, categories } from '../category'
+import { FIX, fixNames } from '../fix'
 import {
   ToolOptions,
   ToolOptionName,
@@ -20,16 +20,16 @@ export function parseArgs(args: RawArgs): Partial<ParsedArgs> {
     files: []
   }
   if (args._ && args._.length > 0) {
-    if (categories.includes(args._[0])) {
-      options.category = args._[0] as CATEGORY
-    } else if (!isFile(args._[0])) {
-      throw `Unknown category ${args._[0]}. Must be one of [${categories.join(', ')}]`
-    }
-    if (args._ && args._.length > 1) {
-      if (fixes.includes(args._[1])) {
-        options.fix = args._[1] as FIX
-      } else if (!isFile(args._[1])) {
-        throw `Unknown fix ${args._[0]}. Must be one of [${fixes.join(', ')}]`
+    // if (categories.includes(args._[0])) {
+    //   options.category = args._[0] as CATEGORY
+    // } else if (!isFile(args._[0])) {
+    //   throw `Unknown category ${args._[0]}. Must be one of [${categories.join(', ')}]`
+    // }
+    if (args._ && args._.length > 0) {
+      if (fixNames.includes(args._[0])) {
+        options.fix = args._[0] as FIX
+      } else if (!isFile(args._[0])) {
+        throw `Unknown fix ${args._[0]}. Must be one of [${fixNames.join(', ')}]`
       }
     }
     if (args._ && args._.length > 0) {
@@ -56,6 +56,6 @@ function getToolOptionValue(o: string, v: any) {
   }
 }
 
-function isFile(s: string) {
-  return s.includes('/')
+function isFile(s?: string) {
+  return s && s.includes('/')
 }

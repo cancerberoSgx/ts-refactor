@@ -1,5 +1,7 @@
-import { CATEGORY } from './category'
+// import { CATEGORY } from './category'
 import { getEnumKeys } from './misc'
+import { organizeImports, organizeImportsFix } from './fix/organizeImports'
+import { Project } from 'ts-morph'
 
 export enum FIX {
   organizeImports = 'organizeImports',
@@ -9,10 +11,14 @@ export enum FIX {
   moveDeclaration = 'moveDeclaration'
 }
 
-export const fixes = getEnumKeys(FIX)
+export const fixNames = getEnumKeys(FIX)
+export const fixes = [organizeImportsFix]
 
+export interface AbstractFixOptions {
+  project: Project
+}
 export interface Fix {
-  categories: CATEGORY[]
+  // categories: CATEGORY[]
   name: FIX
 }
 
