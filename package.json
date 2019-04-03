@@ -26,6 +26,7 @@
     "@types/inquirer": "^6.0.0",
     "@types/jasmine": "^2.8.16",
     "@types/node": "^10.5.2",
+    "@types/shelljs": "^0.8.4",
     "extract-interface-docs": "file:../extract-interface-docs",
     "jasmine": "^3.3.1",
     "prettier": "^1.16.4",

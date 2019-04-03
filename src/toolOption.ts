@@ -1,13 +1,16 @@
-// import { CATEGORY } from './category'
 import { FIX } from './fix'
 import { getEnumKeys } from './misc'
 
 export interface ParsedArgs {
-  // category: CATEGORY
   fix: FIX
   files: string[]
   toolOptions: ToolOptions
 }
+
+// export interface Options {
+//   fix: FIX
+//   inputFiles: string[]
+// }
 
 export interface ToolOptions {
   /**

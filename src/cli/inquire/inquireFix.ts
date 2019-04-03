@@ -11,6 +11,5 @@ export async function inquireFix(): Promise<FIX> {
       value: c
     }))
   })
-  //TODO: verify its FIX?
   return answers.fix
 }

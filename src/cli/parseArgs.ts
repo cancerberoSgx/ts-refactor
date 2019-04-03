@@ -1,13 +1,5 @@
-// import { CATEGORY, categories } from '../category'
 import { FIX, fixNames } from '../fix'
-import {
-  ToolOptions,
-  ToolOptionName,
-  toolOptionTypes,
-  ToolOptionType,
-  toolOptionNames,
-  ParsedArgs
-} from '../toolOption'
+import { toolOptionTypes, ToolOptionType, toolOptionNames, ParsedArgs } from '../toolOption'
 
 export interface RawArgs {
   _: string[]
@@ -20,11 +12,6 @@ export function parseArgs(args: RawArgs): Partial<ParsedArgs> {
     files: []
   }
   if (args._ && args._.length > 0) {
-    // if (categories.includes(args._[0])) {
-    //   options.category = args._[0] as CATEGORY
-    // } else if (!isFile(args._[0])) {
-    //   throw `Unknown category ${args._[0]}. Must be one of [${categories.join(', ')}]`
-    // }
     if (args._ && args._.length > 0) {
       if (fixNames.includes(args._[0])) {
         options.fix = args._[0] as FIX
@@ -33,7 +20,7 @@ export function parseArgs(args: RawArgs): Partial<ParsedArgs> {
       }
     }
     if (args._ && args._.length > 0) {
-      options.files.push(...args._.filter(isFile))
+      options.files!.push(...args._.filter(isFile))
     }
   }
   const argsToolOptionNames = Object.keys(args).filter(a => a !== '_')
@@ -42,14 +29,14 @@ export function parseArgs(args: RawArgs): Partial<ParsedArgs> {
       if (!toolOptionNames.includes(o)) {
         throw `Unknown tool option ${o}. Must be one of [${argsToolOptionNames.join(', ')}]`
       }
-      options.toolOptions[o] = getToolOptionValue(o, args[o])
+      ;(options.toolOptions as any)[o] = getToolOptionValue(o, args[o])
     })
   }
   return options
 }
 
 function getToolOptionValue(o: string, v: any) {
-  if (toolOptionTypes[o] === ToolOptionType.boolean) {
+  if ((toolOptionTypes as any)[o] === ToolOptionType.boolean) {
     return !!v
   } else {
     return v + ''

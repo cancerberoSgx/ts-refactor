@@ -1,7 +1,5 @@
-// import { CATEGORY } from './category'
 import { getEnumKeys } from './misc'
-import { Project } from 'ts-morph'
-import { organizeImports } from './fix/organizeImports';
+import { Project, Node, SourceFile } from 'ts-morph'
 
 export enum FIX {
   organizeImports = 'organizeImports',
@@ -12,22 +10,27 @@ export enum FIX {
 }
 
 export const fixNames = getEnumKeys(FIX)
-export const fixes = [{
-  name: FIX.organizeImports,
-  fn: organizeImports
-}]
 
-export interface AbstractFixOptions {
-  project: Project
-}
-export interface Fix {
-  // categories: CATEGORY[]
+export interface Fix<Options extends FixOptions = FixOptions> {
   name: FIX
+  fn: (options: Options) => FixResult
+  verifyInputFiles(options: Options): string | undefined
+  /**
+   * Return nodes in file that apply to this fix. Fixes that don't apply to nodes, like organizeImports, dont implement this method.
+   */
+  getValidNodes?(file: SourceFile, options: Options): Node[]
+}
+
+export interface FixOptions {
+  // fixName: FIX
+  project: Project
+  inputFiles: SourceFile[]
 }
 
 export interface FixResult {
   files: FixResultFile[]
 }
+
 interface FixResultFile {
   name: string
   time: number

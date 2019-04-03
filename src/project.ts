@@ -1,5 +1,4 @@
-import { resolve } from 'path'
-import { Project } from 'ts-morph'
+import { Project, SourceFile } from 'ts-morph'
 
 export function buildProject(options: { tsConfigFilePath: string }) {
   const project = new Project({
@@ -9,10 +8,15 @@ export function buildProject(options: { tsConfigFilePath: string }) {
   return project
 }
 
-export function checkFilesInProject(files: string[], projectFiles: string[]) {
+export function checkFilesInProject(files: SourceFile[], project: Project) {
   files.forEach(file => {
-    if (!projectFiles.includes(resolve(file))) {
-      throw `File ${file} not found in project`
+    if (!project.getSourceFile(file.getFilePath())) {
+      throw `File ${file.getFilePath()} not found in project`
     }
   })
+}
+
+export function getSourceFileRelativePath(f: SourceFile, project: Project) {
+  const rootDir = project.getRootDirectories()[0]
+  return rootDir.getRelativePathTo(f)
 }

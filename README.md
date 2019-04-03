@@ -49,3 +49,8 @@ renames a file or declaration or variable, etc
 
 tstool convert organizeImports src/foo/foo.ts
 tstool move declaration FooImpl src/foo/impl.ts src/bar/bar.ts
+
+
+## TODO
+
+ * add fuzze to inquireFiles https://github.com/faressoft/inquirer-checkbox-plus-prompt

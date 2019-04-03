@@ -24,7 +24,10 @@ describe('organizeImports', () => {
         .find(f => f.getFilePath().endsWith(`${projectPath}/src/file2.ts`))!
         .getText()
     ).toContain(`import { c } from './file1'`)
-    const result = organizeImports({ project, files })
+    const result = organizeImports({
+      project,
+      inputFiles: project.getSourceFiles().filter(f => (files ? files.find(f2 => f.getFilePath().endsWith(f2)) : true))
+    })
     return {
       result,
       project,

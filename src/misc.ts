@@ -5,3 +5,6 @@ export function getEnumKeys(e: any) {
   }
   return keys
 }
+export function notUndefined<T>(a: T): a is Exclude<T, undefined> {
+  return typeof a !== 'undefined'
+}
