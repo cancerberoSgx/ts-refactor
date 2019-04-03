@@ -9,7 +9,6 @@
     "sourceMap": true,
     "moduleResolution": "node",
     "rootDir": ".",
-
     "declaration": true
   },
   "include": [

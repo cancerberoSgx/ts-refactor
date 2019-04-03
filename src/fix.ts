@@ -1,7 +1,7 @@
 // import { CATEGORY } from './category'
 import { getEnumKeys } from './misc'
-import { organizeImports, organizeImportsFix } from './fix/organizeImports'
 import { Project } from 'ts-morph'
+import { organizeImports } from './fix/organizeImports';
 
 export enum FIX {
   organizeImports = 'organizeImports',
@@ -12,7 +12,10 @@ export enum FIX {
 }
 
 export const fixNames = getEnumKeys(FIX)
-export const fixes = [organizeImportsFix]
+export const fixes = [{
+  name: FIX.organizeImports,
+  fn: organizeImports
+}]
 
 export interface AbstractFixOptions {
   project: Project

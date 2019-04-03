@@ -1,4 +1,3 @@
-import Project from 'ts-morph'
 import { resolve } from 'path'
 import { checkFilesInProject } from '../project'
 import { FixResult, AbstractFixOptions, FIX } from '../fix'
@@ -7,6 +6,8 @@ import { FixResult, AbstractFixOptions, FIX } from '../fix'
  * It will call organize imports on given files or if not given, on every project's file.
  */
 export function organizeImports(options: OrganizeImportsOptions) {
+  console.log(options);
+  
   const { project, files = project.getSourceFiles().map(f => f.getFilePath()) } = options
   const projectFiles = project.getSourceFiles().map(f => resolve(f.getFilePath()))
   checkFilesInProject(files, projectFiles)
@@ -21,10 +22,7 @@ export function organizeImports(options: OrganizeImportsOptions) {
   })
   return result
 }
-export const organizeImportsFix = {
-  name: FIX.organizeImports,
-  fn: organizeImports
-}
+
 interface OrganizeImportsOptions extends AbstractFixOptions {
   files?: string[]
 }
