@@ -1,5 +1,5 @@
-import { RawArgs, parseArgs } from './parseArgs'
 import { main } from '../main'
+import { parseArgs, RawArgs } from './parseArgs'
 
 async function cliMain() {
   const args = require('yargs-parser')(process.argv.slice(2)) as RawArgs

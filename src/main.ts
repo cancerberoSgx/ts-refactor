@@ -1,10 +1,8 @@
-import { ParsedArgs } from './toolOption'
-import { Project } from 'ts-morph'
-import { buildProject, checkFilesInProject, getFileRelativePath } from './project'
-import { inquireMissing } from './cli/inquireMissing'
-import { resolve } from 'path'
-import { getFix } from './fixes'
 import { prompt } from 'inquirer'
+import { inquireMissing } from './cli/inquireMissing'
+import { getFix } from './fixes'
+import { buildProject, checkFilesInProject } from './project'
+import { ParsedArgs } from './toolOption'
 
 export async function main(args: Partial<ParsedArgs>) {
   const tsConfigFilePath = (args.toolOptions && args.toolOptions.tsConfigPath) || './tsconfig.json'

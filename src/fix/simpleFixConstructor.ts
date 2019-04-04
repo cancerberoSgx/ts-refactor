@@ -1,8 +1,8 @@
+import { prompt } from 'inquirer'
+import { SourceFile } from 'ts-morph'
+import { inquireFormatCodeSettings } from '../cli/inquire/inquireFormatCodeSettings'
 import { FixOptions, FixResult } from '../fix'
 import { getFileRelativePath, isSourceFile } from '../project'
-import { SourceFile } from 'ts-morph'
-import { prompt } from 'inquirer'
-import { inquireFormatCodeSettings } from '../cli/inquire/inquireFormatCodeSettings'
 // TODO: formatting options
 /**
  * builds a fix function suitable for simple fixes like organizeImports, format - that have similar parameters/semantics and make modifications file by file.

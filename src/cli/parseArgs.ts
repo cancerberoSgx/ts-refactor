@@ -1,5 +1,5 @@
 import { FIX, fixNames } from '../fix'
-import { toolOptionTypes, ToolOptionType, toolOptionNames, ParsedArgs } from '../toolOption'
+import { ParsedArgs, toolOptionNames, ToolOptionType, toolOptionTypes } from '../toolOption'
 
 export interface RawArgs {
   _: string[]

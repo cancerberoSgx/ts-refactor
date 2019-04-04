@@ -1,5 +1,5 @@
+import { Directory, Project, SourceFile } from 'ts-morph'
 import { getEnumKeys } from './misc'
-import { Project, Node, SourceFile, Directory } from 'ts-morph'
 import { ParsedArgs } from './toolOption'
 
 export enum FIX {

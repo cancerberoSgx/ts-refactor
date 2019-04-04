@@ -1,13 +1,6 @@
-import { FIX, Fix, FixOptions, FixResult } from '../fix'
-import {
-  getFileRelativePath,
-  isSourceFile,
-  getFilePath,
-  getFileFromRelativePath,
-  getAbsolutePath,
-  getRelativePath
-} from '../project'
 import { prompt, registerPrompt } from 'inquirer'
+import { FIX, Fix, FixOptions, FixResult } from '../fix'
+import { getAbsolutePath, getFileFromRelativePath, getFilePath, getFileRelativePath, isSourceFile } from '../project'
 
 interface MoveFileOptions extends FixOptions {
   destPath: string

@@ -1,12 +1,12 @@
-import { Project, SourceFile, Directory, IfStatement } from 'ts-morph'
-import { FIX, FixOptions, File } from '../fix'
-import { getFileRelativePath, getFilePath, isSourceFile } from '../project'
+import * as match from 'minimatch'
+import { Project } from 'ts-morph'
+import { File, FIX, FixOptions } from '../fix'
+import { getFix } from '../fixes'
+import { notUndefined } from '../misc'
+import { getFilePath, getFileRelativePath } from '../project'
 import { ParsedArgs } from '../toolOption'
 import { inquireFiles } from './inquire/inquireFiles'
 import { inquireFix } from './inquire/inquireFix'
-import { notUndefined } from '../misc'
-import { getFix } from '../fixes'
-import * as match from 'minimatch'
 
 export async function inquireMissing(
   options: Partial<ParsedArgs>,

@@ -1,5 +1,5 @@
-import { Project, SourceFile, Directory } from 'ts-morph'
 import { join, relative } from 'path'
+import { Directory, Project, SourceFile } from 'ts-morph'
 
 export function buildProject(options: { tsConfigFilePath: string }) {
   const project = new Project({

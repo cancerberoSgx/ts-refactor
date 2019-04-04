@@ -1,6 +1,6 @@
-import { Fix, FixOptions, FIX } from './fix'
-import { organizeImportsFix } from './fix/organizeImports'
+import { Fix, FIX, FixOptions } from './fix'
 import { moveFileFix } from './fix/moveFile'
+import { organizeImportsFix } from './fix/organizeImports'
 
 const fixes: Fix<FixOptions>[] = []
 

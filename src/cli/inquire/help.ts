@@ -1,9 +1,9 @@
 import { ansi } from 'cli-driver'
-import { getFixes } from '../../fixes'
+import { prompt } from 'inquirer'
 import { FIX } from '../../fix'
+import { getFixes } from '../../fixes'
 import { ToolOptionName } from '../../toolOption'
 import { inquireFix } from './inquireFix'
-import { prompt } from 'inquirer'
 
 const ansiEscapes = require('ansi-escapes')
 
