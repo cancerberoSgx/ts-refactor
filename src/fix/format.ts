@@ -11,9 +11,7 @@ export const organizeImportsFix: Fix<FormatOptions> = {
   }),
   name: FIX.organizeImports,
   description: `
-It will call "organize imports" TypeScript refactor on input files. 
-If any input file is a directory, then it will call the refactor on each of its descendants. 
-This code fix currently doesn't accept any option. `,
+It will execute the TypeScript compiler formatter on each of given source files. If a directory is provided then it will format all its descendant files. `,
   selectFilesMessage() {
     return 'Select files/folders in which organize imports'
   },

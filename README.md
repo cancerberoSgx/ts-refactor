@@ -56,3 +56,4 @@ tstool move declaration FooImpl src/foo/impl.ts src/bar/bar.ts
  * add fuzze to inquireFiles https://github.com/faressoft/inquirer-checkbox-plus-prompt
  * print the equivalent non interactive command on fininsh
  * --showDiff and --diffOutput use node_modules/diff/README.md
+ * be able to load fix optoins from a .json file (format code settings)

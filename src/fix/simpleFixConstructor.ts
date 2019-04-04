@@ -40,7 +40,7 @@ export function simpleFixConstructor(constructorOptions: { action: (file: Source
         }
       ])
       if (configureFormatCodeSettings) {
-        const answer = await inquireFormatCodeSettings()
+        const answer = await inquireFormatCodeSettings(options)
         console.log(answer)
       }
     }

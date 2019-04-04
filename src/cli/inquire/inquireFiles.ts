@@ -22,10 +22,12 @@ export async function inquireFiles(allFiles: File[], fix: Fix, project: Project)
       },
       // @ts-ignore
       source: function(answersSoFar: string[], input: string) {
-        return Promise.resolve([
-          { name: 'ALL', value: { name: '&ALL', isFolder: false } },
-          ...allFiles.filter(f => f.name.includes(input)).map(f => ({ name: f.name, value: f }))
-        ]) //TODO: add fuzzy  https://github.com/faressoft/inquirer-checkbox-plus-prompt
+        //TODO: add fuzzy  https://github.com/faressoft/inquirer-checkbox-plus-prompt
+        return Promise.resolve(
+          allFiles
+            .filter(f => !f.name.startsWith('..') && f.name.includes(input))
+            .map(f => ({ name: f.name, value: f }))
+        )
       }
     }
   ])
