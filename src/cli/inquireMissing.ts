@@ -23,7 +23,6 @@ export async function inquireMissing(
   if (!fix) {
     throw `Sorry, the fix ${fixName} is not supported yet.`
   }
-
   let allFiles: File[] = project
     .getSourceFiles()
     .map(f => ({ name: getFileRelativePath(f, project), isFolder: false, path: getFilePath(f) }))
@@ -59,11 +58,9 @@ export async function inquireMissing(
         options
       )
     : inputFileRepresentations
-
   const inputFiles = inputFileRepresentations
     .map(f => (f.isFolder ? project.getDirectory(f.path) : project.getSourceFile(f.path)))
     .filter(notUndefined)
-
   let outputOptions: FixOptions & { fixName: FIX } = {
     fixName,
     inputFiles,

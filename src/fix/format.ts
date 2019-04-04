@@ -1,9 +1,9 @@
 import { FIX, Fix, FixOptions } from '../fix'
 import { simpleFixConstructor } from './simpleFixConstructor'
 
-interface OrganizeImportsOptions extends FixOptions {}
+interface FormatOptions extends FixOptions {}
 
-export const organizeImportsFix: Fix<OrganizeImportsOptions> = {
+export const organizeImportsFix: Fix<FormatOptions> = {
   ...simpleFixConstructor({
     action(file) {
       file.organizeImports()
@@ -18,8 +18,6 @@ This code fix currently doesn't accept any option. `,
     return 'Select files/folders in which organize imports'
   },
   verifyInputFiles(files, options) {
-    // console.log(files);
-
     return files.length === 0 ? 'At least one input file or folder is required' : undefined
   }
 }

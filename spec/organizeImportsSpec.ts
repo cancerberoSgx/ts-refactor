@@ -1,8 +1,6 @@
 import { cp, rm, mkdir } from 'shelljs'
 import { buildProject } from '../src/project'
-import { organizeImports } from '../src/fix/organizeImports'
-import { Project } from 'ts-morph'
-import { FixResult } from '../src/fix'
+import { organizeImportsFix } from '../src/fix/organizeImports'
 
 describe('organizeImports', () => {
   const projectPath = 'tmp/organizeImports'
@@ -24,7 +22,7 @@ describe('organizeImports', () => {
         .find(f => f.getFilePath().endsWith(`${projectPath}/src/file2.ts`))!
         .getText()
     ).toContain(`import { c } from './file1'`)
-    const result = organizeImports({
+    const result = organizeImportsFix.fn({
       project,
       inputFiles: project.getSourceFiles().filter(f => (files ? files.find(f2 => f.getFilePath().endsWith(f2)) : true))
     })

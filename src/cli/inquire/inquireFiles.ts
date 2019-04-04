@@ -1,11 +1,11 @@
 import { prompt, registerPrompt } from 'inquirer'
-import { File, Fix, FixOptions } from '../../fix'
 import { Project } from 'ts-morph'
-import { ParsedArgs } from '../../toolOption'
+import { File, Fix } from '../../fix'
+
 registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'))
 
 export async function inquireFiles(allFiles: File[], fix: Fix, project: Project): Promise<File[]> {
-  const answers = await prompt<{ files: File[] }>([
+  const answers = await prompt<File[]>([
     {
       type: 'checkbox-plus',
       name: 'files',
@@ -17,8 +17,7 @@ export async function inquireFiles(allFiles: File[], fix: Fix, project: Project)
       default: [allFiles[0]],
       validate(input, answers) {
         return (
-          (fix.verifyInputFiles && fix.verifyInputFiles(answers ? answers.files : [], { project, inputFiles: [] })) ||
-          true
+          (fix.verifyInputFiles && fix.verifyInputFiles(answers ? answers : [], { project, inputFiles: [] })) || true
         )
       },
       // @ts-ignore

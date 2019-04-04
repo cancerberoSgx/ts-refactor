@@ -1,8 +1,5 @@
 import { prompt } from 'inquirer'
 import { FIX, fixNames } from '../../fix'
-import { ansi } from 'cli-driver'
-import { getFixes } from '../../fixes'
-import { toolOptionNames, ToolOptionName } from '../../toolOption'
 import { handleHelpAndExit } from './help'
 
 export async function inquireFix(): Promise<FIX | '__help__' | '__exit__'> {
