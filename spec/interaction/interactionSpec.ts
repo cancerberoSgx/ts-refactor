@@ -12,7 +12,7 @@ describe('CLI', () => {
     client = new Driver()
     helper = new Helper(client)
     await client.start({
-      // notSilent: true,
+      // notSilent: true
       // waitUntilTimeout: 20000
     })
     rm('-r', 'tmp')
