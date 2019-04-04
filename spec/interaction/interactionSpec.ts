@@ -12,7 +12,7 @@ describe('CLI', () => {
     client = new Driver()
     helper = new Helper(client)
     await client.start({
-      // notSilent: true
+      notSilent: true
       // waitUntilTimeout: 20000
     })
     rm('-r', 'tmp')
@@ -99,11 +99,10 @@ describe('CLI', () => {
   })
 
   describe('moveFile codeFix', () => {
-    it('without arguments, will ask for "select files and folder to move" which contains a first "ALL" option', async done => {
+    it('should ask for fix and input files if no arguments is given', async done => {
       await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts', 'Select a code fix')
       await helper.focusCodeFix(client, 'moveFile')
       await client.enterAndWaitForData('', 'Select files and folders to move')
-      expect(await helper.isCodeFixOptionNotSelected(client, 'ALL')).toBe(true)
       await helper.controlC()
       done()
     })

@@ -16,7 +16,7 @@
   "author": "Sebastian Gurin",
   "license": "MIT",
   "dependencies": {
-    "cli-driver": "file:../cli-driver/packages/cli-driver",
+    "cli-driver": "0.2.0",
     "inquirer": "^6.2.2",
     "inquirer-autocomplete-prompt": "^1.0.1",
     "inquirer-checkbox-plus-prompt": "^1.0.1",
