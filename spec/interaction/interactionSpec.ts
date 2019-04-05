@@ -38,7 +38,7 @@ describe('CLI', () => {
         '--dontConfirm',
         '--help',
         '--debug',
-        `Usage: tstool fixName [...fixOptions] ...inputFiles`
+        `Usage: ts-refactor fixName [...fixOptions] ...inputFiles`
       ]
       helpOptions.forEach(option => expect(data).toContain(option))
       expect(await client.enterAndWaitForData('echo "exit code $?"', 'exit code')).toContain('exit code 0')

@@ -44,11 +44,11 @@ export interface Fix<Options extends FixOptions = FixOptions, ThisFixOptions = a
    */
   inquireOptions?(options: Options, parsedArgs: Partial<ParsedArgs>): Promise<ThisFixOptions>
   /**
-   * Fixes with custom options need to implement this method in order to extract the options from command line arguments. For example, the moveDeclaration fix, when it's called with the command `tstool moveDeclaration class Foo ./src/foo ./src/model/foo`, can decide that `class` is its `nodeKind` option, `Foo` is its declaration name option and ./src/model/foo is its its destination file. This is the analog method to `inquireOptions` but in the CLI text command.
+   * Fixes with custom options need to implement this method in order to extract the options from command line arguments. For example, the moveDeclaration fix, when it's called with the command `ts-refactor moveDeclaration class Foo ./src/foo ./src/model/foo`, can decide that `class` is its `nodeKind` option, `Foo` is its declaration name option and ./src/model/foo is its its destination file. This is the analog method to `inquireOptions` but in the CLI text command.
    */
   extractOptionsFromArguments?(options: Options, parsedArgs: Partial<ParsedArgs>): Promise<ThisFixOptions>
   /**
-   * Through this method a fix can differentiate input files from other files that can be options. For example, in a call like `tstool moveFile src/foo.ts src/bar/bar.ts` the `moveFile` can decide which file is the input file by checking if it exists (then that one will be the input file). Or differently, it can define that the first given file is the input file and the second one is the destination. It's up to the Fix implementation.
+   * Through this method a fix can differentiate input files from other files that can be options. For example, in a call like `ts-refactor moveFile src/foo.ts src/bar/bar.ts` the `moveFile` can decide which file is the input file by checking if it exists (then that one will be the input file). Or differently, it can define that the first given file is the input file and the second one is the destination. It's up to the Fix implementation.
    */
   extractInputFiles?(files: File[], options: Options, parsedArgs: Partial<ParsedArgs>): File[]
   /**

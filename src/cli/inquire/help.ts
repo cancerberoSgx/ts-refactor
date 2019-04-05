@@ -67,8 +67,8 @@ ${ansi.format('Input Files', ['underline'])}.
   * Any Command line argument that contains the character ${code(`/`)} will be considered a file path. 
   * Input files/directories can be provided as absolute paths, paths relative to tsconfig.json (by default ./tsconfig.json) or also as file patterns (globs). If any argument file matches some file in the project, then the tool assumes they are input files and won't ask for them interactively. 
   * Example commands with file paths: 
-    * ${code(`tstool "./src/**/*"`)}, 
-    * ${code(`tstool ./src/ ./spec/util/**/*Model.ts`)}
+    * ${code(`ts-refactor "./src/**/*"`)}, 
+    * ${code(`ts-refactor ./src/ ./spec/util/**/*Model.ts`)}
  
 ${ansi.format('Fixes', ['underline'])}
  
@@ -77,7 +77,7 @@ ${ansi.format('Fixes', ['underline'])}
   )}) will be considered a fix name or fix option. 
   * The first of these arguments will be considered a fix name and the rest the fix options
   * Depending on the fix, some of the files provided as arguments can be considered input files and other fix options. For example, the command ${code(
-    `tstool moveFile src/model/foo.ts src/model/abstract/foo.ts`
+    `ts-refactor moveFile src/model/foo.ts src/model/abstract/foo.ts`
   )} targets the fox  ${code(`moveFile`)}  which will assume that, if more than one, the last file argument (${code(
       `src/model/abstract/foo.ts`
     )}) is the destination file or folder to which to move the other input files (${code(`src/model/foo.ts`)})
@@ -86,7 +86,7 @@ ${ansi.format('Interaction', ['underline'])}
  
   * If the command arguments doesn't provide all the information required by the fix, it will ask the user for the missing data interactively.
   * Everything is optional, so for example, by just executing ${code(
-    `tstool`
+    `ts-refactor`
   )}, the tool will ask everything to the user interactively
   * If ${code(
     '--' + ToolOptionName.dontAsk

@@ -13,10 +13,10 @@ async function cliMain() {
 
 function printHelp() {
   console.log(`
-Usage: tstool fixName [...fixOptions] ...inputFiles
+Usage: ts-refactor fixName [...fixOptions] ...inputFiles
 
 Usage Examples: 
-tstool organizeImports ./src/ --noInteractive # all information given
+ts-refactor organizeImports ./src/ --noInteractive # all information given
 tsconfig # will be asked for a fix, options and input files
 
 Tool options:

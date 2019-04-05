@@ -10,60 +10,44 @@ export async function main(args: Partial<ParsedArgs>) {
   const tsConfigFilePath = (args.toolOptions && args.toolOptions.tsConfigPath) || './tsconfig.json'
   const project = buildProject({ tsConfigFilePath })
   const options = await inquireMissing(args, project)
-
   uiLog('Working...')
-
   checkFilesInProject(options.inputFiles, project)
-
   const fix = getFix(options.fixName)! //checked at requireMissing
-
   const result = fix.fn({ ...options, project })
-
   if (result.files.length === 0) {
     throw 'No input files were found. Aborting. '
   }
-  uiLog('Ready.')
   let confirmed = false
   if (!args.toolOptions || !args.toolOptions!.dontWrite) {
     if (!args.toolOptions || !args.toolOptions!.dontConfirm) {
-      const {proceed} = await prompt<{ proceed: 'continue'|'cancel'|'diff' }>([
+      const { proceed } = await prompt<{ proceed: 'continue' | 'cancel' | 'diff' }>([
         {
           type: 'list',
           prefix: `The following (${result.files.length}) files will be modified:\n${result.files
             .map(f => f.name)
             .join(', ')}\n`,
           message: `Are you sure you want to continue?`,
-          choices: [{name: 'Yes, proceed writing files.', value: 'continue'}, {name: `No, cancel the operation.`, value: 'cancel'}, {name: `Show me a diff of modified files first`, value: 'diff'}],
+          choices: [
+            { name: 'Yes, proceed writing files.', value: 'continue' }, 
+            { name: `No, cancel the operation.`, value: 'cancel' }, 
+            { name: `Show me a diff of modified files first`, value: 'diff' }
+          ],
           name: 'proceed'
         }
       ])
-      // confirmed = confirmedAnswer.confirmed
-      if (proceed==='cancel') {
-        
-      }
-      else if(proceed==='diff') {
-        // const {seeDiff} = await prompt<{ seeDiff: boolean }>([
-        //   {
-        //     type: 'confirm',
-        //     message: `So you want to see a diff of the changes before proceeding?`,
-        //     name: 'seeDiff'
-        //   }
-        // ])
-        // if(seeDiff){
-          await showProjectDiff(project)
-          const {proceed} = await prompt<{proceed: boolean}>([{
-            type: 'confirm', name: 'proceed', message: 'Do you want to proceed?'
-          }])
-          if(proceed) {
-            confirmed=true
-          }
-        // }
-      }
-      else {
+      if (proceed === 'diff') {
+        await showProjectDiff(project)
+        const { proceed } = await prompt<{ proceed: boolean }>([{
+          type: 'confirm', name: 'proceed', message: 'Do you want to proceed?'
+        }])
+        if (proceed) {
+          confirmed = true
+        }
+      } else if (proceed === 'continue') {
         confirmed = true
       }
     } else {
-      confirmed = true      
+      confirmed = true
     }
   }
   if (confirmed) {
