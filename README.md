@@ -9,7 +9,7 @@ CLI interactive TypeScript refactor tool
 Example:
 
 ```sh
-$ tstool fix src/foo/bar.ts
+$ ts-refactor fix src/foo/bar.ts
 Choose a fix for src/foo/bar.ts:
  · implement interface
  · fix missing imports
@@ -47,8 +47,8 @@ renames a file or declaration or variable, etc
 
 ## easy CLI
 
-tstool convert organizeImports src/foo/foo.ts
-tstool move declaration FooImpl src/foo/impl.ts src/bar/bar.ts
+ts-refactor convert organizeImports src/foo/foo.ts
+ts-refactor move declaration FooImpl src/foo/impl.ts src/bar/bar.ts
 
 
 ## TODO

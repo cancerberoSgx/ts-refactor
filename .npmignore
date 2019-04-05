@@ -3,3 +3,5 @@ src
 scripts
 tmp
 spec
+*.tgz
+package*

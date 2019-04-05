@@ -1,10 +1,10 @@
 {
-  "name": "tstool",
+  "name": "ts-refactor",
   "version": "0.0.1",
   "description": "TypeScript code refactor interactive CLI tool",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
-  "bin": "bin/tstool.js",
+  "bin": "bin/ts-refactor.js",
   "scripts": {
     "watch": "tsc --watch",
     "build": "tsc",
@@ -41,5 +41,5 @@
     "command line",
     "interactive"
   ],
-  "repository": "https://github.com/cancerberoSgx/tstool"
+  "repository": "https://github.com/cancerberoSgx/ts-refactor"
 }
