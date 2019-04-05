@@ -3,7 +3,7 @@ import { createPatch } from 'diff';
 import { readFileSync } from 'fs';
 import { prompt } from 'inquirer';
 import { Project } from 'ts-morph';
-import { getFileRelativePath } from '../../project';
+import { getFileRelativePath } from '../project';
 
 export async function showProjectDiff(project: Project) {
   const allFiles = project.getSourceFiles()

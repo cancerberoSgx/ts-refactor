@@ -23,6 +23,3 @@ import {b} from "../b"
 console.log(1)
 export const c = 1
 `)
-
-// console.log(JSON.stringify(p2));
-

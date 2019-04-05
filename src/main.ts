@@ -4,7 +4,7 @@ import { getFix } from './fixes'
 import { buildProject, checkFilesInProject } from './project'
 import { ParsedArgs } from './toolOption'
 import { uiLog } from './cli/inquire/inquireLogger';
-import { showProjectDiff } from './cli/diff/projectDiff';
+import { showProjectDiff } from './cli/projectDiff';
 
 export async function main(args: Partial<ParsedArgs>) {
   const tsConfigFilePath = (args.toolOptions && args.toolOptions.tsConfigPath) || './tsconfig.json'
