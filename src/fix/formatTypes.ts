@@ -1,4 +1,5 @@
 import { getEnumKeys } from '../misc'
+import { FixOptions } from '../fix';
 export interface FormatCodeSettings {
   ensureNewLineAtEndOfFile: boolean
   readonly insertSpaceAfterCommaDelimiter?: boolean
@@ -81,3 +82,7 @@ enum UserPreferencesNames {
   providePrefixAndSuffixTextForRename = 'providePrefixAndSuffixTextForRename'
 }
 export const userPreferences = getEnumKeys(UserPreferencesNames)
+
+export interface FixWithFormatCodeSettingOptions extends FixOptions {
+  formatCodeSettings?: FormatCodeSettings
+}

@@ -7,7 +7,7 @@ import { FormatCodeSettings, formatCodeSettingsNames } from '../../fix/formatTyp
 
 registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'))
 
-export async function inquireFormatCodeSettings(options: FixOptions): Promise<File[]> {
+export async function inquireFormatCodeSettings(options: FixOptions): Promise<FormatCodeSettings> {
   // uiLog(
   //   options.project.manipulationSettings.getEditorSettings(),
   //   options.project.manipulationSettings.getFormatCodeSettings()

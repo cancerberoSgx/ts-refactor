@@ -78,7 +78,10 @@ async function inquireOptions(options: MoveFileOptions) {
 
 export const moveFileFix: Fix<MoveFileOptions, { destPath: string }> = {
   name: FIX.moveFile,
-  description: `It will move the input files and/or folders to another location. If a single input filer is selected then the destination can be a non existent file-like path. The location can always be a non existent directory-like path or an existing directory path no matter the input file selection. In case the destination is an existing directory, input files will be moved inside it.`,
+  description: `
+It will move the input files and/or folders to another location. 
+If a single input filer is selected then the destination can be a non existent file-like path. 
+The location can always be a non existent directory-like path or an existing directory path no matter the input file selection. In case the destination is an existing directory, input files will be moved inside of it.`,
   fn: moveFile,
   selectFilesMessage() {
     return 'Select files and folders to move'

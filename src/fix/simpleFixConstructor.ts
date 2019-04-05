@@ -3,6 +3,7 @@ import { SourceFile } from 'ts-morph'
 import { inquireFormatCodeSettings } from '../cli/inquire/inquireFormatCodeSettings'
 import { FixOptions, FixResult } from '../fix'
 import { getFileRelativePath, isSourceFile } from '../project'
+import { FixWithFormatCodeSettingOptions } from './formatTypes';
 // TODO: formatting options
 /**
  * builds a fix function suitable for simple fixes like organizeImports, format - that have similar parameters/semantics and make modifications file by file.
@@ -30,7 +31,7 @@ export function simpleFixConstructor(constructorOptions: { action: (file: Source
       })
       return result
     },
-    async inquireOptions(options: FixOptions) {
+    async inquireOptions(options: FixWithFormatCodeSettingOptions) {
       const { configureFormatCodeSettings } = await prompt<{ configureFormatCodeSettings: boolean }>([
         {
           type: 'confirm',
@@ -40,8 +41,9 @@ export function simpleFixConstructor(constructorOptions: { action: (file: Source
         }
       ])
       if (configureFormatCodeSettings) {
-        const answer = await inquireFormatCodeSettings(options)
-        console.log(answer)
+        const formatCodeSettings = await inquireFormatCodeSettings(options)
+        options = {...options, formatCodeSettings: {...options.formatCodeSettings, ...formatCodeSettings}}
+        // console.log(answer)
       }
     }
   }
