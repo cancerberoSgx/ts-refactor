@@ -1,6 +1,6 @@
 import { removeAllUnused } from 'ts-simple-ast-extra'
 import { FIX } from '../fix'
-import { SimpleFix } from './simpleFixConstructor'
+import { SimpleFix } from './FormatSettingsFix'
 
 export const removeUnusedFix = new SimpleFix({
   action(options) {

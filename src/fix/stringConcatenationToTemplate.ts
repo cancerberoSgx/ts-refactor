@@ -1,5 +1,5 @@
 import { FIX } from '../fix'
-import { SimpleFix, SimpleFixOptions } from './simpleFixConstructor'
+import { SimpleFix, SimpleFixOptions } from './FormatSettingsFix'
 import { prompt } from 'inquirer'
 import { stringConcatenationsToTemplateExpressions, templatesToStringConcatenations } from 'ts-simple-ast-extra'
 

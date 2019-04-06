@@ -58,3 +58,4 @@ ts-refactor move declaration FooImpl src/foo/impl.ts src/bar/bar.ts
  * be able to load fix options from a .json file (format code settings)
  * apply more than one codefix by cli args: ts-refactor organizeImports,removeUnused ./src --dontConfirm
  * --dontAsk should throw if something is missing
+ * move the inquire inputFiles implementation to FixClasses (SimpleFix)

@@ -14,8 +14,8 @@ export async function inquireFiles(allFiles: File[], fix: Fix, options: FixOptio
       highlight: true,
       pageSize: 10,
       default: [allFiles[0]],
-      validate(input, answers) {
-        return (fix.verifyInputFiles && fix.verifyInputFiles(answers ? answers : [], options)) || true
+      validate(input: File[], answers) {
+        return (fix.verifyInputFiles && fix.verifyInputFiles(input ? input : [], options)) || true
       },
       // @ts-ignore
       source: function(answersSoFar: string[], input: string) {

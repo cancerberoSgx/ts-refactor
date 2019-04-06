@@ -1,5 +1,5 @@
 import { FIX } from '../fix'
-import { SimpleFix } from './simpleFixConstructor'
+import { SimpleFix } from './FormatSettingsFix'
 
 export const formatFix = new SimpleFix({
   action(options) {

@@ -25,7 +25,7 @@ export const fixNames = getEnumKeys(FIX)
 
 export interface File {
   name: string
-  isFolder: boolean
+  isFolder?: boolean
   path: string
 }
 

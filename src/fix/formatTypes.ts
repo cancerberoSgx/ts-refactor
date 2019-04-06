@@ -1,7 +1,7 @@
 import { FixOptions } from '../fix'
 import { getEnumKeys } from '../misc'
 export interface FormatCodeSettings {
-  ensureNewLineAtEndOfFile: boolean
+  ensureNewLineAtEndOfFile?: boolean
   readonly insertSpaceAfterCommaDelimiter?: boolean
   readonly insertSpaceAfterSemicolonInForStatements?: boolean
   readonly insertSpaceBeforeAndAfterBinaryOperators?: boolean
