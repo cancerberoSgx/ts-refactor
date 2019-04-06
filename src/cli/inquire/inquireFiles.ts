@@ -1,7 +1,6 @@
+import { ansi } from 'ansi-escape-sequences'
 import { prompt, registerPrompt } from 'inquirer'
 import { File, Fix, FixOptions } from '../../fix'
-import { uiLog } from './inquireLogger'
-import { ansi } from 'cli-driver'
 
 registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'))
 

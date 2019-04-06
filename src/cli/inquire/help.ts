@@ -4,7 +4,6 @@ import { prompt } from 'inquirer'
 import { FIX } from '../../fix'
 import { getFixes } from '../../fix/fixes'
 import { ToolOptionName } from '../../toolOption'
-import { uiLog } from './inquireLogger'
 import { less } from '../lessPrompt'
 
 const ansiEscapes = require('ansi-escapes')

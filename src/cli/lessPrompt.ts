@@ -1,4 +1,4 @@
-import { registerPrompt, prompt, ui } from 'inquirer'
+import { prompt, registerPrompt } from 'inquirer'
 
 var { map, takeUntil } = require('rxjs/operators')
 var Base = require('inquirer/lib/prompts/base')

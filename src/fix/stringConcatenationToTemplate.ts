@@ -1,7 +1,7 @@
-import { FIX } from '../fix'
-import { FormatSettingsFix, SimpleFixOptions } from './abstract/formatSettingsFix'
 import { prompt } from 'inquirer'
 import { stringConcatenationsToTemplateExpressions, templatesToStringConcatenations } from 'ts-simple-ast-extra'
+import { FIX } from '../fix'
+import { FormatSettingsFix, SimpleFixOptions } from './abstract/formatSettingsFix'
 
 interface Options extends SimpleFixOptions {
   mode: 'stringConcatenationToTemplate' | 'templateToStringConcatenation'

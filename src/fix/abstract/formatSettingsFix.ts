@@ -1,9 +1,9 @@
 import { prompt } from 'inquirer'
 import { SourceFile } from 'ts-morph'
 import { inquireFormatCodeSettings } from '../../cli/inquire/inquireFormatCodeSettings'
-import { FIX, FixOptions, FixResult, File } from '../../fix'
+import { File, FIX, FixOptions, FixResult } from '../../fix'
 import { getFileRelativePath, isSourceFile } from '../../project'
-import { FixWithFormatCodeSettingOptions, FormatCodeSettings } from '../formatTypes'
+import { FixWithFormatCodeSettingOptions } from '../formatTypes'
 
 export interface SimpleFixOptions extends FixOptions {
   file: SourceFile

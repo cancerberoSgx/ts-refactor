@@ -1,17 +1,15 @@
-import { FIX, FixResult, File, FixOptions } from '../fix'
-import { getFileRelativePath, isSourceFile, getFilePath, getFileFromRelativePath } from '../project'
-import Project, {
-  Node,
-  ClassDeclaration,
-  InterfaceDeclaration,
-  EnumDeclaration,
-  TypeAliasDeclaration,
-  FunctionDeclaration
-} from 'ts-morph'
 import { prompt } from 'inquirer'
+import {
+  ClassDeclaration,
+  EnumDeclaration,
+  FunctionDeclaration,
+  InterfaceDeclaration,
+  TypeAliasDeclaration
+} from 'ts-morph'
 import { moveDeclaration } from 'ts-simple-ast-extra'
-import { DestFileFixOptions, DestFileFix } from './abstract/destinationFileFix'
-import { uiLog } from '../cli/inquire/inquireLogger'
+import { File, FIX, FixOptions } from '../fix'
+import { getFileRelativePath, isSourceFile } from '../project'
+import { DestFileFix, DestFileFixOptions } from './abstract/destinationFileFix'
 
 interface MoveDeclarationOptions extends DestFileFixOptions {
   declaration: Declaration

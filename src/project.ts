@@ -48,5 +48,5 @@ export function getFilePath(f: SourceFile | Directory) {
 }
 
 export function isSourceFile(f: any): f is SourceFile {
-  return f.organizeImports
+  return f && f.organizeImports
 }

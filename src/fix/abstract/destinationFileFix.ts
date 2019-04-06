@@ -28,11 +28,15 @@ export class DestFileFix<T extends DestFileFixOptions> extends FormatSettingsFix
 
   protected async inquireDestinationFile(options: DestFileFixOptions): Promise<{ destPath: string }> {
     let destinations: string[] = []
-
     if (this.destinationMode === 'mustNotExist') {
       destinations = (options.options.files || []).filter(f => !getFileFromRelativePath(f, options.project))
     } else if (this.destinationMode === 'mustExist') {
       destinations = (options.options.files || []).filter(f => !!getFileFromRelativePath(f, options.project))
+      destinations = destinations.length > 1 ? [destinations[destinations.length - 1]] : []
+    } else if (this.destinationMode === 'mustExistFile') {
+      destinations = (options.options.files || []).filter(f =>
+        isSourceFile(getFileFromRelativePath(f, options.project))
+      )
       destinations = destinations.length > 1 ? [destinations[destinations.length - 1]] : []
     } else {
       throw new Error('destination mode unknown ' + this.destinationMode)
