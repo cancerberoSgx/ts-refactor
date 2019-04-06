@@ -54,9 +54,7 @@ ts-refactor move declaration FooImpl src/foo/impl.ts src/bar/bar.ts
 ## TODO
 
  * add fuzze to inquireFiles https://github.com/faressoft/inquirer-checkbox-plus-prompt
- * print the equivalent non interactive command on fininsh
- * --showDiff and --diffOutput use node_modules/diff/README.md
- * be able to load fix optoins from a .json file (format code settings)
+ * print the equivalent non interactive command on finish
+ * be able to load fix options from a .json file (format code settings)
  * apply more than one codefix by cli args: ts-refactor organizeImports,removeUnused ./src --dontConfirm
- * issue: go to help -> descriptions -> go back and select a fix : "Error: Sorry, the fix __help__ is not supported yet."
- * --dontAsk
+ * --dontAsk should throw if something is missing

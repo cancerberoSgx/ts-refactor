@@ -3,7 +3,6 @@ import { prompt } from 'inquirer'
 import { FIX } from '../../fix'
 import { getFixes } from '../../fixes'
 import { ToolOptionName } from '../../toolOption'
-import { inquireFix } from './inquireFix'
 
 const ansiEscapes = require('ansi-escapes')
 
@@ -141,7 +140,6 @@ export async function handleHelpAndExit(answers: { fix: FIX | '__exit__' | '__he
           prefix: helpIntro()
         }
       ])
-      return await inquireFix()
     }
     if (section === 'general') {
       await prompt([
@@ -152,7 +150,6 @@ export async function handleHelpAndExit(answers: { fix: FIX | '__exit__' | '__he
           prefix: helpGeneralRules()
         }
       ])
-      return await inquireFix()
     }
     if (section === 'fixes') {
       await prompt([
@@ -163,11 +160,6 @@ export async function handleHelpAndExit(answers: { fix: FIX | '__exit__' | '__he
           prefix: helpFixes()
         }
       ])
-      return await inquireFix()
-    }
-
-    if (section === 'back') {
-      return await inquireFix()
     }
   }
 }
