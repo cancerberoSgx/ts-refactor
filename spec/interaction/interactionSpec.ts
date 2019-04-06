@@ -93,14 +93,14 @@ describe('CLI', () => {
         'npx ts-node src/cli/cliMain.ts notACodeFix',
         'Error: Unknown fix notACodeFix. Must be one of'
       )
-      helper.expectLastExitCode(false)
+      await helper.expectLastExitCode(false)
       done()
     })
     it('fixes has a last Exit option which exit with code 0', async done => {
       await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts', 'Select a code fix')
       await client.write(ansi.cursor.up())
       await client.enterAndWaitForData('', 'Bye')
-      helper.expectLastExitCode(true)
+      await helper.expectLastExitCode(true)
       done()
     })
     xit('fixes have a help option', async done => {
