@@ -1,6 +1,6 @@
-import { prompt } from 'inquirer';
-import { FIX, fixNames } from '../../fix';
-import { handleHelpAndExit } from './help';
+import { prompt } from 'inquirer'
+import { FIX, fixNames } from '../../fix'
+import { handleHelpAndExit } from './help'
 
 export async function inquireFix(): Promise<FIX | '__help__' | '__exit__'> {
   const answers = await prompt<{ fix: FIX | '__exit__' | '__help__' }>({

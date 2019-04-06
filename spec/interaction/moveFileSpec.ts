@@ -44,7 +44,7 @@ describe('moveFile codeFix', () => {
     await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts ./src/main.ts', 'Select a code fix')
     await helper.focusCodeFix(client, 'moveFile')
     await client.enterAndWaitForData('', 'Configure Format Code Settings?')
-    await client.enterAndWaitForData('', 'Select the destination path') 
+    await client.enterAndWaitForData('', 'Select the destination path')
     await helper.controlC()
     done()
   })
@@ -63,7 +63,7 @@ describe('moveFile codeFix', () => {
       'npx ts-node src/cli/cliMain.ts moveFile ./src/file1.ts ./src/newFile1.ts --tsConfigPath tmp/project1/tsconfig.json',
       'Configure Format Code Settings?'
     )
-    await client.enterAndWaitForData('', 'Are you sure you want to continue?') 
+    await client.enterAndWaitForData('', 'Are you sure you want to continue?')
     await client.enterAndWaitForData('', 'Finished writing (1) files.')
     await helper.expectLastExitCode(true)
     expect(test('-f', 'tmp/project1/src/newFile1.ts')).toBe(true)
