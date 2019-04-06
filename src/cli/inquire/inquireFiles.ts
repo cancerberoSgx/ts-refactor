@@ -1,7 +1,7 @@
 import { prompt, registerPrompt } from 'inquirer'
 import { File, Fix, FixOptions } from '../../fix'
-import { uiLog } from './inquireLogger';
-import { ansi } from 'cli-driver';
+import { uiLog } from './inquireLogger'
+import { ansi } from 'cli-driver'
 
 registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'))
 
@@ -14,7 +14,10 @@ export async function inquireFiles(allFiles: File[], fix: Fix, options: FixOptio
       message: fix.selectFilesMessage || 'Select files',
       // @ts-ignore
       searchable: true,
-      suffix: `${ansi.format(` (Type to filter. `, ['gray'])}${ansi.format('<space>', ['cyan'])}${ansi.format(` to select, `, ['gray'])}${ansi.format('<enter>', ['cyan'])}${ansi.format(` to end)`, ['gray'])}`,
+      suffix: `${ansi.format(` (Type to filter. `, ['gray'])}${ansi.format('<space>', ['cyan'])}${ansi.format(
+        ` to select, `,
+        ['gray']
+      )}${ansi.format('<enter>', ['cyan'])}${ansi.format(` to end)`, ['gray'])}`,
       highlight: true,
       pageSize: 10,
       // default: [allFiles[0]],
@@ -23,7 +26,7 @@ export async function inquireFiles(allFiles: File[], fix: Fix, options: FixOptio
       },
       // @ts-ignore
       source: function(answersSoFar: string[], input: string) {
-      // @ts-ignore
+        // @ts-ignore
         //TODO: add fuzzy  https://github.com/faressoft/inquirer-checkbox-plus-prompt
         return Promise.resolve(
           allFiles

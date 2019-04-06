@@ -56,8 +56,10 @@ WARNING: this is a complex refactor operation with and some edge cases could res
         name: 'declaration',
         message: `Select a declaration to move from file "${getFileRelativePath(file, options.project)}"`,
         choices: declarations.map(d => ({
-          name: `${d.getName()} (${(d.getKindName().endsWith('Declaration') ? 
-          d.getKindName().substring(0, d.getKindName().length - 'Declaration'.length) : d.getKindName()).toLowerCase()})`,
+          name: `${d.getName()} (${(d.getKindName().endsWith('Declaration')
+            ? d.getKindName().substring(0, d.getKindName().length - 'Declaration'.length)
+            : d.getKindName()
+          ).toLowerCase()})`,
           value: d
         }))
       }

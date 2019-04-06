@@ -12,7 +12,6 @@ export async function inquireMissing(
   options: Partial<ParsedArgs>,
   project: Project
 ): Promise<FixOptions & { fixName: FIX }> {
-
   // await hackInquirerConfig();
 
   let fixName: FIX

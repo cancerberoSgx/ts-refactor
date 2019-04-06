@@ -1,11 +1,11 @@
 // import { ansi } from 'cli-driver'
-import *  as ansi from 'ansi-escape-sequences'
+import * as ansi from 'ansi-escape-sequences'
 import { prompt } from 'inquirer'
 import { FIX } from '../../fix'
 import { getFixes } from '../../fixes'
 import { ToolOptionName } from '../../toolOption'
-import { uiLog } from './inquireLogger';
-import { less } from '../lessPrompt';
+import { uiLog } from './inquireLogger'
+import { less } from '../lessPrompt'
 
 const ansiEscapes = require('ansi-escapes')
 
@@ -142,7 +142,7 @@ export async function handleHelpAndExit(answers: { fix: FIX | '__exit__' | '__he
       ]
     })
     if (section === 'intro') {
-      await less({text: helpIntro()})
+      await less({ text: helpIntro() })
     }
     if (section === 'general') {
       // await  prompt([
@@ -154,8 +154,7 @@ export async function handleHelpAndExit(answers: { fix: FIX | '__exit__' | '__he
       //     prefix: helpGeneralRules()
       //   }
       // ])
-      await less({text: helpGeneralRules()})
-
+      await less({ text: helpGeneralRules() })
 
       // debugger
       // p.ui.rl.terminal
@@ -168,11 +167,11 @@ export async function handleHelpAndExit(answers: { fix: FIX | '__exit__' | '__he
       // pr.onUpKey = function(){
       //   uiLog('hshuuuuuuuuuuasjjdasjhasdjkhadsjhkadsjh', 1000)
       // }
-      
-      // await p 
+
+      // await p
     }
     if (section === 'fixes') {
-      await less({text: helpFixes()})
+      await less({ text: helpFixes() })
 
       // await prompt([
       //   {
