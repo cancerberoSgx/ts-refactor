@@ -58,6 +58,7 @@ describe('CLI', () => {
       await helper.expectLastExitCode(true)
       done()
     })
+
     it('--strangeArgument should error', async done => {
       await client.enterAndWaitForData(
         'npx ts-node src/cli/cliMain.ts --strangeArgument',
@@ -66,6 +67,7 @@ describe('CLI', () => {
       await helper.expectLastExitCode(false)
       done()
     })
+
     it('should target another project with --tsConfigPath', async done => {
       expect(
         await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts organizeImports', 'Select files')
@@ -88,6 +90,7 @@ describe('CLI', () => {
       await helper.controlC()
       done()
     })
+
     it('should error if given a non file argument that is not a codeFix', async done => {
       await client.enterAndWaitForData(
         'npx ts-node src/cli/cliMain.ts notACodeFix',
@@ -96,6 +99,7 @@ describe('CLI', () => {
       await helper.expectLastExitCode(false)
       done()
     })
+
     it('fixes has a last Exit option which exit with code 0', async done => {
       await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts', 'Select a code fix')
       await client.write(ansi.cursor.up())
@@ -103,6 +107,7 @@ describe('CLI', () => {
       await helper.expectLastExitCode(true)
       done()
     })
+
     xit('fixes have a help option', async done => {
       done()
     })

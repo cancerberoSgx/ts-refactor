@@ -1,4 +1,5 @@
 import { prompt } from 'inquirer'
+import { cat } from 'shelljs'
 import { SourceFile } from 'ts-morph'
 import { inquireFormatCodeSettings } from '../../cli/inquire/inquireFormatCodeSettings'
 import { File, FIX, FixOptions, FixResult } from '../../fix'
@@ -85,22 +86,38 @@ export class FormatSettingsFix<T extends FormatSettingsFixOptions> {
   protected async inquireFormatCodeSettings(
     options: FixWithFormatCodeSettingOptions
   ): Promise<FixWithFormatCodeSettingOptions> {
-    if (options.options.toolOptions && options.options.toolOptions.dontAsk) {
-      return { ...options, formatCodeSettings: {} }
-    }
-    const { configureFormatCodeSettings } = await prompt<{ configureFormatCodeSettings: boolean }>([
-      {
-        type: 'confirm',
-        name: 'configureFormatCodeSettings',
-        message: 'Configure Format Code Settings?',
-        default: false
+    let formatCodeSettings: FormatCodeSettings = {}
+    const formatSettingsFile = (options.options.files || []).find(
+      f => f.includes('formatCodeSettings') && f.endsWith('.json')
+    )
+    formatCodeSettings = { ...options.formatCodeSettings, ...formatCodeSettings }
+    if (formatSettingsFile) {
+      try {
+        formatCodeSettings = JSON.parse(cat(formatSettingsFile).toString())
+      } catch (error) {
+        throw new Error(`Failed to parse given ${formatSettingsFile} file. 
+Nor the file doesn't exists or is not valid JSON. 
+It must be relative to current directory (not to tsconfig if you are using a custom one)
+Error: ${error}`)
       }
-    ])
-    if (configureFormatCodeSettings) {
-      const formatCodeSettings = await inquireFormatCodeSettings(options)
-      options = { ...options, formatCodeSettings: { ...options.formatCodeSettings, ...formatCodeSettings } }
-      return { ...options, formatCodeSettings }
     }
-    return { ...options, formatCodeSettings: {} }
+    if (!formatCodeSettings) {
+      if (options.options.toolOptions && options.options.toolOptions.dontAsk) {
+        return { ...options, formatCodeSettings: {} }
+      }
+      const { configureFormatCodeSettings } = await prompt<{ configureFormatCodeSettings: boolean }>([
+        {
+          type: 'confirm',
+          name: 'configureFormatCodeSettings',
+          message: 'Configure Format Code Settings?',
+          default: false
+        }
+      ])
+      if (configureFormatCodeSettings) {
+        const inquiredFormatCodeSettings = await inquireFormatCodeSettings(options)
+        formatCodeSettings = { ...options.formatCodeSettings, ...inquiredFormatCodeSettings }
+      }
+    }
+    return { ...options, formatCodeSettings: formatCodeSettings || {} }
   }
 }

@@ -1,0 +1,20 @@
+{
+  "insertSpaceBeforeAndAfterBinaryOperators": true,
+  "insertSpaceAfterCommaDelimiter": true,
+  "insertSpaceAfterSemicolonInForStatements": true,
+  "insertSpaceAfterConstructor": true,
+  "insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": true,
+  "insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
+  "insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+  "insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": true,
+  "insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
+  "insertSpaceAfterTypeAssertion": true,
+  "insertSpaceBeforeFunctionParenthesis": true,
+  "placeOpenBraceOnNewLineForFunctions": true,
+  "placeOpenBraceOnNewLineForControlBlocks": true,
+  "insertSpaceBeforeTypeAnnotation": true,
+  "indentMultiLineObjectLiteralBeginningOnBlankLine": true,
+  "indentSize": 2,
+  "tabSize": 4,
+  "convertTabsToSpaces": true
+}

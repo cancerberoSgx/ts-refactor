@@ -34,9 +34,8 @@ describe('format codeFix', () => {
     expect(cat('tmp/project1/src/unformatted.ts').toString()).toContain(
       `
 import         {readFile           } from              'fs'
-
 export const               s =                "hello"
-    `.trim()
+	`.trim()
     )
     await client.enterAndWaitForData(
       'npx ts-node src/cli/cliMain.ts format "./src/unformatted.ts" --tsConfigPath tmp/project1/tsconfig.json  --dontAsk',
@@ -46,10 +45,62 @@ export const               s =                "hello"
     expect(cat('tmp/project1/src/unformatted.ts').toString()).toContain(
       `
 import { readFile } from 'fs'
-
 export const s = "hello"
-    `.trim()
+	`.trim()
     )
+    done()
+  })
+
+  it('should throw if invalid formatCodeSettings.json file is provided as arguments', async done => {
+    await client.enterAndWaitForData(
+      'npx ts-node src/cli/cliMain.ts format src/unformatted.ts ./formatCodeSettings.json --tsConfigPath tmp/project1/tsconfig.json --dontAsk',
+      'Error:'
+    )
+    await helper.expectLastExitCode(false)
+    done()
+  })
+
+  it('should format with formatCodeSettings2.js - lots of spaces and indent size 4', async done => {
+    expect(cat('tmp/project1/src/unformatted.ts').toString()).toContain(
+      `
+import         {readFile           } from              'fs'
+export const               s =                "hello"
+	`.trim()
+    )
+    await client.enterAndWaitForData(
+      'npx ts-node src/cli/cliMain.ts format "./src/unformatted.ts" tmp/project1/formatCodeSettings2.json --tsConfigPath tmp/project1/tsconfig.json  --dontAsk',
+      'Finished writing (1) files.'
+    )
+    await helper.expectLastExitCode(true)
+    expect(cat('tmp/project1/src/unformatted.ts').toString()).toContain(
+      `
+import { readFile } from 'fs'
+export const s = "hello"
+`.trim()
+    )
+
+    done()
+  })
+
+  it('should format with formatCodeSettings1.js - no spaces , tab size 2', async done => {
+    expect(cat('tmp/project1/src/unformatted.ts').toString()).toContain(
+      `
+import         {readFile           } from              'fs'
+export const               s =                "hello"
+	`.trim()
+    )
+    await client.enterAndWaitForData(
+      'npx ts-node src/cli/cliMain.ts format "./src/unformatted.ts" tmp/project1/formatCodeSettings1.json --tsConfigPath tmp/project1/tsconfig.json  --dontAsk',
+      'Finished writing (1) files.'
+    )
+    await helper.expectLastExitCode(true)
+    expect(cat('tmp/project1/src/unformatted.ts').toString()).toContain(
+      `
+import {readFile} from 'fs'
+export const s="hello"
+`.trim()
+    )
+
     done()
   })
 })
