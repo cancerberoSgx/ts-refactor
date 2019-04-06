@@ -3,13 +3,16 @@ import { SourceFile } from 'ts-morph'
 import { inquireFormatCodeSettings } from '../../cli/inquire/inquireFormatCodeSettings'
 import { File, FIX, FixOptions, FixResult } from '../../fix'
 import { getFileRelativePath, isSourceFile } from '../../project'
-import { FixWithFormatCodeSettingOptions } from '../formatTypes'
+import { FixWithFormatCodeSettingOptions, FormatCodeSettings } from '../formatTypes'
 
-export interface SimpleFixOptions extends FixOptions {
+export interface SimpleFixConstructorActionOptions extends FixOptions {
   file: SourceFile
 }
-export interface SimpleFixConstructorOptions<T extends SimpleFixOptions> {
-  action(options: T): void
+export interface FormatSettingsFixOptions extends FixOptions {
+  formatCodeSettings?: FormatCodeSettings
+}
+export interface SimpleFixConstructorOptions<T extends FormatSettingsFixOptions> {
+  action(options: T&{file: SourceFile}): void
   name: FIX
   description?: string
   selectFilesMessage?: string
@@ -23,12 +26,12 @@ export interface SimpleFixConstructorOptions<T extends SimpleFixOptions> {
  *
  * See organizeImports, format. See stringConcatenationToTemplate for an example sub classing this to add a new option.
  */
-export class FormatSettingsFix<T extends SimpleFixOptions> {
+export class FormatSettingsFix<T extends FormatSettingsFixOptions> {
   name: FIX = FIX.arrowFunction
 
   description: string = 'TODO: document me!'
 
-  _selectFilesMessage: string = 'Select input files or folders'
+  protected _selectFilesMessage: string = 'Select input files or folders'
 
   constructor(protected options?: SimpleFixConstructorOptions<T>) {
     if (options) {

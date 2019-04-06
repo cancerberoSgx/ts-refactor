@@ -11,7 +11,7 @@
     "test": "ts-node node_modules/jasmine/bin/jasmine",
     "test-debug": "node --inspect-brk node_modules/ts-node/dist/bin node_modules/jasmine/bin/jasmine.js",
     "prepare": "tsc",
-    "prettier": "npx prettier  --write --arrow-parens avoid --parser typescript --use-tabs false --no-semi true --single-quote true --tab-width 2 --trailing-comma none --end-of-line lf --prose-wrap preserve --print-width 120  --jsx-bracket-same-line true \"src/**/*.ts*\" \"spec/**/*.ts*\"",
+    "prettier": "ts-node src/cli/cliMain.ts organizeImports \"src/**\" \"spec/**/*Spec.ts\" --dontAsk && npx prettier  --write --arrow-parens avoid --parser typescript --use-tabs false --no-semi true --single-quote true --tab-width 2 --trailing-comma none --end-of-line lf --prose-wrap preserve --print-width 120  --jsx-bracket-same-line true \"src/**/*.ts*\" \"spec/**/*.ts*\"",
     "clean": "rm -rf dist",
     "all": "npm run clean && npm run prettier && npm run build && npm test"
   },

@@ -1,9 +1,9 @@
 import { prompt } from 'inquirer'
 import { stringConcatenationsToTemplateExpressions, templatesToStringConcatenations } from 'ts-simple-ast-extra'
 import { FIX } from '../fix'
-import { FormatSettingsFix, SimpleFixOptions } from './abstract/formatSettingsFix'
+import { FormatSettingsFix, SimpleFixConstructorActionOptions } from './abstract/formatSettingsFix'
 
-interface Options extends SimpleFixOptions {
+interface Options extends SimpleFixConstructorActionOptions {
   mode: 'stringConcatenationToTemplate' | 'templateToStringConcatenation'
 }
 // TODO: support format code settings for quotes.

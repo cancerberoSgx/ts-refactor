@@ -1,11 +1,11 @@
 import { prompt, registerPrompt } from 'inquirer'
 import { getAbsolutePath, getFileFromRelativePath, getFilePath, getFileRelativePath, isSourceFile } from '../../project'
 import { FixWithFormatCodeSettingOptions } from '../formatTypes'
-import { FormatSettingsFix, SimpleFixOptions } from './formatSettingsFix'
+import { FormatSettingsFix, SimpleFixConstructorActionOptions } from './formatSettingsFix'
 
 registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 
-export interface DestFileFixOptions extends SimpleFixOptions {
+export interface DestFileFixOptions extends SimpleFixConstructorActionOptions {
   destPath: string
 }
 

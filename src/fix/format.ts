@@ -3,7 +3,7 @@ import { FormatSettingsFix } from './abstract/formatSettingsFix'
 
 export const formatFix = new FormatSettingsFix({
   action(options) {
-    options.file.organizeImports()
+    options.file.formatText(options.formatCodeSettings)
   },
 
   name: FIX.format,

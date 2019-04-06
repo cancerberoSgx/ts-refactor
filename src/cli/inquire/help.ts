@@ -1,4 +1,3 @@
-// import { ansi } from 'cli-driver'
 import * as ansi from 'ansi-escape-sequences'
 import { prompt } from 'inquirer'
 import { FIX } from '../../fix'

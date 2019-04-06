@@ -34,9 +34,9 @@ It will move given top-level declaration to another file. These are some consequ
 WARNING: this is a complex refactor operation with and some edge cases could result on incorrect transformations. Please verify the changes and/or backup your files before saving the changes. 
  `
 
-  destinationMode: 'mustNotExist' | 'mustExist' | 'mustExistFile' = 'mustExistFile'
+  protected destinationMode: 'mustNotExist' | 'mustExist' | 'mustExistFile' = 'mustExistFile'
 
-  _selectFilesMessage = 'Select the file containing the declaration to move'
+  protected _selectFilesMessage = 'Select the file containing the declaration to move'
 
   async inquireOptions(options: MoveDeclarationOptions) {
     const superOptions = await super.inquireOptions(options)
@@ -74,16 +74,6 @@ WARNING: this is a complex refactor operation with and some edge cases could res
       : undefined
   }
 
-  // protected validateDestinationFile(options: MoveDeclarationOptions, input: string) {
-  //   const file = getFileFromRelativePath(input, options.project)
-  //   if (file && !isSourceFile(file)) {
-  //     return `"${input}" is not a source file, make sure you choose a file and not a folder`
-  //   } else if(!file){
-  //     return `"${input}" file doesn't exist in project`
-  //   }
-  //   return true
-  // }
-
   protected getDestinationFileMessage(
     options: MoveDeclarationOptions
   ): string | ((answers: { destPath: string }) => string) | undefined {
@@ -92,17 +82,6 @@ WARNING: this is a complex refactor operation with and some edge cases could res
 
   fn(options: MoveDeclarationOptions) {
     const target = options.project.getSourceFile(options.destPath)!
-    // if (!target || !isSourceFile(target)) {
-    //   throw new Error(
-    //     'Destination is not a source file: ' +
-    //       options.destPath +
-    //       ' - ' +
-    //       options.project
-    //         .getSourceFiles()
-    //         .map(f => f.getFilePath())
-    //         .join(', ')
-    //   )
-    // }
     moveDeclaration({ declaration: options.declaration, target })
     return this.buildDummyFixResult(options)
   }

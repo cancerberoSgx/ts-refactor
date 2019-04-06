@@ -1,11 +1,10 @@
-import { ansi } from 'ansi-escape-sequences'
+import * as ansi from 'ansi-escape-sequences'
 import { prompt, registerPrompt } from 'inquirer'
 import { File, Fix, FixOptions } from '../../fix'
 
 registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'))
 
 export async function inquireFiles(allFiles: File[], fix: Fix, options: FixOptions): Promise<File[]> {
-  // uiLog(`(Move up and down to scroll. Type to filter)`)
   const answers = await prompt<File[]>([
     {
       type: 'checkbox-plus',
@@ -19,7 +18,6 @@ export async function inquireFiles(allFiles: File[], fix: Fix, options: FixOptio
       )}${ansi.format('<enter>', ['cyan'])}${ansi.format(` to end)`, ['gray'])}`,
       highlight: true,
       pageSize: 10,
-      // default: [allFiles[0]],
       validate(input: File[], answers) {
         return (fix.verifyInputFiles && fix.verifyInputFiles(input ? input : [], options)) || true
       },
@@ -35,8 +33,5 @@ export async function inquireFiles(allFiles: File[], fix: Fix, options: FixOptio
       }
     }
   ])
-  // if (answers.files.includes('&ALL')) {
-  //   answers.files = allFiles
-  // }
   return answers.files
 }
