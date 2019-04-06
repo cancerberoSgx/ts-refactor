@@ -40,7 +40,8 @@ describe('CLI', () => {
         `Usage: ts-refactor fixName [...fixOptions] ...inputFiles`
       ]
       helpOptions.forEach(option => expect(data).toContain(option))
-      expect(await client.enterAndWaitForData('echo "exit code $?"', 'exit code')).toContain('exit code 0')
+      await helper.expectLastExitCode(true)
+      // expect(await client.enterAndWaitForData('echo "exit code $?"', 'exit code')).toContain('exit code 0')
       done()
     })
     it('--strangeArgument should error', async done => {
@@ -48,7 +49,8 @@ describe('CLI', () => {
         'npx ts-node src/cli/cliMain.ts --strangeArgument',
         'Unknown tool option strangeArgument'
       )
-      expect(await client.enterAndWaitForData('echo "exit code $?"', 'exit code')).not.toContain('exit code 0')
+      await helper.expectLastExitCode(false)
+      // expect(await client.enterAndWaitForData('echo "exit code $?"', 'exit code')).not.toContain('exit code 0')
       done()
     })
     it('should target another project with --tsConfigPath', async done => {
@@ -63,9 +65,6 @@ describe('CLI', () => {
         )
       ).toContain(' ◯ src/file2.ts')
       await helper.controlC()
-      done()
-    })
-    xit('With --no-interactive it should fail if there is any missing data', async done => {
       done()
     })
   })

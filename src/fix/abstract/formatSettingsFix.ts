@@ -12,7 +12,7 @@ export interface FormatSettingsFixOptions extends FixOptions {
   formatCodeSettings?: FormatCodeSettings
 }
 export interface SimpleFixConstructorOptions<T extends FormatSettingsFixOptions> {
-  action(options: T&{file: SourceFile}): void
+  action(options: T & { file: SourceFile }): void
   name: FIX
   description?: string
   selectFilesMessage?: string

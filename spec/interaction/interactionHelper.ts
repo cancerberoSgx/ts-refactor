@@ -1,7 +1,9 @@
-import { ansi, Driver } from 'cli-driver'
+import { ansi, Driver } from 'cli-driver';
 
 export class Helper {
+
   constructor(protected client: Driver) {}
+
   async expectLastExitCode(zeroExitCode?: boolean) {
     if (typeof zeroExitCode === 'undefined') {
       expect(
@@ -20,13 +22,16 @@ export class Helper {
       }
     }
   }
+
   async controlC() {
     await this.client.write(ansi.keys.getSequenceFor({ name: 'c', ctrl: true }))
     await this.expectLastExitCode()
   }
+
   async focusFile(client: Driver, codeFix: string) {
     return this.arrowUntilFocused(client, codeFix, s => s.includes(` ❯◯ ${codeFix}`) || s.includes(` ❯◉ ${codeFix}`))
   }
+  
   async focusListItem(client: Driver, label: string) {
     return this.arrowUntilFocused(client, label, s => s.includes(`❯ ${label}`))
   }
@@ -34,6 +39,7 @@ export class Helper {
   async focusCheckboxListItem(client: Driver, label: string) {
     return this.arrowUntilFocused(client, label, s => s.includes(`❯◯ ${label}`))
   }
+
   async arrowUntilFocused(
     client: Driver,
     focused: string,
@@ -52,6 +58,7 @@ export class Helper {
     }
     throw `Didn't found ${focused} selected in ${limit} cursor.up() strokes`
   }
+
   async unSelectAll(client: Driver, limit = 30) {
     const initial = await this.currentNotSelected(client)
     for (let i = 0; i < limit; i++) {
@@ -68,23 +75,29 @@ export class Helper {
     }
     throw `Didn't complete the loop after ${limit} cursor.up() strokes`
   }
+
   async currentNotSelected(client: Driver) {
     return this.currentNotSelectedString(await client.getStrippedDataFromLastWrite())
   }
+
   currentNotSelectedString(s: string) {
     const result = / ❯◯\s+(.+)\n/.exec(s)
     return result && result[1]
   }
+
   async selected(client: Driver) {
     const result = /  ◉\s+(.+)\n/.exec(await client.getStrippedDataFromLastWrite())
     return result && result[1]
   }
+
   async isCodeFixOptionNotSelected(client: Driver, option: string) {
     const s = await client.getStrippedDataFromLastWrite()
     return s.includes(`◯ ${option}`)
   }
+
   async currentSelected(client: Driver) {
     const result = / ❯◉\s+(.+)\n/.exec(await client.getStrippedDataFromLastWrite())
     return result && result[1]
   }
+
 }
