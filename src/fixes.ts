@@ -1,7 +1,7 @@
 import { Fix, FIX, FixOptions } from './fix'
 import { moveFileFix } from './fix/moveFile'
 import { organizeImportsFix } from './fix/organizeImports'
-import { formatFix } from './fix/format';
+import { formatFix } from './fix/format'
 
 const fixes: Fix<FixOptions>[] = []
 

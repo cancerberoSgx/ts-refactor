@@ -3,8 +3,8 @@ import { inquireMissing } from './cli/inquireMissing'
 import { getFix } from './fixes'
 import { buildProject, checkFilesInProject } from './project'
 import { ParsedArgs } from './toolOption'
-import { uiLog } from './cli/inquire/inquireLogger';
-import { showProjectDiff } from './cli/projectDiff';
+import { uiLog } from './cli/inquire/inquireLogger'
+import { showProjectDiff } from './cli/projectDiff'
 
 export async function main(args: Partial<ParsedArgs>) {
   const tsConfigFilePath = (args.toolOptions && args.toolOptions.tsConfigPath) || './tsconfig.json'
@@ -28,8 +28,8 @@ export async function main(args: Partial<ParsedArgs>) {
             .join(', ')}\n`,
           message: `Are you sure you want to continue?`,
           choices: [
-            { name: 'Yes, proceed writing files.', value: 'continue' }, 
-            { name: `No, cancel the operation.`, value: 'cancel' }, 
+            { name: 'Yes, proceed writing files.', value: 'continue' },
+            { name: `No, cancel the operation.`, value: 'cancel' },
             { name: `Show me a diff of modified files first`, value: 'diff' }
           ],
           name: 'proceed'
@@ -37,9 +37,13 @@ export async function main(args: Partial<ParsedArgs>) {
       ])
       if (proceed === 'diff') {
         await showProjectDiff(project)
-        const { proceed } = await prompt<{ proceed: boolean }>([{
-          type: 'confirm', name: 'proceed', message: 'Do you want to proceed?'
-        }])
+        const { proceed } = await prompt<{ proceed: boolean }>([
+          {
+            type: 'confirm',
+            name: 'proceed',
+            message: 'Do you want to proceed?'
+          }
+        ])
         if (proceed) {
           confirmed = true
         }
@@ -53,8 +57,7 @@ export async function main(args: Partial<ParsedArgs>) {
   if (confirmed) {
     project.saveSync()
     console.log(`Finished writing (${result.files.length}) files.`)
-  }
-  else {
+  } else {
     console.log('Skip writing files.')
   }
 }

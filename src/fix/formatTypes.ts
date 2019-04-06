@@ -1,5 +1,5 @@
 import { getEnumKeys } from '../misc'
-import { FixOptions } from '../fix';
+import { FixOptions } from '../fix'
 export interface FormatCodeSettings {
   ensureNewLineAtEndOfFile: boolean
   readonly insertSpaceAfterCommaDelimiter?: boolean

@@ -1,10 +1,8 @@
 import { FIX, Fix, FixOptions } from '../fix'
 import { simpleFixConstructor } from './simpleFixConstructor'
-import { FixWithFormatCodeSettingOptions } from './formatTypes';
+import { FixWithFormatCodeSettingOptions } from './formatTypes'
 
-interface OrganizeImportsOptions extends FixWithFormatCodeSettingOptions {
-  
-}
+interface OrganizeImportsOptions extends FixWithFormatCodeSettingOptions {}
 
 export const organizeImportsFix: Fix<OrganizeImportsOptions> = {
   ...simpleFixConstructor({

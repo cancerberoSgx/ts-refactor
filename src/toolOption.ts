@@ -8,11 +8,6 @@ export interface ParsedArgs {
   toolOptions: ToolOptions
 }
 
-// export interface Options {
-//   fix: FIX
-//   inputFiles: string[]
-// }
-
 export interface ToolOptions {
   /**
    * Make sure there are no interactions (useful for CI - automated scripts)

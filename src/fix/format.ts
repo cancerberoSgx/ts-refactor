@@ -1,10 +1,8 @@
 import { FIX, Fix, FixOptions } from '../fix'
 import { simpleFixConstructor } from './simpleFixConstructor'
-import { FormatCodeSettings, FixWithFormatCodeSettingOptions } from './formatTypes';
+import { FormatCodeSettings, FixWithFormatCodeSettingOptions } from './formatTypes'
 
-interface FormatOptions extends FixWithFormatCodeSettingOptions {
-  
-}
+interface FormatOptions extends FixWithFormatCodeSettingOptions {}
 
 export const formatFix: Fix<FormatOptions> = {
   ...simpleFixConstructor({
@@ -15,7 +13,8 @@ export const formatFix: Fix<FormatOptions> = {
   name: FIX.format,
   description: `
 It will execute the TypeScript compiler formatter on each of given source files. 
-If a directory is provided then it will format all its descendant files. `,
+If a directory is provided then it will format all its descendant files. 
+`,
   selectFilesMessage() {
     return 'Select files/folders to format'
   },

@@ -43,7 +43,7 @@ export async function inquireMissing(
         .find(fileInOptions => match(f.name, fileInOptions, { dot: true, matchBase: true }))
     )
   } else {
-    inputFileRepresentations = await inquireFiles(allFiles, fix, project)
+    inputFileRepresentations = await inquireFiles(allFiles, fix, { project, inputFiles: [], options })
   }
   options.toolOptions &&
     options.toolOptions.debug &&
@@ -53,7 +53,8 @@ export async function inquireMissing(
         inputFileRepresentations,
         {
           inputFiles: [],
-          project
+          project,
+          options
         },
         options
       )
@@ -64,7 +65,8 @@ export async function inquireMissing(
   let outputOptions: FixOptions & { fixName: FIX } = {
     fixName,
     inputFiles,
-    project
+    project,
+    options
   }
   if (fix.inquireOptions) {
     const extraOptions = await fix.inquireOptions(outputOptions, options)

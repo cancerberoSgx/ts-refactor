@@ -24,7 +24,8 @@ describe('organizeImports', () => {
     ).toContain(`import { c } from './file1'`)
     const result = organizeImportsFix.fn({
       project,
-      inputFiles: project.getSourceFiles().filter(f => (files ? files.find(f2 => f.getFilePath().endsWith(f2)) : true))
+      inputFiles: project.getSourceFiles().filter(f => (files ? files.find(f2 => f.getFilePath().endsWith(f2)) : true)),
+      options: {}
     })
     return {
       result,

@@ -65,6 +65,8 @@ export interface FixOptions {
   // fixName: FIX
   project: Project
   inputFiles: (SourceFile | Directory)[]
+  // allFiles?: string[]
+  options: Partial<ParsedArgs>
   // nodes?: Node[]
 }
 
