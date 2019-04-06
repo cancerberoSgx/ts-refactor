@@ -1,9 +1,10 @@
-import { FIX, FixResult, File } from '../fix'
+import { FIX, FixResult, File, FixOptions } from '../fix'
 import { getFileRelativePath, isSourceFile, getFilePath, getFileFromRelativePath } from '../project'
-import { Node, ClassDeclaration, InterfaceDeclaration, EnumDeclaration, TypeAliasDeclaration, FunctionDeclaration } from 'ts-morph';
+import Project, { Node, ClassDeclaration, InterfaceDeclaration, EnumDeclaration, TypeAliasDeclaration, FunctionDeclaration } from 'ts-morph';
 import {prompt} from 'inquirer'
 import { moveDeclaration } from 'ts-simple-ast-extra';
 import { DestFileFixOptions, DestFileFix } from './DestinationFileFix';
+import { uiLog } from '../cli/inquire/inquireLogger';
 
 interface MoveDeclarationOptions extends DestFileFixOptions {
   declaration: Declaration
@@ -18,6 +19,8 @@ type Declaration = // TODO: upgrade ts-simple-ast-extra and import this type
 
 class MoveDeclaration extends DestFileFix<MoveDeclarationOptions> {
 
+name= FIX.moveDeclaration
+
   description= `
 It will move given top-level declaration to another file. These are some consequences that you might consider:
  * imports that reference the declaration in other files will be updated to point to its new file.
@@ -26,6 +29,7 @@ It will move given top-level declaration to another file. These are some consequ
  * The moved declaration might be renamed with a similar name if there's already a declaration with that name in the destination file.
 WARNING: this is a complex refactor operation with and some edge cases could result on incorrect transformations. Please verify the changes and/or backup your files before saving the changes. 
  `
+
  destinationSuggestOnly = false
  
  _selectFilesMessage= 'Select the file containing the declaration to move'
@@ -34,7 +38,7 @@ WARNING: this is a complex refactor operation with and some edge cases could res
     const superOptions = await super.inquireOptions(options)
     const file = options.inputFiles.find(isSourceFile)
     if(!file){
-      throw 'No SourceFile was given as input file'
+      throw new Error('No SourceFile was given as input file')
     }
     const declarations: Declaration[] = (file.getClasses() as Declaration[]).concat(file.getInterfaces() as Declaration[]).concat(file.getEnums() as Declaration[]).concat(file.getFunctions() as Declaration[])
     const thisOptions = await prompt<{ declaration: Declaration }>([
@@ -47,9 +51,8 @@ WARNING: this is a complex refactor operation with and some edge cases could res
         }))
       }
     ])
-    // const superOptions = await super.inquireOptions(options)
     Object.assign(options, superOptions, thisOptions)
-    return { ...superOptions, thisOptions }
+    return { ...options, ...superOptions, ...thisOptions }
   }
 
   verifyInputFiles(files: File[], options: MoveDeclarationOptions) {
@@ -64,58 +67,26 @@ WARNING: this is a complex refactor operation with and some edge cases could res
     else {
       return `"${input}" file doesn't exist in project`
     }
-    return true
   }
+
   protected getDestinationFileMessage(options: MoveDeclarationOptions): string | ((answers: { destPath: string; }) => string) | undefined {
     return 'Select the file where to move the declaration'
   }
 
+  fn(options: MoveDeclarationOptions) {
+    const target = options.project.getSourceFile(options.destPath)
+    if(!target||!isSourceFile(target)){
+      throw new Error('Destination is not a source file: '+options.destPath + ' - '+options.project.getSourceFiles().map(f=>f.getFilePath()).join(', '))
+    }
+    moveDeclaration({declaration: options.declaration, target})
+    return this.buildDummyFixResult(options)
+  }
 
+  /** built dummy result with modified files after the operation is executed. */
+  protected buildDummyFixResult(options: FixOptions) {
+      return {files: options.project.getSourceFiles().filter(f=>!f.isSaved()).map(f=>({name: getFileRelativePath(f, options.project), time: 0}))
+        }
+    }
 }
 
-export const moveDeclarationFix = new MoveDeclaration({
-  action(options: MoveDeclarationOptions) {
-    moveDeclaration({declaration: options.declaration,
-      target: options.file})
-  },
-  name: FIX.moveDeclaration,
-})
-
-
-// function moveDeclaration(options: MoveDeclarationOptions) {
-//   const { project } = options
-//   const result: FixResult = { files: [] }
-//   if (options.inputFiles.length === 0) {
-//     throw 'No files or folder given'
-//   }
-//   const destPathIsFile = options.destPath.lastIndexOf('.') > options.destPath.lastIndexOf('/')
-//   let dir = project.getDirectory(options.destPath)
-//   const sourceFile = project.getSourceFile(options.destPath)
-//   if (sourceFile) {
-//     throw `A source file with path ${options.destPath} already exists. Refusing to move something at that location. `
-//   } else if ((!dir && destPathIsFile && options.inputFiles.length !== 1) || !isSourceFile(options.inputFiles[0])) {
-//     throw `Refusing to a folder or move several files to a destination path that looks like a file (${
-//       options.destPath
-//     } has an extension)`
-//   } else if ((!dir && destPathIsFile) || (options.inputFiles.length === 1 && !isSourceFile(options.inputFiles[0]))) {
-//     const t0 = Date.now()
-//     const oldPath = getFileRelativePath(options.inputFiles[0]!, project)
-//     const newFile = options.inputFiles[0].move(options.destPath, { overwrite: false })
-//     result.files.push({ name: getFileRelativePath(newFile, project), time: Date.now() - t0 })
-//     result.files.push({ name: oldPath, time: Date.now() - t0 })
-//   } else {
-//     if (!dir) {
-//       const t0 = Date.now()
-//       dir = project.createDirectory(options.destPath)
-//       result.files.push({ name: getFileRelativePath(dir, project), time: Date.now() - t0 })
-//     }
-//     options.inputFiles.forEach(file => {
-//       const t0 = Date.now()
-//       file.moveToDirectory(dir!)
-//       result.files.push({ name: getFileRelativePath(file, project), time: Date.now() - t0 })
-//     })
-//   }
-//   return result
-// }
-
-
+export const moveDeclarationFix = new MoveDeclaration(

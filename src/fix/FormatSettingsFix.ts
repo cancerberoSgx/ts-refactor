@@ -1,7 +1,7 @@
 import { prompt } from 'inquirer'
 import { SourceFile } from 'ts-morph'
 import { inquireFormatCodeSettings } from '../cli/inquire/inquireFormatCodeSettings'
-import { FIX, FixOptions, FixResult, File } from '.'
+import { FIX, FixOptions, FixResult, File } from '../fix'
 import { getFileRelativePath, isSourceFile } from '../project'
 import { FixWithFormatCodeSettingOptions, FormatCodeSettings } from './formatTypes'
 
@@ -16,15 +16,19 @@ export interface SimpleFixConstructorOptions<T extends SimpleFixOptions> {
 }
 
 export class SimpleFix<T extends SimpleFixOptions> {
-  name: FIX
+
+  name: FIX=FIX.arrowFunction
+
   description: string = 'TODO: document me!'
+
   _selectFilesMessage: string =  'Select input files or folders'
 
-  constructor(protected constructorOptions: SimpleFixConstructorOptions<T>) {
+  constructor(protected constructorOptions?: SimpleFixConstructorOptions<T>) {
+   if(constructorOptions){
     this.name = constructorOptions.name
     this.description = this.description||constructorOptions.description ||'TODO: document me!'
     this._selectFilesMessage = this._selectFilesMessage||constructorOptions.selectFilesMessage||'Select input files or folders'
-    // this.fn = constructorOptions.action || this.fn
+   } 
     this.fn = this.fn.bind(this)
     this.inquireOptions = this.inquireOptions.bind(this)
     this.selectFilesMessage = this.selectFilesMessage.bind(this)
@@ -36,11 +40,13 @@ export class SimpleFix<T extends SimpleFixOptions> {
   }
 
   verifyInputFiles(files: File[], options: T): string|undefined{
-    // return JSON.stringify(files)
     return files.length === 0 ? 'At least one input file or folder is required' : undefined
   }
 
   fn(options: T) {
+    if(! this.constructorOptions){
+      throw 'For calling base fn() implementation you must provide  this.constructorOptions'
+    }
     const { project } = options
     const result: FixResult = { files: [] }
     const inputFiles = options.inputFiles
@@ -50,7 +56,7 @@ export class SimpleFix<T extends SimpleFixOptions> {
     inputFiles.forEach(file => {
       const t0 = Date.now()
       if (isSourceFile(file)) {
-        this.constructorOptions.action({ ...options, file })
+        this.constructorOptions!.action && this.constructorOptions!.action({ ...options, file })
         result.files.push({
           name: getFileRelativePath(file, project),
           time: Date.now() - t0
@@ -62,12 +68,13 @@ export class SimpleFix<T extends SimpleFixOptions> {
     return result
   }
 
-  async inquireOptions(options: FixWithFormatCodeSettingOptions): Promise<any> {
+  async inquireOptions(options: FixWithFormatCodeSettingOptions): Promise<FixWithFormatCodeSettingOptions> {
     return await this.inquireFormatCodeSettings(options)
   }
-  protected async inquireFormatCodeSettings(options: FixWithFormatCodeSettingOptions): Promise<{formatCodeSettings: FormatCodeSettings}> {
+
+  protected async inquireFormatCodeSettings(options: FixWithFormatCodeSettingOptions): Promise<FixWithFormatCodeSettingOptions> {
     if (options.options.toolOptions && options.options.toolOptions.dontAsk) {
-      return {formatCodeSettings: {}}
+      return {...options, formatCodeSettings: {}}
     }
     const { configureFormatCodeSettings } = await prompt<{ configureFormatCodeSettings: boolean }>([
       {
@@ -80,8 +87,8 @@ export class SimpleFix<T extends SimpleFixOptions> {
     if (configureFormatCodeSettings) {
       const formatCodeSettings = await inquireFormatCodeSettings(options)
       options = { ...options, formatCodeSettings: { ...options.formatCodeSettings, ...formatCodeSettings } }
-      return {formatCodeSettings}
+      return {...options, formatCodeSettings}
     }
-    return {formatCodeSettings: {}}
+    return {...options, formatCodeSettings: {}}
   }
 }

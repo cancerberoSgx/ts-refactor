@@ -10,21 +10,25 @@ export interface DestFileFixOptions extends SimpleFixOptions {
 }
 
 export class DestFileFix<T extends DestFileFixOptions> extends SimpleFix<T> {
+  
   protected  destinationSuggestOnly = true
+
   async inquireOptions(options: FixWithFormatCodeSettingOptions) {
-    await super.inquireOptions(options)
+    const superOptions = await super.inquireOptions(options)
     // if there is any non existing file or the last input file is a directory then we assume that's our destination file
-    return this.inquireDestinationFile(options)
+    const thisOptions =  await this.inquireDestinationFile(options)
+    return {...options, ...superOptions, ...thisOptions}
   }
+
 protected async inquireDestinationFile(options: FixWithFormatCodeSettingOptions): Promise<{destPath: string}> {
   const destinations = (options.options.files || []).filter(f => !getFileFromRelativePath(f, options.project))
   if (destinations.length) {
     return { destPath: getAbsolutePath(destinations.find(f => !isSourceFile(f)) || destinations[0], options.project) }
   } else {
-    const { file } = await prompt<{ destPath: string }>([
+    const { destPath } = await prompt<{ destPath: string }>([
       {
         type: 'autocomplete',
-        name: 'file',
+        name: 'destPath',
         message: this.getDestinationFileMessage(options),
         // @ts-ignore
         suggestOnly: this.destinationSuggestOnly,
@@ -33,9 +37,10 @@ protected async inquireDestinationFile(options: FixWithFormatCodeSettingOptions)
         source : (answersSoFar, input: string)=>this.getDestinationPathSource(answersSoFar, input, options)
       }
     ])
-    return { destPath: getAbsolutePath(file, options.project) }
+    return { ...options, destPath  }
   }
   }
+
   protected validateDestinationFile(options: FixWithFormatCodeSettingOptions, input: string){
     const file = getFileFromRelativePath(input, options.project)
     if (file) {
@@ -45,9 +50,11 @@ protected async inquireDestinationFile(options: FixWithFormatCodeSettingOptions)
     }
     return true
   }
+
   protected getDestinationFileMessage(options: FixWithFormatCodeSettingOptions): string | ((answers: { destPath: string; }) => string) | undefined {
     return 'Select the destination path'
   }
+
   protected getDestinationPathSource(answersSoFar: any, input: string, options: FixWithFormatCodeSettingOptions): Promise<{name: string, value: string}[]>{
     return Promise.resolve([
       ...options.project.getSourceFiles()
