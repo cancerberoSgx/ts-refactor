@@ -21,7 +21,6 @@ describe('removeUnused codeFix', () => {
   afterAll(async done => {
     await client.destroy().catch()
     helper = null as any
-    rm('-r', 'tmp')
     done()
   })
 
@@ -84,6 +83,33 @@ describe('removeUnused codeFix', () => {
     )
     await helper.expectLastExitCode(true)
     expect(removeWhites(cat('tmp/project1/src/test.ts').toString())).toBe(removeWhites(`export const c = 1`))
+    done()
+  })
+  it('should accept globs', async done => {
+    expect(removeWhites(cat('tmp/project1/src/test.ts').toString())).toBe(removeWhites(`var a = 1 export const c = 1`))
+    expect(removeWhites(cat('tmp/project1/src/second_test.ts').toString())).toBe(
+      removeWhites(`
+      export function foo(c: string) {
+        var a = 1
+        var b = 2
+        return a
+      }      
+      `)
+    )
+    await client.enterAndWaitForData(
+      'npx ts-node src/cli/cliMain.ts removeUnused "./src/**/*test.ts" --tsConfigPath tmp/project1/tsconfig.json --dontAsk',
+      'Finished writing (2) files.'
+    )
+    await helper.expectLastExitCode(true)
+    expect(removeWhites(cat('tmp/project1/src/test.ts').toString())).toBe(removeWhites(`export const c = 1`))
+    expect(removeWhites(cat('tmp/project1/src/second_test.ts').toString())).toBe(
+      removeWhites(`
+      export function foo() {
+        var a = 1
+        return a
+      }
+      `)
+    )
     done()
   })
 })

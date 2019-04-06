@@ -94,5 +94,8 @@ describe('CLI', () => {
     xit('fixes have a help option', async done => {
       done()
     })
+    xit('should show diff of changes before confirm', async done => {
+      done()
+    })
   })
 })
