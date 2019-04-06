@@ -14,7 +14,7 @@ export enum FIX {
   moveDeclaration = 'moveDeclaration',
   rename = 'rename',
   parametersToDestructuredObject = 'parametersToDestructuredObject',
-  stringLiteralTemplate = 'stringLiteralTemplate',
+  stringConcatenationToTemplate = 'stringConcatenationToTemplate',
   removeComments = 'removeComments',
   arrowFunction = 'arrowFunction',
   stringTemplate = 'stringTemplate',

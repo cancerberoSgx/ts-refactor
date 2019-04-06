@@ -27,8 +27,12 @@ export class Helper {
   async focusFile(client: Driver, codeFix: string) {
     return this.arrowUntilFocused(client, codeFix, s => s.includes(` ❯◯ ${codeFix}`) || s.includes(` ❯◉ ${codeFix}`))
   }
-  async focusCodeFix(client: Driver, codeFix: string) {
-    return this.arrowUntilFocused(client, codeFix, s => s.includes(`❯ ${codeFix}`))
+  async focusListItem(client: Driver, label: string) {
+    return this.arrowUntilFocused(client, label, s => s.includes(`❯ ${label}`))
+  }
+
+  async focusCheckboxListItem(client: Driver, label: string) {
+    return this.arrowUntilFocused(client, label, s => s.includes(`❯◯ ${label}`))
   }
   async arrowUntilFocused(
     client: Driver,

@@ -3,6 +3,7 @@ import { formatFix } from './fix/format'
 import { moveFileFix } from './fix/moveFile'
 import { organizeImportsFix } from './fix/organizeImports'
 import { removeUnusedFix } from './fix/removeUnused'
+import { stringConcatenationToTemplateFix } from './fix/stringConcatenationToTemplate'
 
 const fixes: Fix<FixOptions>[] = []
 
@@ -22,3 +23,4 @@ registerFix(organizeImportsFix)
 registerFix(moveFileFix)
 registerFix(formatFix)
 registerFix(removeUnusedFix)
+registerFix(stringConcatenationToTemplateFix)
