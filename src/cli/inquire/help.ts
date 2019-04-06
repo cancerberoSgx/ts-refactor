@@ -1,8 +1,11 @@
-import { ansi } from 'cli-driver'
+// import { ansi } from 'cli-driver'
+import *  as ansi from 'ansi-escape-sequences'
 import { prompt } from 'inquirer'
 import { FIX } from '../../fix'
 import { getFixes } from '../../fixes'
 import { ToolOptionName } from '../../toolOption'
+import { uiLog } from './inquireLogger';
+import { less } from '../lessPrompt';
 
 const ansiEscapes = require('ansi-escapes')
 
@@ -15,13 +18,15 @@ function code(s: string) {
 function helpIntro() {
   return ansi.format(
     `${ansiEscapes.clearTerminal}${ansi.format('Code Fixes Introduction', ['underline', 'bold', 'blue'])}
- 
+
+  
 These tools can refactor your TypeScript code in several ways. Although some might only affect a single file, they are applied in the context of a project which is given by ${code(
       './tsconfig.json'
     )} or the ${code(
       '--' + ToolOptionName.tsConfigPath
     )} argument. We can divide the kind of fixes in three or four families:
  
+    
   * ${ansi.format('Organizational Fix', ['underline'])}, like ${fix(FIX.organizeImports)}, ${fix(
       FIX.removeUnused
     )}, ${fix(
@@ -32,6 +37,7 @@ These tools can refactor your TypeScript code in several ways. Although some mig
       FIX.arrowFunction
     )} which will change all string concatenations with string templates or all function declarations to arrow functions, and both vice versa, respectively. These might imply lots of text changes, but in general they are safe to apply and the code semantics will remain more or less the same.
  
+    
   * ${ansi.format('Problem Fix', ['underline'])}, like ${fix(FIX.missingImports)}, ${fix(
       FIX.implementInterface
     )}, ${fix(FIX.inferFromUsage)}, ${fix(
@@ -42,6 +48,7 @@ These tools can refactor your TypeScript code in several ways. Although some mig
       FIX.implementInterface
     )} applies to the error "Class 'C' incorrectly implements interface 'I'.", etc.
  
+    
   * ${ansi.format('Refactor Fix', ['underline'])}, like ${fix(FIX.moveFile)}, ${fix(FIX.moveDeclaration)} or ${fix(
       FIX.rename
     )} that have direct impact on the code's structure and semantics, possibly affecting many files. For example, ${fix(
@@ -134,36 +141,47 @@ export async function handleHelpAndExit(answers: { fix: FIX | '__exit__' | '__he
         { name: 'Fix Descriptions', value: 'fixes' }
       ]
     })
-
     if (section === 'intro') {
-      await prompt([
-        {
-          name: 'help',
-          message: 'Go back',
-          type: 'confirm',
-          prefix: helpIntro()
-        }
-      ])
+      await less({text: helpIntro()})
     }
     if (section === 'general') {
-      await prompt([
-        {
-          name: 'help',
-          message: 'Go back',
-          type: 'confirm',
-          prefix: helpGeneralRules()
-        }
-      ])
+      // await  prompt([
+      //   {
+      //     name: 'help',
+      //     message: 'Go back222222',
+      //     type: 'confirm',
+      //     suffix: helpGeneralRules(),
+      //     prefix: helpGeneralRules()
+      //   }
+      // ])
+      await less({text: helpGeneralRules()})
+
+
+      // debugger
+      // p.ui.rl.terminal
+      // //@ts-ignore
+      // const pr = p.ui.activePrompt as any
+      // const oldOnDownKey = pr.onDownKey
+      // pr.onDownKey = function(){
+      //   uiLog('asjjdasjhasdjkhadsjhkadsjh', 1000)
+      // }
+      // pr.onUpKey = function(){
+      //   uiLog('hshuuuuuuuuuuasjjdasjhasdjkhadsjhkadsjh', 1000)
+      // }
+      
+      // await p 
     }
     if (section === 'fixes') {
-      await prompt([
-        {
-          name: 'help',
-          message: 'Go back',
-          type: 'confirm',
-          prefix: helpFixes()
-        }
-      ])
+      await less({text: helpFixes()})
+
+      // await prompt([
+      //   {
+      //     name: 'help',
+      //     message: 'Go back',
+      //     type: 'confirm',
+      //     prefix: helpFixes()
+      //   }
+      // ])
     }
   }
 }

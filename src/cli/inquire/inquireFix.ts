@@ -1,4 +1,4 @@
-import { prompt } from 'inquirer'
+import { prompt, Separator } from 'inquirer'
 import { FIX, fixNames } from '../../fix'
 import { handleHelpAndExit } from './help'
 
@@ -9,14 +9,14 @@ export async function inquireFix(): Promise<FIX | '__help__' | '__exit__'> {
       name: 'fix',
       type: 'list',
       message: 'Select a code fix',
-      choices: [{ name: 'Help', value: '__help__' }]
+      choices: [{ name: 'Help', value: '__help__' }, new Separator() as any]
         .concat(
           fixNames.map(c => ({
             name: c,
             value: c
           }))
         )
-        .concat([{ name: 'Exit', value: '__exit__' }])
+        .concat([new Separator() as any, { name: 'Exit', value: '__exit__' }])
     })) &&
     ['__help__', '__exit__'].includes(answers.fix)
   ) {
