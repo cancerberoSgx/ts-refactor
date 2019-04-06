@@ -1,9 +1,9 @@
 import { prompt } from 'inquirer'
 import { SourceFile } from 'ts-morph'
-import { inquireFormatCodeSettings } from '../cli/inquire/inquireFormatCodeSettings'
-import { FIX, FixOptions, FixResult, File } from '../fix'
-import { getFileRelativePath, isSourceFile } from '../project'
-import { FixWithFormatCodeSettingOptions, FormatCodeSettings } from './formatTypes'
+import { inquireFormatCodeSettings } from '../../cli/inquire/inquireFormatCodeSettings'
+import { FIX, FixOptions, FixResult, File } from '../../fix'
+import { getFileRelativePath, isSourceFile } from '../../project'
+import { FixWithFormatCodeSettingOptions, FormatCodeSettings } from '../formatTypes'
 
 export interface SimpleFixOptions extends FixOptions {
   file: SourceFile
@@ -15,18 +15,26 @@ export interface SimpleFixConstructorOptions<T extends SimpleFixOptions> {
   selectFilesMessage?: string
 }
 
-export class SimpleFix<T extends SimpleFixOptions> {
+/**
+ * A very simple fix that supports format code settings as options (since most refactors will optionally use them.). it has a shortcut for fn() -
+ * that subclasses that execute a transformation file per file can use by passing {action} as constructor option.
+ *
+ * Also they can pass the rest of the info so they don't have to subclass this and just instantiate.
+ *
+ * See organizeImports, format. See stringConcatenationToTemplate for an example sub classing this to add a new option.
+ */
+export class FormatSettingsFix<T extends SimpleFixOptions> {
   name: FIX = FIX.arrowFunction
 
   description: string = 'TODO: document me!'
 
   _selectFilesMessage: string = 'Select input files or folders'
 
-  constructor(protected constructorOptions?: SimpleFixConstructorOptions<T>) {
-    if (constructorOptions) {
-      this.name = constructorOptions.name
-      this.description = constructorOptions.description || 'TODO: document me!'
-      this._selectFilesMessage = constructorOptions.selectFilesMessage || 'Select input files or folders'
+  constructor(protected options?: SimpleFixConstructorOptions<T>) {
+    if (options) {
+      this.name = options.name
+      this.description = options.description || 'TODO: document me!'
+      this._selectFilesMessage = options.selectFilesMessage || 'Select input files or folders'
     }
     this.fn = this.fn.bind(this)
     this.inquireOptions = this.inquireOptions.bind(this)
@@ -43,7 +51,7 @@ export class SimpleFix<T extends SimpleFixOptions> {
   }
 
   fn(options: T) {
-    if (!this.constructorOptions) {
+    if (!this.options) {
       throw 'For calling base fn() implementation you must provide  this.constructorOptions'
     }
     const { project } = options
@@ -55,7 +63,7 @@ export class SimpleFix<T extends SimpleFixOptions> {
     inputFiles.forEach(file => {
       const t0 = Date.now()
       if (isSourceFile(file)) {
-        this.constructorOptions!.action && this.constructorOptions!.action({ ...options, file })
+        this.options!.action && this.options!.action({ ...options, file })
         result.files.push({
           name: getFileRelativePath(file, project),
           time: Date.now() - t0

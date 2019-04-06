@@ -10,7 +10,7 @@ import Project, {
 } from 'ts-morph'
 import { prompt } from 'inquirer'
 import { moveDeclaration } from 'ts-simple-ast-extra'
-import { DestFileFixOptions, DestFileFix } from './DestinationFileFix'
+import { DestFileFixOptions, DestFileFix } from './abstract/destinationFileFix'
 import { uiLog } from '../cli/inquire/inquireLogger'
 
 interface MoveDeclarationOptions extends DestFileFixOptions {
@@ -36,7 +36,7 @@ It will move given top-level declaration to another file. These are some consequ
 WARNING: this is a complex refactor operation with and some edge cases could result on incorrect transformations. Please verify the changes and/or backup your files before saving the changes. 
  `
 
-  destinationSuggestOnly = false
+  destinationMode: 'mustNotExist' | 'mustExist' | 'mustExistFile' = 'mustExistFile'
 
   _selectFilesMessage = 'Select the file containing the declaration to move'
 
@@ -70,40 +70,41 @@ WARNING: this is a complex refactor operation with and some edge cases could res
 
   verifyInputFiles(files: File[], options: MoveDeclarationOptions) {
     return files.length !== 1 || files[0].isFolder
-      ? `You can only select one file (not directory) to move the declaration to (files==${JSON.stringify(
-          files
-        )}, files.length==${files.length} && files[0].isFolder===${files[0] && files[0].isFolder})`
+      ? `You can only select one file (not directory) to select the declaration to move from. Given: files.length==${
+          files.length
+        } && files[0].isFolder===${files[0] && files[0].isFolder})`
       : undefined
   }
 
-  protected validateDestinationFile(options: MoveDeclarationOptions, input: string) {
-    const file = getFileFromRelativePath(input, options.project)
-    if (file && !isSourceFile(file)) {
-      return `"${input}" is not a source file, make sure you choose a file and not a folder`
-    } else {
-      return `"${input}" file doesn't exist in project`
-    }
-  }
+  // protected validateDestinationFile(options: MoveDeclarationOptions, input: string) {
+  //   const file = getFileFromRelativePath(input, options.project)
+  //   if (file && !isSourceFile(file)) {
+  //     return `"${input}" is not a source file, make sure you choose a file and not a folder`
+  //   } else if(!file){
+  //     return `"${input}" file doesn't exist in project`
+  //   }
+  //   return true
+  // }
 
   protected getDestinationFileMessage(
     options: MoveDeclarationOptions
   ): string | ((answers: { destPath: string }) => string) | undefined {
-    return 'Select the file where to move the declaration'
+    return 'Select the file you want to move the declaration to'
   }
 
   fn(options: MoveDeclarationOptions) {
-    const target = options.project.getSourceFile(options.destPath)
-    if (!target || !isSourceFile(target)) {
-      throw new Error(
-        'Destination is not a source file: ' +
-          options.destPath +
-          ' - ' +
-          options.project
-            .getSourceFiles()
-            .map(f => f.getFilePath())
-            .join(', ')
-      )
-    }
+    const target = options.project.getSourceFile(options.destPath)!
+    // if (!target || !isSourceFile(target)) {
+    //   throw new Error(
+    //     'Destination is not a source file: ' +
+    //       options.destPath +
+    //       ' - ' +
+    //       options.project
+    //         .getSourceFiles()
+    //         .map(f => f.getFilePath())
+    //         .join(', ')
+    //   )
+    // }
     moveDeclaration({ declaration: options.declaration, target })
     return this.buildDummyFixResult(options)
   }

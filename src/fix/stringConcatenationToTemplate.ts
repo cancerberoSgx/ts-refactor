@@ -1,5 +1,5 @@
 import { FIX } from '../fix'
-import { SimpleFix, SimpleFixOptions } from './FormatSettingsFix'
+import { FormatSettingsFix, SimpleFixOptions } from './abstract/formatSettingsFix'
 import { prompt } from 'inquirer'
 import { stringConcatenationsToTemplateExpressions, templatesToStringConcatenations } from 'ts-simple-ast-extra'
 
@@ -7,7 +7,7 @@ interface Options extends SimpleFixOptions {
   mode: 'stringConcatenationToTemplate' | 'templateToStringConcatenation'
 }
 // TODO: support format code settings for quotes.
-class StringConcatenationToTemplate extends SimpleFix<Options> {
+class StringConcatenationToTemplate extends FormatSettingsFix<Options> {
   async inquireOptions(options) {
     const superOptions = await super.inquireOptions(options)
     const thisOptions = await prompt<{ mode: 'stringConcatenationToTemplate' | 'templateToStringConcatenation' }>([

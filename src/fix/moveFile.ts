@@ -1,6 +1,6 @@
 import { FIX, FixResult } from '../fix'
 import { getFileRelativePath, isSourceFile } from '../project'
-import { DestFileFix, DestFileFixOptions } from './DestinationFileFix'
+import { DestFileFix, DestFileFixOptions } from './abstract/destinationFileFix'
 
 function moveFile(options: DestFileFixOptions) {
   const { project } = options

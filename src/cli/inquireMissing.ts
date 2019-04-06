@@ -1,7 +1,7 @@
 import * as match from 'minimatch'
 import { Project } from 'ts-morph'
 import { File, FIX, FixOptions } from '../fix'
-import { getFix } from '../fixes'
+import { getFix } from '../fix/fixes'
 import { notUndefined } from '../misc'
 import { getFilePath, getFileRelativePath } from '../project'
 import { ParsedArgs } from '../toolOption'

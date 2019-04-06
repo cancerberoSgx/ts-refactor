@@ -1,10 +1,10 @@
-import { Fix, FIX, FixOptions } from './fix'
-import { formatFix } from './fix/format'
-import { moveFileFix } from './fix/moveFile'
-import { organizeImportsFix } from './fix/organizeImports'
-import { removeUnusedFix } from './fix/removeUnused'
-import { stringConcatenationToTemplateFix } from './fix/stringConcatenationToTemplate'
-import { moveDeclarationFix } from './fix/moveDeclaration'
+import { Fix, FIX, FixOptions } from '../fix'
+import { formatFix } from './format'
+import { moveFileFix } from './moveFile'
+import { organizeImportsFix } from './organizeImports'
+import { removeUnusedFix } from './removeUnused'
+import { stringConcatenationToTemplateFix } from './stringConcatenationToTemplate'
+import { moveDeclarationFix } from './moveDeclaration'
 
 const fixes: Fix<FixOptions>[] = []
 

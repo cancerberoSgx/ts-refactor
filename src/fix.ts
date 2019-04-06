@@ -28,7 +28,9 @@ export interface File {
   isFolder?: boolean
   path: string
 }
-
+/**
+ * Base interface for Fix implementations. There are some abstract Fix classes in fix/abstract that progresively add more features.
+ */
 export interface Fix<Options extends FixOptions = FixOptions, ThisFixOptions = any> {
   /**
    * The name of this fix.
@@ -62,12 +64,9 @@ export interface Fix<Options extends FixOptions = FixOptions, ThisFixOptions = a
 }
 
 export interface FixOptions {
-  // fixName: FIX
   project: Project
   inputFiles: (SourceFile | Directory)[]
-  // allFiles?: string[]
   options: Partial<ParsedArgs>
-  // nodes?: Node[]
 }
 
 export interface FixResult {

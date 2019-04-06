@@ -2,7 +2,7 @@
 import * as ansi from 'ansi-escape-sequences'
 import { prompt } from 'inquirer'
 import { FIX } from '../../fix'
-import { getFixes } from '../../fixes'
+import { getFixes } from '../../fix/fixes'
 import { ToolOptionName } from '../../toolOption'
 import { uiLog } from './inquireLogger'
 import { less } from '../lessPrompt'

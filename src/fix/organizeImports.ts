@@ -1,7 +1,7 @@
 import { FIX } from '../fix'
-import { SimpleFix } from './FormatSettingsFix'
+import { FormatSettingsFix } from './abstract/formatSettingsFix'
 
-export const organizeImportsFix = new SimpleFix({
+export const organizeImportsFix = new FormatSettingsFix({
   action(options) {
     options.file.organizeImports()
   },
