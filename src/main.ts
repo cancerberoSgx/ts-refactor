@@ -3,7 +3,7 @@ import { inquireMissing } from './cli/inquireMissing'
 import { getFix } from './fixes'
 import { buildProject, checkFilesInProject } from './project'
 import { ParsedArgs } from './toolOption'
-import { uiLog } from './cli/inquire/inquireLogger'
+import { uiLog, uiLogClose } from './cli/inquire/inquireLogger'
 import { showProjectDiff } from './cli/projectDiff'
 
 export async function main(args: Partial<ParsedArgs>) {
@@ -60,4 +60,5 @@ export async function main(args: Partial<ParsedArgs>) {
   } else {
     console.log('Skip writing files.')
   }
+  uiLogClose()
 }

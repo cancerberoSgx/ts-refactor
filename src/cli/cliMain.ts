@@ -34,9 +34,7 @@ Fixes:
   `)
 }
 
-cliMain()
-  .then(() => {})
-  .catch(error => {
-    console.error('Error: ' + error)
-    process.exit(1)
-  })
+cliMain().catch(error => {
+  console.error('Error: ' + error)
+  process.exit(1)
+})

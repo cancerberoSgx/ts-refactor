@@ -1,5 +1,5 @@
 import { Driver, ansi } from 'cli-driver'
-import { rm, cp, mkdir } from 'shelljs'
+import { rm, cp, mkdir, test } from 'shelljs'
 import { Helper } from './interactiionHelper'
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 12000
@@ -13,7 +13,6 @@ describe('CLI', () => {
     helper = new Helper(client)
     await client.start({
       notSilent: true
-      // waitUntilTimeout: 20000
     })
     rm('-r', 'tmp')
     mkdir('tmp')
@@ -57,7 +56,6 @@ describe('CLI', () => {
         await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts organizeImports', 'Select files')
       ).not.toContain(' ◯ src/file2.ts')
       await helper.controlC()
-      // await client.cleanData()
       expect(
         await client.enterAndWaitForData(
           'npx ts-node src/cli/cliMain.ts organizeImports --tsConfigPath tmp/project1/tsconfig.json',
@@ -94,30 +92,6 @@ describe('CLI', () => {
       done()
     })
     xit('fixes have a help option', async done => {
-      done()
-    })
-  })
-
-  describe('moveFile codeFix', () => {
-    it('should ask for fix and input files if no arguments is given', async done => {
-      await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts', 'Select a code fix')
-      await helper.focusCodeFix(client, 'moveFile')
-      await client.enterAndWaitForData('', 'Select files and folders to move')
-      await helper.controlC()
-      done()
-    })
-    it('should not ask for input files if there is an file argument', async done => {
-      await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts ./src/main.ts', 'Select a code fix')
-      await helper.focusCodeFix(client, 'moveFile')
-      await client.enterAndWaitForData('', 'Select the destination path')
-      await helper.controlC()
-      done()
-    })
-    it('should not ask for codeFix or input files if both are provided as arguments', async done => {
-      await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts ./src/main.ts', 'Select a code fix')
-      await helper.focusCodeFix(client, 'moveFile')
-      await client.enterAndWaitForData('', 'Select the destination path')
-      await helper.controlC()
       done()
     })
   })

@@ -39,6 +39,7 @@ export function getRelativePath(path: string, project: Project) {
 
 export function getFileFromRelativePath(path: string, project: Project) {
   const rootDir = project.getRootDirectories()[0]
+  path = path.startsWith('./') ? path.substring(2) : path
   return rootDir.getDirectory(path) || rootDir.getSourceFile(path)
 }
 

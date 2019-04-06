@@ -39,7 +39,8 @@ export enum ToolOptionName {
   help = 'help',
   dontAsk = 'dontAsk',
   tsConfigPath = 'tsConfigPath',
-  dontWrite = 'dontWrite'
+  dontWrite = 'dontWrite',
+  dontConfirm = 'dontConfirm'
 }
 
 export enum ToolOptionType {
@@ -52,7 +53,8 @@ export const toolOptionTypes = {
   [ToolOptionName.help]: ToolOptionType.boolean,
   [ToolOptionName.dontAsk]: ToolOptionType.boolean,
   [ToolOptionName.tsConfigPath]: ToolOptionType.string,
-  [ToolOptionName.dontWrite]: ToolOptionType.boolean
+  [ToolOptionName.dontWrite]: ToolOptionType.boolean,
+  [ToolOptionName.dontConfirm]: ToolOptionType.boolean
 }
 
 export const toolOptionNames = getEnumKeys(ToolOptionName)
