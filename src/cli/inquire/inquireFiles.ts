@@ -1,5 +1,4 @@
 import { prompt, registerPrompt } from 'inquirer'
-import { Project } from 'ts-morph'
 import { File, Fix, FixOptions } from '../../fix'
 
 registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'))

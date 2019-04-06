@@ -59,3 +59,4 @@ ts-refactor move declaration FooImpl src/foo/impl.ts src/bar/bar.ts
  * be able to load fix optoins from a .json file (format code settings)
  * apply more than one codefix by cli args: ts-refactor organizeImports,removeUnused ./src --dontConfirm
  * issue: go to help -> descriptions -> go back and select a fix : "Error: Sorry, the fix __help__ is not supported yet."
+ * --dontAsk

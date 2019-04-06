@@ -1,5 +1,5 @@
-import { FIX } from '../src/fix'
 import { parseArgs } from '../src/cli/parseArgs'
+import { FIX } from '../src/fix'
 
 describe('parseArgs', () => {
   it('should parse fix', () => {

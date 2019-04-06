@@ -1,7 +1,7 @@
-import { FIX, Fix, FixOptions } from '../fix'
-import { simpleFixConstructor } from './simpleFixConstructor'
-import { FixWithFormatCodeSettingOptions } from './formatTypes'
 import { removeAllUnused } from 'ts-simple-ast-extra'
+import { FIX, Fix } from '../fix'
+import { FixWithFormatCodeSettingOptions } from './formatTypes'
+import { simpleFixConstructor } from './simpleFixConstructor'
 
 interface RemoveUnusedOptions extends FixWithFormatCodeSettingOptions {}
 

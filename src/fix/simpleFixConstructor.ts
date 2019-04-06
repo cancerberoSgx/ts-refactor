@@ -4,7 +4,6 @@ import { inquireFormatCodeSettings } from '../cli/inquire/inquireFormatCodeSetti
 import { FixOptions, FixResult } from '../fix'
 import { getFileRelativePath, isSourceFile } from '../project'
 import { FixWithFormatCodeSettingOptions } from './formatTypes'
-// TODO: formatting options
 /**
  * builds a fix function suitable for simple fixes like organizeImports, format - that have similar parameters/semantics and make modifications file by file.
  */
@@ -32,6 +31,9 @@ export function simpleFixConstructor(constructorOptions: { action: (file: Source
       return result
     },
     async inquireOptions(options: FixWithFormatCodeSettingOptions) {
+      if (options.options.toolOptions && options.options.toolOptions.dontAsk) {
+        return
+      }
       const { configureFormatCodeSettings } = await prompt<{ configureFormatCodeSettings: boolean }>([
         {
           type: 'confirm',
@@ -43,7 +45,6 @@ export function simpleFixConstructor(constructorOptions: { action: (file: Source
       if (configureFormatCodeSettings) {
         const formatCodeSettings = await inquireFormatCodeSettings(options)
         options = { ...options, formatCodeSettings: { ...options.formatCodeSettings, ...formatCodeSettings } }
-        // console.log(answer)
       }
     }
   }

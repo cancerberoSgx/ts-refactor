@@ -1,6 +1,6 @@
-import { cp, rm, mkdir } from 'shelljs'
-import { buildProject } from '../src/project'
+import { cp, mkdir, rm } from 'shelljs'
 import { organizeImportsFix } from '../src/fix/organizeImports'
+import { buildProject } from '../src/project'
 
 describe('organizeImports', () => {
   const projectPath = 'tmp/organizeImports'

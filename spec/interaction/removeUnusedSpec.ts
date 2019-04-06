@@ -1,7 +1,7 @@
-import { Driver, ansi } from 'cli-driver'
-import { rm, cp, mkdir, test, cat } from 'shelljs'
-import { Helper } from './interactiionHelper'
+import { Driver } from 'cli-driver'
+import { cat, cp, mkdir, rm } from 'shelljs'
 import { removeWhites } from '../../src/misc'
+import { Helper } from './interactiionHelper'
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 12000
 
@@ -72,6 +72,16 @@ describe('removeUnused codeFix', () => {
       'Configure Format Code Settings?'
     )
     await client.enterAndWaitForData('', 'Finished writing (1) files.')
+    await helper.expectLastExitCode(true)
+    expect(removeWhites(cat('tmp/project1/src/test.ts').toString())).toBe(removeWhites(`export const c = 1`))
+    done()
+  })
+  it('should not ask for anything if fix, input files and --dontAsk are given', async done => {
+    expect(removeWhites(cat('tmp/project1/src/test.ts').toString())).toBe(removeWhites(`var a = 1 export const c = 1`))
+    await client.enterAndWaitForData(
+      'npx ts-node src/cli/cliMain.ts removeUnused ./src/test.ts --tsConfigPath tmp/project1/tsconfig.json --dontAsk',
+      'Finished writing (1) files.'
+    )
     await helper.expectLastExitCode(true)
     expect(removeWhites(cat('tmp/project1/src/test.ts').toString())).toBe(removeWhites(`export const c = 1`))
     done()

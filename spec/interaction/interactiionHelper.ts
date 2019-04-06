@@ -1,4 +1,4 @@
-import { Driver, ansi } from 'cli-driver'
+import { ansi, Driver } from 'cli-driver'
 
 export class Helper {
   constructor(protected client: Driver) {}

@@ -1,5 +1,5 @@
 import { prompt, registerPrompt } from 'inquirer'
-import { File, FixOptions } from '../../fix'
+import { FixOptions } from '../../fix'
 import { FormatCodeSettings, formatCodeSettingsNames } from '../../fix/formatTypes'
 // import { uiLog } from './inquireLogger'
 

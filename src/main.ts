@@ -1,10 +1,10 @@
 import { prompt } from 'inquirer'
+import { uiLog, uiLogClose } from './cli/inquire/inquireLogger'
 import { inquireMissing } from './cli/inquireMissing'
+import { showProjectDiff } from './cli/projectDiff'
 import { getFix } from './fixes'
 import { buildProject, checkFilesInProject } from './project'
 import { ParsedArgs } from './toolOption'
-import { uiLog, uiLogClose } from './cli/inquire/inquireLogger'
-import { showProjectDiff } from './cli/projectDiff'
 
 export async function main(args: Partial<ParsedArgs>) {
   const tsConfigFilePath = (args.toolOptions && args.toolOptions.tsConfigPath) || './tsconfig.json'
@@ -19,7 +19,7 @@ export async function main(args: Partial<ParsedArgs>) {
   }
   let confirmed = false
   if (!args.toolOptions || !args.toolOptions!.dontWrite) {
-    if (!args.toolOptions || !args.toolOptions!.dontConfirm) {
+    if (!args.toolOptions || (!args.toolOptions!.dontConfirm && !args.toolOptions!.dontAsk)) {
       const { proceed } = await prompt<{ proceed: 'continue' | 'cancel' | 'diff' }>([
         {
           type: 'list',
