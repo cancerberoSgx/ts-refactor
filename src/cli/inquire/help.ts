@@ -24,7 +24,7 @@ These tools can refactor your TypeScript code in several ways. Although some mig
     )} argument. We can divide the kind of fixes in three or four families:
  
   * ${ansi.format('Organizational Fix', ['underline'])}, like ${fix(FIX.organizeImports)}, ${fix(
-      FIX.unusedIdentifiers
+      FIX.removeUnused
     )}, ${fix(
       FIX.format
     )} don't have much impact in the code's structure or semantics and will just reorganize it somehow to apply best practices, code styles or change a code pattern with an equivalent one like ${fix(

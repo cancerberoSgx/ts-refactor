@@ -1,14 +1,12 @@
 import { prompt, registerPrompt } from 'inquirer'
 import { FIX, Fix, FixOptions, FixResult } from '../fix'
 import { getAbsolutePath, getFileFromRelativePath, getFilePath, getFileRelativePath, isSourceFile } from '../project'
-// import { uiLog } from '../cli/inquire/inquireLogger'
 
 interface MoveFileOptions extends FixOptions {
   destPath: string
 }
 
 function moveFile(options: MoveFileOptions) {
-  // const t0 = Date.now()
   const { project } = options
   const result: FixResult = { files: [] }
   if (options.inputFiles.length === 0) {
@@ -81,7 +79,6 @@ async function inquireOptions(options: MoveFileOptions) {
     ])
     return { destPath: getAbsolutePath(file, options.project) }
   }
-  // uiLog('shhshs'+options.inputFiles.map(f=>getFileRelativePath(f, options.project)).join(', '));
 }
 
 export const moveFileFix: Fix<MoveFileOptions, { destPath: string }> = {

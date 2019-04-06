@@ -1,5 +1,5 @@
 import { prompt } from 'inquirer'
-import { SourceFile } from 'ts-morph'
+import { Project, SourceFile } from 'ts-morph'
 import { inquireFormatCodeSettings } from '../cli/inquire/inquireFormatCodeSettings'
 import { FixOptions, FixResult } from '../fix'
 import { getFileRelativePath, isSourceFile } from '../project'
@@ -8,7 +8,7 @@ import { FixWithFormatCodeSettingOptions } from './formatTypes'
 /**
  * builds a fix function suitable for simple fixes like organizeImports, format - that have similar parameters/semantics and make modifications file by file.
  */
-export function simpleFixConstructor(constructorOptions: { action: (file: SourceFile) => void }) {
+export function simpleFixConstructor(constructorOptions: { action: (file: SourceFile, project: Project) => void }) {
   return {
     fn(options: FixOptions) {
       const { project } = options
@@ -20,7 +20,7 @@ export function simpleFixConstructor(constructorOptions: { action: (file: Source
       inputFiles.forEach(file => {
         const t0 = Date.now()
         if (isSourceFile(file)) {
-          constructorOptions.action(file)
+          constructorOptions.action(file, project)
           result.files.push({
             name: getFileRelativePath(file, project),
             time: Date.now() - t0

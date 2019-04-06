@@ -13,7 +13,6 @@ describe('moveFile codeFix', () => {
     helper = new Helper(client)
     await client.start({
       notSilent: true
-      // waitUntilTimeout: 20000
     })
     rm('-r', 'tmp')
     mkdir('tmp')
@@ -26,6 +25,12 @@ describe('moveFile codeFix', () => {
     helper = null as any
     rm('-r', 'tmp')
     done()
+  })
+
+  beforeEach(() => {
+    rm('-r', 'tmp')
+    mkdir('tmp')
+    cp('-r', 'spec/assets/project1', 'tmp')
   })
 
   it('should ask for fix and input files if no arguments is given', async done => {
@@ -43,16 +48,14 @@ describe('moveFile codeFix', () => {
     done()
   })
   it('should not ask for codeFix or input files if both are provided as arguments', async done => {
-    await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts ./src/main.ts', 'Select a code fix')
-    await helper.focusCodeFix(client, 'moveFile')
-    await client.enterAndWaitForData('', 'Select the destination path')
+    await client.enterAndWaitForData(
+      'npx ts-node src/cli/cliMain.ts moveFile ./src/main.ts',
+      'Select the destination path'
+    )
     await helper.controlC()
     done()
   })
   it('should ask only for confirmation if fix, input files and dest file is provided as arguments', async done => {
-    rm('-r', 'tmp')
-    mkdir('tmp')
-    cp('-r', 'spec/assets/project1', 'tmp')
     expect(test('-f', 'tmp/project1/src/newFile1.ts')).toBe(false)
     expect(test('-f', 'tmp/project1/src/file1.ts')).toBe(true)
     await client.enterAndWaitForData(
@@ -66,16 +69,12 @@ describe('moveFile codeFix', () => {
     done()
   })
   it('should not ask for anything if fix, input files and dest file is provided as arguments and --dontConfirm is passed', async done => {
-    rm('-r', 'tmp')
-    mkdir('tmp')
-    cp('-r', 'spec/assets/project1', 'tmp')
     expect(test('-f', 'tmp/project1/src/newFile1.ts')).toBe(false)
     expect(test('-f', 'tmp/project1/src/file1.ts')).toBe(true)
     await client.enterAndWaitForData(
       'npx ts-node src/cli/cliMain.ts moveFile ./src/file1.ts ./src/newFile1.ts --tsConfigPath tmp/project1/tsconfig.json --dontConfirm',
       'Finished writing (2) files.'
     )
-    // await client.enterAndWaitForData('', 'Finished writing (2) files.')
     await helper.expectLastExitCode(true)
     expect(test('-f', 'tmp/project1/src/newFile1.ts')).toBe(true)
     expect(test('-f', 'tmp/project1/src/file1.ts')).toBe(false)

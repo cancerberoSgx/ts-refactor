@@ -1,6 +1,6 @@
-import { FIX, Fix, FixOptions } from '../fix'
+import { FIX, Fix } from '../fix'
+import { FixWithFormatCodeSettingOptions } from './formatTypes'
 import { simpleFixConstructor } from './simpleFixConstructor'
-import { FormatCodeSettings, FixWithFormatCodeSettingOptions } from './formatTypes'
 
 interface FormatOptions extends FixWithFormatCodeSettingOptions {}
 

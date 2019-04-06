@@ -8,3 +8,7 @@ export function getEnumKeys(e: any) {
 export function notUndefined<T>(a: T): a is Exclude<T, undefined> {
   return typeof a !== 'undefined'
 }
+
+export function removeWhites(s: string, replaceWith = ' ') {
+  return s.replace(/\s+/gm, replaceWith).trim()
+}

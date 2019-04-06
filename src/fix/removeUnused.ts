@@ -1,26 +1,25 @@
 import { FIX, Fix, FixOptions } from '../fix'
 import { simpleFixConstructor } from './simpleFixConstructor'
 import { FixWithFormatCodeSettingOptions } from './formatTypes'
+import { removeAllUnused } from 'ts-simple-ast-extra'
 
-interface OrganizeImportsOptions extends FixWithFormatCodeSettingOptions {}
+interface RemoveUnusedOptions extends FixWithFormatCodeSettingOptions {}
 
-export const organizeImportsFix: Fix<OrganizeImportsOptions> = {
+export const removeUnusedFix: Fix<RemoveUnusedOptions> = {
   ...simpleFixConstructor({
-    action(file) {
-      file.organizeImports()
+    action(file, project) {
+      removeAllUnused(project, file)
     }
   }),
-  name: FIX.organizeImports,
+  name: FIX.removeUnused,
   description: `
-It will call "organize imports" TypeScript refactor on input files. 
+It will call "unused identifiers" TypeScript refactor on input files. 
 If any input file is a directory, then it will call the refactor on each of its descendants. 
-`,
+This code fix currently doesn't accept any option.`,
   selectFilesMessage() {
-    return 'Select files/folders in which organize imports'
+    return 'Select files/folders to remove unused identifiers from'
   },
   verifyInputFiles(files, options) {
-    // console.log(files);
-
     return files.length === 0 ? 'At least one input file or folder is required' : undefined
   }
 }

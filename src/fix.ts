@@ -7,7 +7,7 @@ export enum FIX {
   moveToANewFile = 'moveToANewFile',
   missingImports = 'missingImports',
   implementInterface = 'implementInterface',
-  unusedIdentifiers = 'unusedIdentifiers',
+  removeUnused = 'removeUnused',
   inferFromUsage = 'inferFromUsage',
   moveFile = 'moveFile',
   format = 'format',
