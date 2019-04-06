@@ -1,7 +1,7 @@
 import { prompt, registerPrompt } from 'inquirer'
-import { getFileRelativePath, isSourceFile, getFileFromRelativePath, getAbsolutePath, getFilePath } from '../project'
+import { getAbsolutePath, getFileFromRelativePath, getFilePath, getFileRelativePath, isSourceFile } from '../project'
 import { FixWithFormatCodeSettingOptions } from './formatTypes'
-import { SimpleFix, SimpleFixConstructorOptions, SimpleFixOptions } from './simpleFixConstructor'
+import { SimpleFix, SimpleFixOptions } from './simpleFixConstructor'
 
 registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 

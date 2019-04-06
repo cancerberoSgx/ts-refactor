@@ -1,4 +1,4 @@
-import { FIX, Fix } from '../fix'
+import { FIX } from '../fix'
 import { SimpleFix } from './simpleFixConstructor'
 
 export const formatFix = new SimpleFix({

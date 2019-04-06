@@ -59,7 +59,7 @@ enum FormatCodeSettingsNames {
 }
 export const formatCodeSettingsNames = getEnumKeys(FormatCodeSettingsNames)
 
-interface UserPreferences {
+export interface UserPreferences {
   readonly disableSuggestions?: boolean
   readonly quotePreference?: 'auto' | 'double' | 'single'
   readonly includeCompletionsForModuleExports?: boolean

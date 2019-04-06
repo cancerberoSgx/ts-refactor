@@ -1,7 +1,7 @@
 import { prompt } from 'inquirer'
-import { Project, SourceFile } from 'ts-morph'
+import { SourceFile } from 'ts-morph'
 import { inquireFormatCodeSettings } from '../cli/inquire/inquireFormatCodeSettings'
-import { FixOptions, FixResult, FIX } from '../fix'
+import { FIX, FixOptions, FixResult } from '../fix'
 import { getFileRelativePath, isSourceFile } from '../project'
 import { FixWithFormatCodeSettingOptions } from './formatTypes'
 

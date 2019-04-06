@@ -1,6 +1,5 @@
-import { prompt, registerPrompt } from 'inquirer'
-import { FIX, Fix, FixOptions, FixResult } from '../fix'
-import { getAbsolutePath, getFileFromRelativePath, getFilePath, getFileRelativePath, isSourceFile } from '../project'
+import { FIX, FixResult } from '../fix'
+import { getFileRelativePath, isSourceFile } from '../project'
 import { DestFileFix } from './destFileFixConstructor'
 import { SimpleFixOptions } from './simpleFixConstructor'
 

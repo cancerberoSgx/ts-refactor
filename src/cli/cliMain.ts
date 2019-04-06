@@ -8,7 +8,7 @@ async function cliMain() {
     printHelp()
     process.exit(0)
   }
-  const result = await main(options)
+  await main(options)
 }
 
 function printHelp() {
