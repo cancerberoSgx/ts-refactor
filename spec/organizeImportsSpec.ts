@@ -26,7 +26,6 @@ describe('organizeImports', () => {
       project,
       inputFiles: project.getSourceFiles().filter(f => (files ? files.find(f2 => f.getFilePath().endsWith(f2)) : true)),
       options: {}
-      // file: project.getSourceFiles().filter(f => (files ? files.find(f2 => f.getFilePath().endsWith(f2)) : true))[0]
     })
     return {
       result,

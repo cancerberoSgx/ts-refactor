@@ -122,63 +122,41 @@ ${getFixes()
   )
 }
 
-export async function handleHelpAndExit(answers: { fix: FIX | '__exit__' | '__help__' }) {
+export async function handleHelpAndExit(
+  answers: { fix: FIX | '__exit__' | '__help__'; goBackMode?: 'goBack' | 'exit' } = { fix: '__help__' }
+) {
   if (answers.fix === '__exit__') {
     console.log('Bye')
     return process.exit(0)
   }
+  let section: 'intro' | 'general' | 'fixes' | 'back'
   if (answers.fix === '__help__') {
-    const { section } = await prompt<{ section: any }>({
-      name: 'section',
-      type: 'list',
-      message: 'Select a Topic',
-      choices: [
-        { name: 'Go Back', value: 'back' },
-        { name: 'Introduction', value: 'intro' },
-        { name: 'General Rules', value: 'general' },
-        { name: 'Fix Descriptions', value: 'fixes' }
-      ]
-    })
-    if (section === 'intro') {
-      await less({ text: helpIntro() })
+    while (
+      (section = (await prompt<{ section: any }>({
+        name: 'section',
+        type: 'list',
+        message: 'Select a Topic',
+        choices: [
+          { name: answers.goBackMode === 'goBack' ? 'Go Back' : 'Exit', value: 'back' },
+          { name: 'Introduction', value: 'intro' },
+          { name: 'General Rules', value: 'general' },
+          { name: 'Fix Descriptions', value: 'fixes' }
+        ]
+      })).section) !== 'back'
+    ) {
+      if (section === 'intro') {
+        await less({ text: helpIntro() })
+      }
+      if (section === 'general') {
+        await less({ text: helpGeneralRules() })
+      }
+      if (section === 'fixes') {
+        await less({ text: helpFixes() })
+      }
     }
-    if (section === 'general') {
-      // await  prompt([
-      //   {
-      //     name: 'help',
-      //     message: 'Go back222222',
-      //     type: 'confirm',
-      //     suffix: helpGeneralRules(),
-      //     prefix: helpGeneralRules()
-      //   }
-      // ])
-      await less({ text: helpGeneralRules() })
-
-      // debugger
-      // p.ui.rl.terminal
-      // //@ts-ignore
-      // const pr = p.ui.activePrompt as any
-      // const oldOnDownKey = pr.onDownKey
-      // pr.onDownKey = function(){
-      //   uiLog('asjjdasjhasdjkhadsjhkadsjh', 1000)
-      // }
-      // pr.onUpKey = function(){
-      //   uiLog('hshuuuuuuuuuuasjjdasjhasdjkhadsjhkadsjh', 1000)
-      // }
-
-      // await p
-    }
-    if (section === 'fixes') {
-      await less({ text: helpFixes() })
-
-      // await prompt([
-      //   {
-      //     name: 'help',
-      //     message: 'Go back',
-      //     type: 'confirm',
-      //     prefix: helpFixes()
-      //   }
-      // ])
+    if (answers.goBackMode === 'exit') {
+      console.log('Bye')
+      return process.exit(0)
     }
   }
 }

@@ -28,16 +28,16 @@ export class Helper {
     await this.expectLastExitCode()
   }
 
-  async focusFile(client: Driver, codeFix: string) {
-    return this.arrowUntilFocused(client, codeFix, s => s.includes(` ❯◯ ${codeFix}`) || s.includes(` ❯◉ ${codeFix}`))
+  async focusFile(codeFix: string) {
+    return this.arrowUntilFocused(this.client, codeFix, s => s.includes(` ❯◯ ${codeFix}`) || s.includes(` ❯◉ ${codeFix}`))
   }
   
-  async focusListItem(client: Driver, label: string) {
-    return this.arrowUntilFocused(client, label, s => s.includes(`❯ ${label}`))
+  async focusListItem(label: string) {
+    return this.arrowUntilFocused(this.client, label, s => s.includes(`❯ ${label}`))
   }
 
-  async focusCheckboxListItem(client: Driver, label: string) {
-    return this.arrowUntilFocused(client, label, s => s.includes(`❯◯ ${label}`))
+  async focusCheckboxListItem(label: string) {
+    return this.arrowUntilFocused(this.client, label, s => s.includes(`❯◯ ${label}`))
   }
 
   async arrowUntilFocused(
@@ -52,23 +52,23 @@ export class Helper {
       if (predicate(s)) {
         return s
       }
-      await client.write(arrow)
-      await client.waitForData()
-      await client.waitTime(100)
+      await this.client.write(arrow)
+      await this.client.waitForData()
+      await this.client.waitTime(100)
     }
     throw `Didn't found ${focused} selected in ${limit} cursor.up() strokes`
   }
 
-  async unSelectAll(client: Driver, limit = 30) {
-    const initial = await this.currentNotSelected(client)
+  async unSelectAll(limit = 30) {
+    const initial = await this.currentNotSelected()
     for (let i = 0; i < limit; i++) {
-      const currentIsSelected = await this.currentSelected(client)
+      const currentIsSelected = await this.currentSelected()
       if (currentIsSelected) {
-        await client.writeAndWaitForData(' ', s => !!this.currentNotSelectedString(client.strip(s)))
+        await this.client.writeAndWaitForData(' ', s => !!this.currentNotSelectedString(this.client.strip(s)))
       }
-      await client.write(ansi.cursor.up())
-      await client.waitForData()
-      const current = await this.currentNotSelected(client)
+      await this.client.write(ansi.cursor.up())
+      await this.client.waitForData()
+      const current = await this.currentNotSelected()
       if (current === initial) {
         return
       }
@@ -76,8 +76,8 @@ export class Helper {
     throw `Didn't complete the loop after ${limit} cursor.up() strokes`
   }
 
-  async currentNotSelected(client: Driver) {
-    return this.currentNotSelectedString(await client.getStrippedDataFromLastWrite())
+  async currentNotSelected() {
+    return this.currentNotSelectedString(await this.client.getStrippedDataFromLastWrite())
   }
 
   currentNotSelectedString(s: string) {
@@ -85,18 +85,18 @@ export class Helper {
     return result && result[1]
   }
 
-  async selected(client: Driver) {
-    const result = /  ◉\s+(.+)\n/.exec(await client.getStrippedDataFromLastWrite())
+  async selected() {
+    const result = /  ◉\s+(.+)\n/.exec(await this.client.getStrippedDataFromLastWrite())
     return result && result[1]
   }
 
-  async isCodeFixOptionNotSelected(client: Driver, option: string) {
-    const s = await client.getStrippedDataFromLastWrite()
+  async isCodeFixOptionNotSelected(option: string) {
+    const s = await this.client.getStrippedDataFromLastWrite()
     return s.includes(`◯ ${option}`)
   }
 
-  async currentSelected(client: Driver) {
-    const result = / ❯◉\s+(.+)\n/.exec(await client.getStrippedDataFromLastWrite())
+  async currentSelected() {
+    const result = / ❯◉\s+(.+)\n/.exec(await this.client.getStrippedDataFromLastWrite())
     return result && result[1]
   }
 

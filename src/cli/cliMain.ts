@@ -16,21 +16,18 @@ function printHelp() {
 Usage: ts-refactor fixName [...fixOptions] ...inputFiles
 
 Usage Examples: 
-ts-refactor organizeImports ./src/ --noInteractive # all information given
-tsconfig # will be asked for a fix, options and input files
+ts-refactor organizeImports "./src/**" "./spec/**/*Spec.ts" --dontAsk
+ts-refactor moveDeclaration src/foo/model2.ts src/foo/abstract/abstractModels.ts --tsConfigPath ../another/project/tsconfig.json
 
 Tool options:
- --noInteractive
  --tsConfigPath
  --dontWrite
  --dontConfirm
+ --dontAsk
  --help
  --debug
 
-Fixes:
-  * organizeImports
-    · no options required, only some input files or folders
-
+Run ts-refactor --interactiveHelp for more details or see the project's README.
   `)
 }
 

@@ -32,6 +32,11 @@ export interface ToolOptions {
    * Prints usage information and exit.
    */
   help?: boolean
+
+  /**
+   * Runs the built-in interactive help that describe each fix and usage instructions in detail.  Then exits.
+   */
+  interactiveHelp?: boolean
 }
 
 export enum ToolOptionName {
@@ -40,7 +45,8 @@ export enum ToolOptionName {
   dontAsk = 'dontAsk',
   tsConfigPath = 'tsConfigPath',
   dontWrite = 'dontWrite',
-  dontConfirm = 'dontConfirm'
+  dontConfirm = 'dontConfirm',
+  interactiveHelp = 'interactiveHelp'
 }
 
 export enum ToolOptionType {

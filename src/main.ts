@@ -1,4 +1,5 @@
 import { prompt } from 'inquirer'
+import { handleHelpAndExit } from './cli/inquire/help'
 import { uiLog, uiLogClose } from './cli/inquire/inquireLogger'
 import { inquireMissing } from './cli/inquireMissing'
 import { showProjectDiff } from './cli/projectDiff'
@@ -7,6 +8,10 @@ import { buildProject, checkFilesInProject } from './project'
 import { ParsedArgs } from './toolOption'
 
 export async function main(args: Partial<ParsedArgs>) {
+  if (args.toolOptions && args.toolOptions.interactiveHelp) {
+    await handleHelpAndExit({ fix: '__help__', goBackMode: 'exit' })
+    return process.exit(0)
+  }
   const tsConfigFilePath = (args.toolOptions && args.toolOptions.tsConfigPath) || './tsconfig.json'
   const project = buildProject({ tsConfigFilePath })
   const options = await inquireMissing(args, project)

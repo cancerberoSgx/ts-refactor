@@ -29,19 +29,33 @@ describe('CLI', () => {
 
   describe('tool options and validation', () => {
     it('--help should print usage help and exit with code 0', async done => {
-      const data = await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts --help', 'Usage')
+      const data = await client.enterAndWaitForData(
+        'npx ts-node src/cli/cliMain.ts --help',
+        'Run ts-refactor --interactiveHelp for more details'
+      )
       const helpOptions = [
-        '--noInteractive',
         '--tsConfigPath',
         '--dontWrite',
         '--dontConfirm',
+        '--dontAsk',
         '--help',
         '--debug',
         `Usage: ts-refactor fixName [...fixOptions] ...inputFiles`
       ]
       helpOptions.forEach(option => expect(data).toContain(option))
       await helper.expectLastExitCode(true)
-      // expect(await client.enterAndWaitForData('echo "exit code $?"', 'exit code')).toContain('exit code 0')
+      done()
+    })
+    it('--InteractiveHelp should show interactive help menu, selecting exit should exit with code 0', async done => {
+      const data = await client.enterAndWaitForData(
+        'npx ts-node src/cli/cliMain.ts --interactiveHelp',
+        'Select a Topic'
+      )
+      const helpOptions = ['Exit', 'Introduction', 'General Rules', 'Fix Descriptions']
+      helpOptions.forEach(option => expect(data).toContain(option))
+      await helper.focusListItem('Exit')
+      await client.enterAndWaitForData('', 'Bye')
+      await helper.expectLastExitCode(true)
       done()
     })
     it('--strangeArgument should error', async done => {
@@ -50,7 +64,6 @@ describe('CLI', () => {
         'Unknown tool option strangeArgument'
       )
       await helper.expectLastExitCode(false)
-      // expect(await client.enterAndWaitForData('echo "exit code $?"', 'exit code')).not.toContain('exit code 0')
       done()
     })
     it('should target another project with --tsConfigPath', async done => {

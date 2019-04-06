@@ -44,12 +44,12 @@ const b = \`\${a} b c \${Math.PI} g \${function() {
       'npx ts-node src/cli/cliMain.ts --tsConfigPath tmp/project1/tsconfig.json',
       'Select a code fix'
     )
-    await helper.focusListItem(client, 'stringConcatenationToTemplate')
+    await helper.focusListItem('stringConcatenationToTemplate')
     await client.enterAndWaitForData('', 'Select files/folders in replace string concatenations')
-    await helper.focusCheckboxListItem(client, 'src/string_test2.ts')
+    await helper.focusCheckboxListItem('src/string_test2.ts')
     await client.enterAndWaitForData(' ', 'Configure Format Code Settings?')
     await client.enterAndWaitForData('', 'Mode?')
-    await helper.focusListItem(client, 'String Concatenations to Template expressions')
+    await helper.focusListItem('String Concatenations to Template expressions')
     await client.enterAndWaitForData('', 'The following (1) files will be modified:')
     await client.enterAndWaitForData('', 'Finished writing (1) files')
     await helper.expectLastExitCode(true)
