@@ -1,6 +1,6 @@
 import { ansi, Driver } from 'cli-driver'
 import { cp, mkdir, rm } from 'shelljs'
-import { Helper } from './interactiionHelper'
+import { Helper } from './interactionHelper'
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 12000
 

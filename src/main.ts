@@ -1,10 +1,10 @@
-import { prompt } from 'inquirer'
-import { uiLog, uiLogClose } from './cli/inquire/inquireLogger'
-import { inquireMissing } from './cli/inquireMissing'
-import { showProjectDiff } from './cli/projectDiff'
-import { getFix } from './fixes'
-import { buildProject, checkFilesInProject } from './project'
-import { ParsedArgs } from './toolOption'
+import { prompt } from 'inquirer';
+import { uiLog, uiLogClose } from './cli/inquire/inquireLogger';
+import { inquireMissing } from './cli/inquireMissing';
+import { showProjectDiff } from './cli/projectDiff';
+import { getFix } from './fixes';
+import { buildProject, checkFilesInProject } from './project';
+import { ParsedArgs } from './toolOption';
 
 export async function main(args: Partial<ParsedArgs>) {
   const tsConfigFilePath = (args.toolOptions && args.toolOptions.tsConfigPath) || './tsconfig.json'

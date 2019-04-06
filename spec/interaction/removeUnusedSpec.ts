@@ -1,7 +1,7 @@
 import { Driver } from 'cli-driver'
 import { cat, cp, mkdir, rm } from 'shelljs'
 import { removeWhites } from '../../src/misc'
-import { Helper } from './interactiionHelper'
+import { Helper } from './interactionHelper'
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 12000
 
@@ -21,6 +21,7 @@ describe('removeUnused codeFix', () => {
   afterAll(async done => {
     await client.destroy().catch()
     helper = null as any
+    rm('-r', 'tmp')
     done()
   })
 
