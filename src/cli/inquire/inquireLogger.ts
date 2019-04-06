@@ -1,10 +1,10 @@
-export async function uiLog(msg: string, timeout=0) {
+export async function uiLog(msg: string, timeout = 0) {
   if (!ui) {
     ui = new (require('inquirer').ui.BottomBar as any)()
   }
   setTimeout(() => {
     ui!.log.write(msg)
-  }, timeout);
+  }, timeout)
 }
 export function uiLogClose() {
   if (ui) {

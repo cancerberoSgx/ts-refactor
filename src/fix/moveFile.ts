@@ -39,14 +39,13 @@ function moveFile(options: DestFileFixOptions) {
 }
 
 class MoveFile extends DestFileFix<DestFileFixOptions> {
- 
-  description= `
+  description = `
 It will move the input files and/or folders to another location. 
 If a single input filer is selected then the destination can be a non existent file-like path. 
 The location can always be a non existent directory-like path or an existing directory path no matter the input file selection. In case the destination is an existing directory, input files will be moved inside of it.`
-  _selectFilesMessage= 'Select files and folders to move'
+  _selectFilesMessage = 'Select files and folders to move'
 }
 export const moveFileFix = new MoveFile({
-  name: FIX.moveFile, 
+  name: FIX.moveFile,
   action: moveFile
 })
