@@ -1,11 +1,11 @@
-import { prompt } from 'inquirer'
-import { handleHelpAndExit } from './cli/inquire/help'
-import { uiLog, uiLogClose } from './cli/inquire/inquireLogger'
-import { inquireMissing } from './cli/inquireMissing'
-import { showProjectDiff } from './cli/projectDiff'
-import { getFix } from './fix/fixes'
-import { buildProject, checkFilesInProject } from './project'
-import { ParsedArgs } from './toolOption'
+import { prompt } from 'inquirer';
+import { handleHelpAndExit } from './cli/inquire/help';
+import { uiLog, uiLogClose } from './cli/inquire/inquireLogger';
+import { inquireMissing } from './cli/inquireMissing';
+import { showProjectDiff } from './cli/projectDiff';
+import { getFix } from './fix/fixes';
+import { buildProject, checkFilesInProject } from './project';
+import { ParsedArgs } from './toolOption';
 
 export async function main(args: Partial<ParsedArgs>) {
   if (args.toolOptions && args.toolOptions.interactiveHelp) {

@@ -86,14 +86,14 @@ export class FormatSettingsFix<T extends FormatSettingsFixOptions> {
   protected async inquireFormatCodeSettings(
     options: FixWithFormatCodeSettingOptions
   ): Promise<FixWithFormatCodeSettingOptions> {
-    let formatCodeSettings: FormatCodeSettings = {}
+    let formatCodeSettings: FormatCodeSettings|undefined
     const formatSettingsFile = (options.options.files || []).find(
       f => f.includes('formatCodeSettings') && f.endsWith('.json')
     )
-    formatCodeSettings = { ...options.formatCodeSettings, ...formatCodeSettings }
     if (formatSettingsFile) {
       try {
         formatCodeSettings = JSON.parse(cat(formatSettingsFile).toString())
+        formatCodeSettings = { ...options.formatCodeSettings, ...formatCodeSettings }
       } catch (error) {
         throw new Error(`Failed to parse given ${formatSettingsFile} file. 
 Nor the file doesn't exists or is not valid JSON. 

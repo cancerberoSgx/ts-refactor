@@ -9,7 +9,6 @@ registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'))
  * @param options wil try to read formatCodeSettings.json and if not optionally ask the user to fill them interactively
  */
 export async function inquireFormatCodeSettings(options: FixWithFormatCodeSettingOptions): Promise<FormatCodeSettings> {
-  // if (!formatCodeSettings) {
   const { formatCodeSettings } = await prompt<{ formatCodeSettings: FormatCodeSettings }>([
     {
       type: 'checkbox-plus',
@@ -26,8 +25,6 @@ export async function inquireFormatCodeSettings(options: FixWithFormatCodeSettin
       }
     }
   ])
-  // formatCodeSettings = answers.formatCodeSettings
-  // }
   // TODO: default if none given
   return { ...(options.formatCodeSettings || {}), ...(formatCodeSettings || {}) }
 }
