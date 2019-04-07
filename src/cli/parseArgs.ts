@@ -9,7 +9,8 @@ export interface RawArgs {
 export function parseArgs(args: RawArgs): Partial<ParsedArgs> {
   const options: Partial<ParsedArgs> = {
     toolOptions: {},
-    files: []
+    files: [],
+    fixOptions: []
   }
   if (args._ && args._.length > 0) {
     if (args._ && args._.length > 0) {
@@ -21,6 +22,7 @@ export function parseArgs(args: RawArgs): Partial<ParsedArgs> {
     }
     if (args._ && args._.length > 0) {
       options.files!.push(...args._.filter(isFile))
+      options.fixOptions!.push(...args._.filter(f=>!isFile(f)&&options.fix && f!==options.fix))
     }
   }
   const argsToolOptionNames = Object.keys(args).filter(a => a !== '_')

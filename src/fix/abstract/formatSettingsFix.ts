@@ -86,7 +86,7 @@ export class FormatSettingsFix<T extends FormatSettingsFixOptions> {
   protected async inquireFormatCodeSettings(
     options: FixWithFormatCodeSettingOptions
   ): Promise<FixWithFormatCodeSettingOptions> {
-    let formatCodeSettings: FormatCodeSettings|undefined
+    let formatCodeSettings: FormatCodeSettings | undefined
     const formatSettingsFile = (options.options.files || []).find(
       f => f.includes('formatCodeSettings') && f.endsWith('.json')
     )

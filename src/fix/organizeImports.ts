@@ -1,5 +1,7 @@
 import { FIX } from '../fix'
 import { FormatSettingsFix } from './abstract/formatSettingsFix'
+import { code } from '../cli/inquire/ansiStyle';
+import { ToolOptionName } from '../toolOption';
 
 export const organizeImportsFix = new FormatSettingsFix({
   action(options) {
@@ -9,6 +11,9 @@ export const organizeImportsFix = new FormatSettingsFix({
   description: `
 It will call "organize imports" TypeScript refactor on input files. 
 If any input file is a directory, then it will call the refactor on each of its descendants. 
-  `,
+Organize imports of several files:
+  ${code(`ts-refactor ${FIX.organizeImports} "./src/**" "spec/**/*Spec.ts*" --${ToolOptionName.dontAsk}`)}
+
+`,
   selectFilesMessage: 'Select files/folders in which organize imports'
 })

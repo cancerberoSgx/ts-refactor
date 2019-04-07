@@ -4,19 +4,13 @@ import { FIX } from '../../fix'
 import { getFixes } from '../../fix/fixes'
 import { ToolOptionName } from '../../toolOption'
 import { less } from '../lessPrompt'
+import { code, fix } from './ansiStyle';
 
 const ansiEscapes = require('ansi-escapes')
 
-function fix(s: string) {
-  return ansi.format(s, ['bold', 'red'])
-}
-function code(s: string) {
-  return '`' + ansi.format(s, ['italic', 'green']) + '`'
-}
 function helpIntro() {
   return ansi.format(
     `${ansiEscapes.clearTerminal}${ansi.format('Code Fixes Introduction', ['underline', 'bold', 'blue'])}
-
   
 These tools can refactor your TypeScript code in several ways. Although some might only affect a single file, they are applied in the context of a project which is given by ${code(
       './tsconfig.json'
@@ -63,9 +57,9 @@ These tools can refactor your TypeScript code in several ways. Although some mig
 function helpGeneralRules() {
   return ansi.format(
     `${ansiEscapes.clearTerminal}${ansi.format('General Rules', ['underline', 'bold', 'blue'])}
- 
+  
 ${ansi.format('Input Files', ['underline'])}. 
- 
+  
   * All fixes require one or more input files or directories. 
   * If the fix apply to a single file then if a directory is provided it wil apply to each of its descendant files. 
   * Any Command line argument that contains the character ${code(`/`)} will be considered a file path. 
@@ -75,19 +69,29 @@ ${ansi.format('Input Files', ['underline'])}.
     * ${code(`ts-refactor ./src/ ./spec/util/**/*Model.ts`)}
  
 ${ansi.format('Fixes', ['underline'])}
- 
-  * Any command line argument that is not a file (doesn't contain the character ${code(
-    `/`
-  )}) will be considered a fix name or fix option. 
-  * The first of these arguments will be considered a fix name and the rest the fix options
-  * Depending on the fix, some of the files provided as arguments can be considered input files and other fix options. For example, the command ${code(
-    `ts-refactor moveFile src/model/foo.ts src/model/abstract/foo.ts`
-  )} targets the fox  ${code(`moveFile`)}  which will assume that, if more than one, the last file argument (${code(
-      `src/model/abstract/foo.ts`
-    )}) is the destination file or folder to which to move the other input files (${code(`src/model/foo.ts`)})
   
-${ansi.format('Interaction', ['underline'])}
+  * Any command line argument that is not a file (doesn't contain the character ${code(`/`)}) will be considered a fix name or fix option. 
+  * The first of these arguments will be considered a fix name and the rest the fix options.
+  * Depending on the fix, some of the files provided as arguments can be considered input files and other fix options. For example, the command 
+    ${code(    `ts-refactor moveFile src/model/foo.ts src/model/abstract/foo.ts`  )} 
+  targets the fix ${code(`moveFile`)} which will assume that, if more than one, the last file argument (${code(`src/model/abstract/foo.ts`)}) is the destination file or folder to which to move the other input files (${code(`src/model/foo.ts`)}).
+  
+${ansi.format('Format', ['underline'])}
  
+  * Since all code fixes modify the code, they accept Code Format Settings.
+  * If no argument is passed, and --dontAsk is not present, thet always ask the user to optionally set format code settings interactively.
+  * However the recommended way is to provide them as a ${code(`formatCodeSettings.json`)} input file argument:
+  * Must be existing valid JSON file FormatCodeSettings object. 
+  * Example command:
+    ${code(`ts-refactor format ./config/formatCodeSettings.json "./src/**" `)}
+  * Examples of such files can be found here: https://github.com/cancerberoSgx/ts-refactor/blob/master/spec/assets/project1
+  * Any file containing "formatCodeSettings" and ending with ".json" will be considered a format code settings. Example: ${code('"foo/formatCodeSettings33.json"')} will match this file.
+   * If not found or not valid JSON the tool will throw error
+   * If the file is given then the tool won't ask interactively for format code settings.
+   * The path to the file must be relative to the current directory (not to the custom tsconfig json if using ${code(`--${ToolOptionName.tsConfigPath}`)})
+    
+${ansi.format('Interaction', ['underline'])}
+  
   * If the command arguments doesn't provide all the information required by the fix, it will ask the user for the missing data interactively.
   * Everything is optional, so for example, by just executing ${code(
     `ts-refactor`
@@ -112,8 +116,7 @@ ${getFixes()
   ${f.description
     .trim()
     .split('\n')
-    .join('\n  ')}
- 
+    .join('\n  ')} 
  \n`
   )
   .join('')}

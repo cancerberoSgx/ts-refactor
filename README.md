@@ -60,3 +60,6 @@ ts-refactor move declaration FooImpl src/foo/impl.ts src/bar/bar.ts
  * --dontAsk should throw if something is missing
  * move the inquire inputFiles implementation to FixClasses (SimpleFix)
  * TODO: move lessPrompt.ts to its own project
+ * todo: organizeImports : userpreferences
+ * movedeclaration: accept declaration name as parameter.
+ * stringConcatenationToTemplate: mode as param - or perhaps divide in two refactors.

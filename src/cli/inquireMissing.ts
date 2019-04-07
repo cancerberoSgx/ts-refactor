@@ -23,6 +23,7 @@ export async function inquireMissing(
   if (!fix) {
     throw `Sorry, the fix ${fixName} is not supported yet.`
   }
+  const fileInOptionsNormalizedNames =  (options.files || []).map(fileInOptions => (fileInOptions.startsWith('./') ? fileInOptions.substring(2) : fileInOptions))
   let allFiles: File[] = project
     .getSourceFiles()
     .map(f => ({ name: getFileRelativePath(f, project), isFolder: false, path: getFilePath(f) }))
@@ -35,8 +36,8 @@ export async function inquireMissing(
     .sort((f1, f2) => f1.name.localeCompare(f2.name))
   if (options.files && options.files.length > 0) {
     inputFileRepresentations = allFiles.filter(f =>
-      (options.files || [])
-        .map(fileInOptions => (fileInOptions.startsWith('./') ? fileInOptions.substring(2) : fileInOptions))
+     
+        fileInOptionsNormalizedNames
         .map(fileInOptions =>
           fileInOptions.endsWith('/') ? fileInOptions.substring(0, fileInOptions.length - 1) : fileInOptions
         )
@@ -62,6 +63,8 @@ export async function inquireMissing(
   const inputFiles = inputFileRepresentations
     .map(f => (f.isFolder ? project.getDirectory(f.path) : project.getSourceFile(f.path)))
     .filter(notUndefined)
+    // restore arguments original file order
+    .sort((a,b)=>fileInOptionsNormalizedNames.findIndex(f=>getFilePath(a).endsWith(f))<fileInOptionsNormalizedNames.findIndex(f=>getFilePath(b).endsWith(f)) ? -1 : 1)
   let outputOptions: FixOptions & { fixName: FIX } = {
     fixName,
     inputFiles,
