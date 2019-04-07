@@ -20,7 +20,8 @@ class Snake extends Animal {
   }
 }
     `
-  await astExplorer({code})
+  const selectedNode= await astExplorer({code})
+console.log({selectedNode: selectedNode.getText()});
 
 
 // const ast = tsquery.ast(code);

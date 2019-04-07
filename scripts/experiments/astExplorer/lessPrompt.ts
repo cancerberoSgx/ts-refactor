@@ -3,7 +3,6 @@ import { objects, prompt, Questions } from 'inquirer';
 const { map, takeUntil } = require('rxjs/operators')
 const Base = require('inquirer/lib/prompts/base')
 const observe = require('inquirer/lib/utils/events')
-// const wrapAnsi = require('wrap-ansi')
 import { tsquery } from '@phenomnomnominal/tsquery';
 import { Node, SourceFile } from 'typescript';
 import * as ts from 'typescript'
@@ -33,64 +32,50 @@ class Snake extends Animal {
  * })
  * ```
  * TODO: move to its own project
+ * TODO: pass directly all the options to the prompt - remove this function
  */
-export function astExplorer(options: Options): Promise<any> {
+export async function astExplorer(options: Options): Promise<any> {
   const columns = process.stdout.columns || 79
   const rows = process.stdout.rows || 24
-  // const s = options.noWrap ? options.text : wrapAnsi(options.text, columns - 4, { trim: false, wordWrap: true })
-  // const s = options.code
   const choices = options.code.split('\n')
-  // console.log(choices);
-
-  return prompt([
+  const result = await  prompt([
     {
       type: 'ast-explorer',
       name: ' ',
       choices,
-      // prefix: options.prefix || '',
       paginated: true,
       pageSize: options.pageSize || Math.min(options.pageSize || Infinity, rows)
     }
   ])
+  return result[' ']
 }
 
 interface Options {
   code: string
   pageSize?: number
-  // prefix?: string
-  // postfix?: string
-  // noWrap?: boolean
 }
 
-/**
- * copied from RawList and simplified so it simulates the astExplorer unix command to scroll long texts.
- */
 export class AstExplorer extends Base {
-
   selectedNodes: Node[]
   currentInput: string
   sourceFile: SourceFile
+  selectedNodeIndex = 0
 
   constructor(questions: Questions, rl, answers) {
     super(questions, rl, answers)
     if (!this.opt.choices) {
       this.throwParamError('choices')
     }
-    // console.log(this.opt.choices);
     this.code = this.opt.choices.choices.map(c => c.name).join('\n')
-
-
-    // tthis.opt.choices = this.opt.choices
     const rows = process.stdout.rows || 24
     this.min = 0
     this.max = Math.max(this.opt.choices.choices.length, rows) - rows + 1
-    this.selected = 0
     this.rawDefault = 0
-
     this.currentInput = 'Identifier'
+    this.rl.line = this.currentInput
     this.sourceFile = tsquery.ast(this.code)
     this.selectedNodes = tsquery(this.sourceFile, this.currentInput);
-
+    this.selectedNodeIndex = 0
     Object.assign(this.opt, {
       validate: function (val) {
         return true
@@ -102,13 +87,8 @@ export class AstExplorer extends Base {
   /**
    * When user press a key
    */
-  onKeypress() {
-    if (this.rl.line && this.rl.line.length) {
-      this.currentInput = this.rl.line
-      // const ast = tsquery.ast(tthis.opt.choices.join('\n'))as Node
-    }
-    const index = this.rl.line.length ? Number(this.rl.line) - 1 : 0
-    this.selected = index
+  onKeypress(e?: any) {
+    this.currentInput = ''+this.rl.line
     this.render()
   }
   /**
@@ -129,72 +109,43 @@ export class AstExplorer extends Base {
     this.render()
     return this
   }
-
-  /**
-   * Render the prompt to screen
-   * @return {RawListPrompt} self
-   */
   render(error?: string) {
     let message = ''
     const bottomContent = ''
-    const choicesStr = this.renderChoices(this.opt.choices, this.selected)
+    const choicesStr = this.renderChoices()
     message += this.paginator.paginate(choicesStr, this.selected, this.opt.pageSize)
-    message += this.rl.line
+    message += this.currentInput
     this.screen.render(message, bottomContent)
   }
-
   /**
    * When user press `enter` key
    */
-  getCurrentValue(index: string | number) {
-    if (index == null || index === '') {
-      index = this.rawDefault
-    } else if (typeof index === 'number') {
-      index -= 1
-    } else {
-      // TODO?
-    }
-    const choice = this.opt.choices.getChoice(index)
-    return choice ? choice.value : null
+  getCurrentValue() {
+    return this.selectedNodes[this.selectedNodeIndex]
   }
-
   /**
-   * Function for rendering list choices
    * @param  {Number} pointer Position of the pointer
    * @return {String}         Rendered content
    */
-  protected renderChoices(choices: objects.ChoiceOption[], pointer) {
-    let text = this.sourceFile.getFullText()//.join('\n')
-    // console.log(text);
-
-
+  protected renderChoices() {
+    let text = this.sourceFile.getFullText()
+    try {
+    this.selectedNodes = tsquery(this.sourceFile, this.currentInput);
+    } catch (error) {
+      
+    }
+    this.selectedNodeIndex<this.selectedNodes.length-1 ? this.selectedNodeIndex : 0
     let output = ''
-    // let offset = 0,
     let last = 0
-    this.selectedNodes.forEach(node => {
-      const nodeText = node.getFullText(), painted = chalk.blue(nodeText)
-      output = output += text.substring(last, node.getFullStart()) + painted //+ output.substring(node.getEnd() + offset, output.length)
-      // offset += painted.length -nodeText.length
-      // console.log(offset);
-
-      last = node.getEnd()// + offset
-      // const {line, character} = ts.getLineAndCharact erOfPosition(this.sourceFile, node.pos)
+    this.selectedNodes.forEach((node, i) => {
+      const nodeText = node.getFullText()
+      const painted = this.selectedNodeIndex === i ? chalk.red(nodeText) : chalk.blue(nodeText)
+      output = output += text.substring(last, node.getFullStart()) + painted 
+      last = node.getEnd()
     })
     output += text.substring(last, text.length)
-
-    // let output = ''
-    // choices.forEach(function (choice, i) {
-    //   output += '\n'
-    //   const display = choice.name
-    //   output += display
-    // })
-    //@ts-ignore
-    // output = this.selectedNodes.map(n=>n.text!).join(', ' )+'\n'+output
-
-
     return output
   }
-
   onEnd(state) {
     this.status = 'answered'
     this.answer = state.value
@@ -202,39 +153,23 @@ export class AstExplorer extends Base {
     this.screen.done()
     this.done(state.value)
   }
-
   onError() {
     this.render('Please enter a valid index')
   }
-
-  /**
-   * When user press up key
-   */
   onUpKey() {
     this.onArrowKey('up')
   }
-
-  /**
-   * When user press down key
-   */
   onDownKey() {
     this.onArrowKey('down')
   }
-
   /**
-   * When user press up or down key
    * @param {String} type Arrow type: up or down
    */
   onArrowKey(type: string) {
-    let index = this.rl.line.length ? Number(this.rl.line) - 1 : 0
-    if (type === 'up') index = index <= this.min ? this.min : index - 1
-    else index = index >= this.max ? this.max : index + 1
-    this.rl.line = String(index + 1)
+    if (type === 'up') this.selectedNodeIndex = this.selectedNodeIndex <=0 ? 0 : this.selectedNodeIndex-1
+    else this.selectedNodeIndex = this.selectedNodeIndex >= this.selectedNodes.length-1  ? this.selectedNodes.length-1  : this.selectedNodeIndex + 1
     this.onKeypress()
   }
-
-
-
 }
 
 /**
