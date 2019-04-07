@@ -1,5 +1,4 @@
 import { prompt, registerPrompt } from 'inquirer'
-import { uiLog } from './inquire/inquireLogger';
 
 var { map, takeUntil } = require('rxjs/operators')
 var Base = require('inquirer/lib/prompts/base')
@@ -181,9 +180,9 @@ class CustomPaginator {
 
     if (this.screen) {
       lines = this.screen.breakLines(lines)
-      active = 
-      // _.sum(lines.map(lineParts => lineParts.length)
-      lines.splice(0, active)
+      active =
+        // _.sum(lines.map(lineParts => lineParts.length)
+        lines.splice(0, active)
       lines = _.flatten(lines)
     }
 
@@ -226,18 +225,17 @@ export function less(options: Options): Promise<any> {
   const columns = process.stdout.columns || 79
   const rows = process.stdout.rows || 24
   // const s = options.text
-  const s = options.noWrap ? options.text : wrapAnsi(options.text, columns - 4, {trim: false, wordWrap: true})
+  const s = options.noWrap ? options.text : wrapAnsi(options.text, columns - 4, { trim: false, wordWrap: true })
 
-// setTimeout(() => {
-//   uiLog(s, 100)
-// }, 2000);
-  
-  
+  // setTimeout(() => {
+  //   uiLog(s, 100)
+  // }, 2000);
+
   return prompt([
     {
       type: 'long-text',
       name: ' ',
-      choices: s.split('\n'),//.filter(l => !!l.trim()),
+      choices: s.split('\n'), //.filter(l => !!l.trim()),
       prefix: options.prefix || '',
       paginated: true,
       pageSize: options.pageSize || Math.min(options.pageSize || Infinity, rows)

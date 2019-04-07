@@ -7,11 +7,11 @@ import {
   TypeAliasDeclaration
 } from 'ts-morph'
 import { moveDeclaration } from 'ts-simple-ast-extra'
+import { code } from '../cli/inquire/ansiStyle'
 import { File, FIX, FixOptions } from '../fix'
 import { getFileRelativePath, isSourceFile } from '../project'
+import { ToolOptionName } from '../toolOption'
 import { DestFileFix, DestFileFixOptions } from './abstract/destinationFileFix'
-import { code } from '../cli/inquire/ansiStyle';
-import { ToolOptionName } from '../toolOption';
 
 interface MoveDeclarationOptions extends DestFileFixOptions {
   declaration: Declaration
@@ -28,24 +28,27 @@ class MoveDeclaration extends DestFileFix<MoveDeclarationOptions> {
   name = FIX.moveDeclaration
 
   description = `
-It will move given top-level declaration to another file. These are some consequences that you might consider:
+It will move given top-level declaration to another existing file. These are some consequences that you might consider:
  * imports that reference the declaration in other files will be updated to point to its new file.
  * New import declarations in the original file could be created
  * Some declarations in the original file can be set to exported
  * The moved declaration might be renamed with a similar name if there's already a declaration with that name in the destination file.
 WARNING: this is a complex refactor operation with and some edge cases could result on incorrect transformations. Please verify the changes and/or backup your files before saving the changes. 
-Move one declaration of src/foo.ts to existing file src/bar.ts:
+Move one declaration (asked interactively) of src/foo.ts to existing file src/bar.ts:
   ${code(`ts-refactor ${FIX.moveDeclaration} src/foo.ts src/bar.ts`)}
+Move declaration named 'Home' from file 'src/model/types.ts' to existing file src/model/abstract/types.ts without interactions:
+  ${code(`ts-refactor ${FIX.moveDeclaration} src/model/types.ts Home src/model/abstract/types.ts --${ToolOptionName.dontAsk}`)}
+
  `
 
- protected destinationMode: 'mustNotExist' | 'mustExist' | 'mustExistFile' = 'mustExistFile'
+  protected destinationMode: 'mustNotExist' | 'mustExist' | 'mustExistFile' = 'mustExistFile'
 
   protected _selectFilesMessage = 'Select the file containing the declaration to move'
 
   async inquireOptions(options: MoveDeclarationOptions) {
-    let declaration : Declaration|undefined
-    console.log(options.inputFiles.map(f=>f.getBaseName()), options.options.files);
-    
+    let declaration: Declaration | undefined
+    console.log(options.inputFiles.map(f => f.getBaseName()), options.options.files)
+
     const superOptions = await super.inquireOptions(options)
     const file = options.inputFiles.find(isSourceFile)
     if (!file) {
@@ -55,12 +58,12 @@ Move one declaration of src/foo.ts to existing file src/bar.ts:
       .concat(file.getInterfaces() as Declaration[])
       .concat(file.getEnums() as Declaration[])
       .concat(file.getFunctions() as Declaration[])
-      .filter(d=>!!d.getName())
-    if(options.options.fixOptions && options.options.fixOptions.find(o=>o!==FIX.moveDeclaration)) {
-      const names = options.options.fixOptions.filter(o=>o!==FIX.moveDeclaration)
-      declaration = declarations.find(d=>names.includes(d.getName()!))
+      .filter(d => !!d.getName())
+    if (options.options.fixOptions && options.options.fixOptions.find(o => o !== FIX.moveDeclaration)) {
+      const names = options.options.fixOptions.filter(o => o !== FIX.moveDeclaration)
+      declaration = declarations.find(d => names.includes(d.getName()!))
     }
-    if(!declaration && !(options.options.toolOptions&&options.options.toolOptions.dontAsk)){
+    if (!declaration && !(options.options.toolOptions && options.options.toolOptions.dontAsk)) {
       const thisOptions = await prompt<{ declaration: Declaration }>([
         {
           type: 'list',
@@ -76,12 +79,22 @@ Move one declaration of src/foo.ts to existing file src/bar.ts:
         }
       ])
       declaration = thisOptions.declaration
-    }    
-    if(!declaration){
-      throw new Error(`Declaration with any name in ${options.options.fixOptions} could not be found in "${getFileRelativePath(file, options.project)}", probably because --${ToolOptionName.dontAsk} is used and it was not provided in arguments or didn't match. \nDeclarations found in "${getFileRelativePath(file, options.project)}":\n ${declarations.map(d=>d.getName()).join(', ')}`)
+    }
+    if (!declaration) {
+      throw new Error(
+        `Declaration with any name in ${options.options.fixOptions} could not be found in "${getFileRelativePath(
+          file,
+          options.project
+        )}", probably because --${
+          ToolOptionName.dontAsk
+        } is used and it was not provided in arguments or didn't match. \nDeclarations found in "${getFileRelativePath(
+          file,
+          options.project
+        )}":\n ${declarations.map(d => d.getName()).join(', ')}`
+      )
     }
     Object.assign(options, superOptions, declaration)
-    return { ...options, ...superOptions,declaration }
+    return { ...options, ...superOptions, declaration }
   }
 
   verifyInputFiles(files: File[], options: MoveDeclarationOptions) {

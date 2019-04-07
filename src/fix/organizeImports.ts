@@ -1,7 +1,7 @@
+import { code } from '../cli/inquire/ansiStyle'
 import { FIX } from '../fix'
+import { ToolOptionName } from '../toolOption'
 import { FormatSettingsFix } from './abstract/formatSettingsFix'
-import { code } from '../cli/inquire/ansiStyle';
-import { ToolOptionName } from '../toolOption';
 
 export const organizeImportsFix = new FormatSettingsFix({
   action(options) {

@@ -63,3 +63,5 @@ ts-refactor move declaration FooImpl src/foo/impl.ts src/bar/bar.ts
  * todo: organizeImports : userpreferences
  * movedeclaration: accept declaration name as parameter.
  * stringConcatenationToTemplate: mode as param - or perhaps divide in two refactors.
+  * move  declaration issue with three files simple
+  * moveDeclaration should support target non existing file and in that case create it

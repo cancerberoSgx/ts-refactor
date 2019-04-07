@@ -4,7 +4,7 @@ import { FIX } from '../../fix'
 import { getFixes } from '../../fix/fixes'
 import { ToolOptionName } from '../../toolOption'
 import { less } from '../lessPrompt'
-import { code, fix } from './ansiStyle';
+import { code, fix } from './ansiStyle'
 
 const ansiEscapes = require('ansi-escapes')
 
@@ -70,11 +70,15 @@ ${ansi.format('Input Files', ['underline'])}.
  
 ${ansi.format('Fixes', ['underline'])}
   
-  * Any command line argument that is not a file (doesn't contain the character ${code(`/`)}) will be considered a fix name or fix option. 
+  * Any command line argument that is not a file (doesn't contain the character ${code(
+    `/`
+  )}) will be considered a fix name or fix option. 
   * The first of these arguments will be considered a fix name and the rest the fix options.
   * Depending on the fix, some of the files provided as arguments can be considered input files and other fix options. For example, the command 
-    ${code(    `ts-refactor moveFile src/model/foo.ts src/model/abstract/foo.ts`  )} 
-  targets the fix ${code(`moveFile`)} which will assume that, if more than one, the last file argument (${code(`src/model/abstract/foo.ts`)}) is the destination file or folder to which to move the other input files (${code(`src/model/foo.ts`)}).
+    ${code(`ts-refactor moveFile src/model/foo.ts src/model/abstract/foo.ts`)} 
+  targets the fix ${code(`moveFile`)} which will assume that, if more than one, the last file argument (${code(
+      `src/model/abstract/foo.ts`
+    )}) is the destination file or folder to which to move the other input files (${code(`src/model/foo.ts`)}).
   
 ${ansi.format('Format', ['underline'])}
  
@@ -85,10 +89,14 @@ ${ansi.format('Format', ['underline'])}
   * Example command:
     ${code(`ts-refactor format ./config/formatCodeSettings.json "./src/**" `)}
   * Examples of such files can be found here: https://github.com/cancerberoSgx/ts-refactor/blob/master/spec/assets/project1
-  * Any file containing "formatCodeSettings" and ending with ".json" will be considered a format code settings. Example: ${code('"foo/formatCodeSettings33.json"')} will match this file.
+  * Any file containing "formatCodeSettings" and ending with ".json" will be considered a format code settings. Example: ${code(
+    '"foo/formatCodeSettings33.json"'
+  )} will match this file.
    * If not found or not valid JSON the tool will throw error
    * If the file is given then the tool won't ask interactively for format code settings.
-   * The path to the file must be relative to the current directory (not to the custom tsconfig json if using ${code(`--${ToolOptionName.tsConfigPath}`)})
+   * The path to the file must be relative to the current directory (not to the custom tsconfig json if using ${code(
+     `--${ToolOptionName.tsConfigPath}`
+   )})
     
 ${ansi.format('Interaction', ['underline'])}
   

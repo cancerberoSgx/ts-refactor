@@ -1,8 +1,8 @@
+import { code } from '../cli/inquire/ansiStyle'
 import { FIX, FixResult } from '../fix'
 import { getFileRelativePath, isSourceFile } from '../project'
+import { ToolOptionName } from '../toolOption'
 import { DestFileFix, DestFileFixOptions } from './abstract/destinationFileFix'
-import { code } from '../cli/inquire/ansiStyle';
-import { ToolOptionName } from '../toolOption';
 
 function moveFile(options: DestFileFixOptions) {
   const { project } = options
@@ -17,7 +17,7 @@ function moveFile(options: DestFileFixOptions) {
     throw `A source file with path ${options.destPath} already exists. Refusing to move something at that location. `
   } else if ((!dir && destPathIsFile && options.inputFiles.length !== 1) || !isSourceFile(options.inputFiles[0])) {
     throw `Refusing to a folder or move several files to a destination path that looks like a file (${
-    options.destPath
+      options.destPath
     } has an extension)`
   } else if ((!dir && destPathIsFile) || (options.inputFiles.length === 1 && !isSourceFile(options.inputFiles[0]))) {
     const t0 = Date.now()
@@ -49,7 +49,9 @@ Currently it will ignore Format Code Settings.
 Moving one file to a non-existent path:
   ${code(`ts-refactor ${FIX.moveFile} ./src/file1.ts ./src/bar/newFile1.ts --dontAsk`)}
 Moving several files to an existent or non-existent directory:
-  ${code(`ts-refactor ${FIX.moveFile} "./src/model/**/*Abstract*.ts*" ./src/model/abstract --${ToolOptionName.dontAsk}`)}
+  ${code(
+    `ts-refactor ${FIX.moveFile} "./src/model/**/*Abstract*.ts*" ./src/model/abstract --${ToolOptionName.dontAsk}`
+  )}
 `
   _selectFilesMessage = 'Select files and folders to move'
 }

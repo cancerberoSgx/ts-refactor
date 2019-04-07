@@ -1,7 +1,8 @@
 import { removeAllUnused } from 'ts-simple-ast-extra'
-import { FIX, fixNames } from '../fix'
+import { code } from '../cli/inquire/ansiStyle'
+import { FIX } from '../fix'
 import { FormatSettingsFix } from './abstract/formatSettingsFix'
-import { code } from '../cli/inquire/ansiStyle';
+import { ToolOptionName } from '../toolOption';
 
 export const removeUnusedFix = new FormatSettingsFix({
   action(options) {
@@ -14,7 +15,7 @@ If any input file is a directory, then it will call the refactor on each of its 
 This code fix currently doesn't accept any option.
 WARNING: This is not a safe operation. It's currently implemented by the TypeScript compiler and it's somewhat aggressive. Check the changes before applying and backup your data first!
 Remove unused identifiers of several files:
-  ${code(`ts-refactor ${FIX.removeUnused} "./src/**" "spec/**/*Spec.ts*" --dontAsk`)}
+  ${code(`ts-refactor ${FIX.removeUnused} "./src/**" "spec/**/*Spec.ts*" --${ToolOptionName.dontAsk}`)}
 `,
   selectFilesMessage: 'Select files/folders to remove unused identifiers from'
 })

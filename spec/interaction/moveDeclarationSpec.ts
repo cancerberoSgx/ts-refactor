@@ -1,7 +1,7 @@
 import { Driver } from 'cli-driver'
-import { cp, mkdir, rm, test, cat } from 'shelljs'
+import { cat, cp, mkdir, rm } from 'shelljs'
+import { removeWhites } from '../../src/misc'
 import { Helper } from './interactionHelper'
-import { removeWhites } from '../../src/misc';
 
 describe('moveDeclaration codeFix', () => {
   let client: Driver
@@ -31,7 +31,7 @@ describe('moveDeclaration codeFix', () => {
     mkdir('tmp')
     cp('-r', 'spec/assets/project1', 'tmp')
   })
- 
+
   it('should accept files and declaration name via arguments', async done => {
     expect(removeWhites(cat('tmp/project1/src/decl1.ts').toString())).toBe(
       removeWhites(`
@@ -47,7 +47,7 @@ describe('moveDeclaration codeFix', () => {
         import {f} from'./decl1'
         export const g = f('asd')
     `)
-    )    
+    )
     await client.enterAndWaitForData(
       'npx ts-node src/cli/cliMain.ts moveDeclaration ./src/decl2.ts b ./src/decl1.ts --tsConfigPath tmp/project1/tsconfig.json --dontAsk',
       'Finished writing'
@@ -66,7 +66,7 @@ describe('moveDeclaration codeFix', () => {
         import { f } from './decl1';
         export const g = f('asd')
     `)
-    )   
+    )
     done()
   })
 })
