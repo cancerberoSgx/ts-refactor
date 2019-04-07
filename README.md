@@ -63,5 +63,9 @@ ts-refactor move declaration FooImpl src/foo/impl.ts src/bar/bar.ts
  * todo: organizeImports : userpreferences
  * movedeclaration: accept declaration name as parameter.
  * stringConcatenationToTemplate: mode as param - or perhaps divide in two refactors.
-  * move  declaration issue with three files simple
-  * moveDeclaration should support target non existing file and in that case create it
+ * move  declaration issue with three files simple
+ * moveDeclaration should support target non existing file and in that case create it
+
+### Ideas
+
+ * AST navigator. at some point we will need a CLI tool for advance AST node selection. I'm imagining two things: 1) query language for aproximations / filtering - tsquery should do 2) a CLI tool like lynx/links CLI browsers, when you can "navigate" links with the keyboard (tab or arrow). Our links will be match ast nodes. user can select one with space, (multiple selection needed ? ) User can type there to filter nodes with queries. Show all the text ? or just souroundings of matches ?

@@ -1,12 +1,14 @@
 import * as ansi from 'ansi-escape-sequences'
-import { prompt } from 'inquirer'
+import { prompt , registerPrompt} from 'inquirer'
 import { FIX } from '../../fix'
 import { getFixes } from '../../fix/fixes'
 import { ToolOptionName } from '../../toolOption'
-import { less } from '../lessPrompt'
+import { less, Less } from '../lessPrompt'
 import { code, fix } from './ansiStyle'
 
 const ansiEscapes = require('ansi-escapes')
+
+registerPrompt('less', Less as any)
 
 function helpIntro() {
   return ansi.format(

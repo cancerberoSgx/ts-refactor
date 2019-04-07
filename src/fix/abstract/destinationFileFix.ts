@@ -19,14 +19,14 @@ export class DestFileFix<T extends DestFileFixOptions> extends FormatSettingsFix
   // protected destinationSuggestOnly = true
   protected destinationMode: 'mustNotExist' | 'mustExist' | 'mustExistFile' = 'mustNotExist'
 
-  async inquireOptions(options: DestFileFixOptions) {
+  async inquireOptions(options: T) {
     const superOptions = await super.inquireOptions(options)
     // if there is any non existing file or the last input file is a directory then we assume that's our destination file
     const thisOptions = await this.inquireDestinationFile(options)
     return { ...options, ...superOptions, ...thisOptions }
   }
 
-  protected async inquireDestinationFile(options: DestFileFixOptions): Promise<{ destPath: string }> {
+  protected async inquireDestinationFile(options: T): Promise<{ destPath: string }> {
     let destinations: string[] = []
     if (this.destinationMode === 'mustNotExist') {
       destinations = (options.options.files || []).filter(f => !getFileFromRelativePath(f, options.project))

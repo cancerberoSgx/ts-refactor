@@ -1,8 +1,8 @@
 import { removeAllUnused } from 'ts-simple-ast-extra'
 import { code } from '../cli/inquire/ansiStyle'
 import { FIX } from '../fix'
+import { ToolOptionName } from '../toolOption'
 import { FormatSettingsFix } from './abstract/formatSettingsFix'
-import { ToolOptionName } from '../toolOption';
 
 export const removeUnusedFix = new FormatSettingsFix({
   action(options) {

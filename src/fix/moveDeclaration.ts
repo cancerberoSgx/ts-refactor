@@ -37,7 +37,9 @@ WARNING: this is a complex refactor operation with and some edge cases could res
 Move one declaration (asked interactively) of src/foo.ts to existing file src/bar.ts:
   ${code(`ts-refactor ${FIX.moveDeclaration} src/foo.ts src/bar.ts`)}
 Move declaration named 'Home' from file 'src/model/types.ts' to existing file src/model/abstract/types.ts without interactions:
-  ${code(`ts-refactor ${FIX.moveDeclaration} src/model/types.ts Home src/model/abstract/types.ts --${ToolOptionName.dontAsk}`)}
+  ${code(
+    `ts-refactor ${FIX.moveDeclaration} src/model/types.ts Home src/model/abstract/types.ts --${ToolOptionName.dontAsk}`
+  )}
 
  `
 

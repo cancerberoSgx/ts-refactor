@@ -15,20 +15,26 @@ describe('parseArgs', () => {
   })
 
   it('should parse files with or without category or fix', () => {
-    expect(parseArgs({ _: ['./file'] })).toEqual({ files: ['./file'], toolOptions: {} })
+    expect(parseArgs({ _: ['./file'] })).toEqual({ files: ['./file'], toolOptions: {}, fixOptions: [] })
     expect(parseArgs({ _: ['./file'] })).toEqual({
       files: ['./file'],
-      toolOptions: {}
+      toolOptions: {},
+      fixOptions: []
     })
     expect(parseArgs({ _: [FIX.organizeImports, './file'] })).toEqual({
       fix: FIX.organizeImports,
       files: ['./file'],
-      toolOptions: {}
+      toolOptions: {},
+      fixOptions: []
     })
   })
 
   it('should parse tool options with or without files, category or fix', () => {
-    expect(parseArgs({ _: ['./file'], help: 'help' })).toEqual({ files: ['./file'], toolOptions: { help: true } })
+    expect(parseArgs({ _: ['./file'], help: 'help' })).toEqual({
+      files: ['./file'],
+      toolOptions: { help: true },
+      fixOptions: []
+    })
     expect(
       parseArgs({
         _: [],
@@ -37,7 +43,8 @@ describe('parseArgs', () => {
       })
     ).toEqual({
       toolOptions: { help: true, tsConfigPath: 'foo/tsconfig.json' },
-      files: []
+      files: [],
+      fixOptions: []
     })
   })
 
