@@ -1,4 +1,4 @@
-import {astExplorer, AstExplorer} from './lessPrompt'
+import {astExplorer, AstExplorer} from './astExplorer'
 import {registerPrompt} from 'inquirer'
 import { tsquery } from '@phenomnomnominal/tsquery';
 

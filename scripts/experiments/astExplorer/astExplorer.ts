@@ -1,34 +1,41 @@
+import { tsquery } from '@phenomnomnominal/tsquery';
 import chalk from 'chalk';
-import { objects, prompt, Questions } from 'inquirer';
+import { prompt, Questions } from 'inquirer';
+import * as _ from 'lodash';
+import { Node, SourceFile } from 'typescript';
 const { map, takeUntil } = require('rxjs/operators')
 const Base = require('inquirer/lib/prompts/base')
 const observe = require('inquirer/lib/utils/events')
-import { tsquery } from '@phenomnomnominal/tsquery';
-import { Node, SourceFile } from 'typescript';
-import * as ts from 'typescript'
-import * as _ from 'lodash';
 
 /**
  * Ast explorer, user can see code, filter entering tsquery selectors and navigate thgouh matched nodes with arrow keys. finally select a node with enter.
  *
  * usage:
- * ```
- * import {astExplorer, AstExplorer} form 'inquirer-astExplorer'
- * registerPrompt('ast-explorer', AstExplorer as any)
- * await astExplorer({code: ``
+```
+import {astExplorer, AstExplorer} from './astExplorer'
+import {registerPrompt} from 'inquirer'
+import { tsquery } from '@phenomnomnominal/tsquery';
+
+registerPrompt('ast-explorer', AstExplorer as any)
+
+async function test(){
+  const code = `
 class Animal {
-    constructor(public name: string) { }
-    move(distanceInMeters: number = 0) {
-        console.log('hello');
-    }
+  constructor(public name: string) { }
+  move(distanceInMeters: number = 0) {
+    console.log('hello');
+  }
 }
 class Snake extends Animal {
-    constructor(name: string) { super(name); }
-    move(distanceInMeters = 5) {
-        console.log("Slithering...");
-        super.move(distanceInMeters);
-    }
-}`
+  constructor(name: string) { super(name); }
+  move(distanceInMeters = 5) {
+    console.log("Slithering...");
+    super.move(distanceInMeters);
+  }
+}
+    `
+  const selectedNode= await astExplorer({code})
+console.log({selectedNode: selectedNode.getText()});
  * })
  * ```
  * TODO: move to its own project
@@ -38,7 +45,7 @@ export async function astExplorer(options: Options): Promise<any> {
   const columns = process.stdout.columns || 79
   const rows = process.stdout.rows || 24
   const choices = options.code.split('\n')
-  const result = await  prompt([
+  const result = await prompt([
     {
       type: 'ast-explorer',
       name: ' ',
@@ -88,7 +95,7 @@ export class AstExplorer extends Base {
    * When user press a key
    */
   onKeypress(e?: any) {
-    this.currentInput = ''+this.rl.line
+    this.currentInput = '' + this.rl.line
     this.render()
   }
   /**
@@ -130,17 +137,17 @@ export class AstExplorer extends Base {
   protected renderChoices() {
     let text = this.sourceFile.getFullText()
     try {
-    this.selectedNodes = tsquery(this.sourceFile, this.currentInput);
+      this.selectedNodes = tsquery(this.sourceFile, this.currentInput);
     } catch (error) {
-      
+
     }
-    this.selectedNodeIndex<this.selectedNodes.length-1 ? this.selectedNodeIndex : 0
+    this.selectedNodeIndex < this.selectedNodes.length - 1 ? this.selectedNodeIndex : 0
     let output = ''
     let last = 0
     this.selectedNodes.forEach((node, i) => {
       const nodeText = node.getFullText()
       const painted = this.selectedNodeIndex === i ? chalk.red(nodeText) : chalk.blue(nodeText)
-      output = output += text.substring(last, node.getFullStart()) + painted 
+      output = output += text.substring(last, node.getFullStart()) + painted
       last = node.getEnd()
     })
     output += text.substring(last, text.length)
@@ -166,8 +173,8 @@ export class AstExplorer extends Base {
    * @param {String} type Arrow type: up or down
    */
   onArrowKey(type: string) {
-    if (type === 'up') this.selectedNodeIndex = this.selectedNodeIndex <=0 ? 0 : this.selectedNodeIndex-1
-    else this.selectedNodeIndex = this.selectedNodeIndex >= this.selectedNodes.length-1  ? this.selectedNodes.length-1  : this.selectedNodeIndex + 1
+    if (type === 'up') this.selectedNodeIndex = this.selectedNodeIndex <= 0 ? 0 : this.selectedNodeIndex - 1
+    else this.selectedNodeIndex = this.selectedNodeIndex >= this.selectedNodes.length - 1 ? this.selectedNodes.length - 1 : this.selectedNodeIndex + 1
     this.onKeypress()
   }
 }
@@ -206,6 +213,6 @@ class CustomPaginator {
     this.lastIndex = active
     // Duplicate the lines so it give an infinite list look
     const section = ['\n', ...lines].splice(active, pageSize).join('\n')
-    return section + '\n' + chalk.dim('(Move up and down to scroll and exit with <enter>)')
+    return section + '\n' + chalk.dim('(Navigate Nodes using arrows, type tsquery selectors to filter, enter for selecting node)')
   }
 }
