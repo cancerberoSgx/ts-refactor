@@ -24,6 +24,7 @@
     "inquirer": "^6.2.2",
     "inquirer-autocomplete-prompt": "^1.0.1",
     "inquirer-checkbox-plus-prompt": "^1.0.1",
+    "inquirer-code-prompts": "0.0.2",
     "shelljs": "^0.8.2",
     "ts-morph": "^1.3.3",
     "ts-simple-ast-extra": "^0.1.2",

@@ -28,7 +28,7 @@ export interface SimpleFixConstructorOptions<T extends FormatSettingsFixOptions>
  * See organizeImports, format. See stringConcatenationToTemplate for an example sub classing this to add a new option.
  */
 export class FormatSettingsFix<T extends FormatSettingsFixOptions> {
-  name: FIX = FIX.arrowFunction
+  name: FIX = FIX.moveDeclaration
 
   description: string = 'TODO: document me!'
 
@@ -117,5 +117,15 @@ Error: ${error}`)
       }
     }
     return { ...options, formatCodeSettings: formatCodeSettings || {} }
+  }
+
+  /** built dummy result with modified files after the operation is executed. */
+  protected buildDummyFixResult(options: FixOptions) {
+    return {
+      files: options.project
+        .getSourceFiles()
+        .filter(f => !f.isSaved())
+        .map(f => ({ name: getFileRelativePath(f, options.project), time: 0 }))
+    }
   }
 }

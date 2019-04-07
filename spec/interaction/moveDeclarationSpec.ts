@@ -3,7 +3,7 @@ import { cat, cp, mkdir, rm } from 'shelljs'
 import { removeWhites } from '../../src/misc'
 import { Helper } from './interactionHelper'
 
-describe('moveDeclaration codeFix', () => {
+fdescribe('moveDeclaration codeFix', () => {
   let client: Driver
   let helper: Helper
 
@@ -32,7 +32,7 @@ describe('moveDeclaration codeFix', () => {
     cp('-r', 'spec/assets/project1', 'tmp')
   })
 // issue injection!!
-  it('should accept files and declaration name via arguments', async done => { 
+  fit('should accept files and declaration name via arguments', async done => { 
     expect(removeWhites(cat('tmp/project1/src/decl1.ts').toString())).toBe(
       removeWhites(`
         export function f(a: string){return a+ b(a)}
