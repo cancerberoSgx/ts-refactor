@@ -1,9 +1,9 @@
 import * as ansi from 'ansi-escape-sequences'
-import { prompt , registerPrompt} from 'inquirer'
+import { prompt, registerPrompt } from 'inquirer'
+import { less, Less } from 'inquirer-code-prompts'
 import { FIX } from '../../fix'
 import { getFixes } from '../../fix/fixes'
 import { ToolOptionName } from '../../toolOption'
-import { less, Less } from 'inquirer-code-prompts'
 import { code, fix } from './ansiStyle'
 
 const ansiEscapes = require('ansi-escapes')

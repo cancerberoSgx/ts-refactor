@@ -1,9 +1,9 @@
 import { prompt } from 'inquirer'
 import { stringConcatenationsToTemplateExpressions, templatesToStringConcatenations } from 'ts-simple-ast-extra'
+import { code } from '../cli/inquire/ansiStyle'
 import { FIX } from '../fix'
+import { ToolOptionName } from '../toolOption'
 import { FormatSettingsFix, SimpleFixConstructorActionOptions } from './abstract/formatSettingsFix'
-import { code } from '../cli/inquire/ansiStyle';
-import { ToolOptionName } from '../toolOption';
 
 interface Options extends SimpleFixConstructorActionOptions {
   mode: 'stringConcatenationToTemplate' | 'templateToStringConcatenation'
@@ -44,7 +44,11 @@ It will change string concatenations to template expressions or vice versa, in p
 If a directory is provided it will apply the change to all its descendant files.
 This is, in general, a safe operation.
 Example mofiying several files non interactively:
-  ${code(`npx ts-node src/cli/cliMain.ts ${FIX.stringTemplate} stringConcatenationToTemplate "./src/**/*string_*.ts*" --${ToolOptionName.dontAsk}`)}
+  ${code(
+    `npx ts-node src/cli/cliMain.ts ${FIX.stringTemplate} stringConcatenationToTemplate "./src/**/*string_*.ts*" --${
+      ToolOptionName.dontAsk
+    }`
+  )}
 TODO: Support FormatCodeSettings and UserPreferences
 WARNING: Although it should be relative safe to use, verify the changes and backup/commit your files before saving the changes.
   `
