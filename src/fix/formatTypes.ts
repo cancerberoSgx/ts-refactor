@@ -1,5 +1,6 @@
 import { FixOptions } from '../fix'
 import { getEnumKeys } from '../misc'
+
 export interface FormatCodeSettings {
   ensureNewLineAtEndOfFile?: boolean
   readonly insertSpaceAfterCommaDelimiter?: boolean
@@ -26,11 +27,13 @@ export interface FormatCodeSettings {
   readonly convertTabsToSpaces?: boolean
   readonly indentStyle?: IndentStyle
 }
+
 enum IndentStyle {
   None = 0,
   Block = 1,
   Smart = 2
 }
+
 enum FormatCodeSettingsNames {
   ensureNewLineAtEndOfFile = 'ensureNewLineAtEndOfFile',
   insertSpaceAfterCommaDelimiter = 'insertSpaceAfterCommaDelimiter',
@@ -70,6 +73,7 @@ export interface UserPreferences {
   readonly allowTextChangesInNewFiles?: boolean
   readonly providePrefixAndSuffixTextForRename?: boolean
 }
+
 enum UserPreferencesNames {
   disableSuggestions = 'disableSuggestions',
   quotePreference = 'quotePreference',
@@ -81,6 +85,7 @@ enum UserPreferencesNames {
   allowTextChangesInNewFiles = 'allowTextChangesInNewFiles',
   providePrefixAndSuffixTextForRename = 'providePrefixAndSuffixTextForRename'
 }
+
 export const userPreferences = getEnumKeys(UserPreferencesNames)
 
 export interface FixWithFormatCodeSettingOptions extends FixOptions {
