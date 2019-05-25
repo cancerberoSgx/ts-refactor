@@ -5,7 +5,7 @@ import { FormatSettingsFix } from './abstract/formatSettingsFix'
 
 export const organizeImportsFix = new FormatSettingsFix({
   action(options) {
-    options.file.organizeImports()
+    options.file.organizeImports(options.formatCodeSettings, options.formatCodeSettings as any)
   },
   name: FIX.organizeImports,
   description: `

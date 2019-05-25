@@ -34,14 +34,14 @@ describe('moveFile codeFix', () => {
   })
 
   it('should ask for fix and input files if no arguments is given', async done => {
-    await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts', 'Select a code fix')
+    await client.enterAndWaitForData('npx ts-node -T src/cli/cliMain.ts', 'Select a code fix')
     await helper.focusListItem('moveFile')
     await client.enterAndWaitForData('', 'Select files and folders to move')
     await helper.controlC()
     done()
   })
   it('should not ask for input files if there is an file argument', async done => {
-    await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts ./src/main.ts', 'Select a code fix')
+    await client.enterAndWaitForData('npx ts-node -T src/cli/cliMain.ts ./src/main.ts', 'Select a code fix')
     await helper.focusListItem('moveFile')
     await client.enterAndWaitForData('', 'Configure Format Code Settings?')
     await client.enterAndWaitForData('', 'Select the destination path')
@@ -50,7 +50,7 @@ describe('moveFile codeFix', () => {
   })
   it('should not ask for codeFix or input files if both are provided as arguments', async done => {
     await client.enterAndWaitForData(
-      'npx ts-node src/cli/cliMain.ts moveFile ./src/main.ts',
+      'npx ts-node -T src/cli/cliMain.ts moveFile ./src/main.ts',
       'Configure Format Code Settings?'
     )
     await helper.controlC()
@@ -60,7 +60,7 @@ describe('moveFile codeFix', () => {
     expect(test('-f', 'tmp/project1/src/newFile1.ts')).toBe(false)
     expect(test('-f', 'tmp/project1/src/file1.ts')).toBe(true)
     await client.enterAndWaitForData(
-      'npx ts-node src/cli/cliMain.ts moveFile ./src/file1.ts ./src/newFile1.ts --tsConfigPath tmp/project1/tsconfig.json',
+      'npx ts-node -T src/cli/cliMain.ts moveFile ./src/file1.ts ./src/newFile1.ts --tsConfigPath tmp/project1/tsconfig.json',
       'Configure Format Code Settings?'
     )
     await client.enterAndWaitForData('', 'Are you sure you want to continue?')
@@ -74,7 +74,7 @@ describe('moveFile codeFix', () => {
     expect(test('-f', 'tmp/project1/src/newFile1.ts')).toBe(false)
     expect(test('-f', 'tmp/project1/src/file1.ts')).toBe(true)
     await client.enterAndWaitForData(
-      'npx ts-node src/cli/cliMain.ts moveFile ./src/file1.ts ./src/newFile1.ts --tsConfigPath tmp/project1/tsconfig.json --dontConfirm',
+      'npx ts-node -T src/cli/cliMain.ts moveFile ./src/file1.ts ./src/newFile1.ts --tsConfigPath tmp/project1/tsconfig.json --dontConfirm',
       'Configure Format Code Settings?'
     )
     await client.enterAndWaitForData('', 'Finished writing (1) files.')

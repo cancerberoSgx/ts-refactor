@@ -19,5 +19,10 @@
   "convertTabsToSpaces": true,
   "ensureNewLineAtEndOfFile": true,
   "newLineCharacter": "\n",
-  "indentStyle": 2
+  "indentStyle": 1,
+
+  "quotePreference": "double",
+  "importModuleSpecifierPreference": "non-relative",
+  "importModuleSpecifierEnding": "index",
+  "allowTextChangesInNewFiles": "true"
 }

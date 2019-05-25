@@ -43,7 +43,7 @@ const b = \`\${a} b c \${Math.PI} g \${function() {
     `)
     )
     await client.enterAndWaitForData(
-      `npx ts-node src/cli/cliMain.ts ${
+      `npx ts-node -T src/cli/cliMain.ts ${
         FIX.stringTemplate
       } stringConcatenationToTemplate "./src/**/*string_*.ts*" --tsConfigPath tmp/project1/tsconfig.json --${
         ToolOptionName.dontAsk
@@ -72,7 +72,7 @@ const b = \`\${a} b c \${Math.PI} g \${function() {
     `)
     )
     await client.enterAndWaitForData(
-      `npx ts-node src/cli/cliMain.ts --tsConfigPath tmp/project1/tsconfig.json`,
+      `npx ts-node -T src/cli/cliMain.ts --tsConfigPath tmp/project1/tsconfig.json`,
       'Select a code fix'
     )
     await helper.focusListItem(`${FIX.stringTemplate}`)

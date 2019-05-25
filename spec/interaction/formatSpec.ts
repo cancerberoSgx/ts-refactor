@@ -38,7 +38,7 @@ export const               s =                "hello"
 	`.trim()
     )
     await client.enterAndWaitForData(
-      'npx ts-node src/cli/cliMain.ts format "./src/unformatted.ts" --tsConfigPath tmp/project1/tsconfig.json  --dontAsk',
+      'npx ts-node -T src/cli/cliMain.ts format "./src/unformatted.ts" --tsConfigPath tmp/project1/tsconfig.json  --dontAsk',
       'Finished writing (1) files.'
     )
     await helper.expectLastExitCode(true)
@@ -53,7 +53,7 @@ export const s = "hello"
 
   it('should throw if invalid formatCodeSettings.json file is provided as arguments', async done => {
     await client.enterAndWaitForData(
-      'npx ts-node src/cli/cliMain.ts format src/unformatted.ts ./formatCodeSettings.json --tsConfigPath tmp/project1/tsconfig.json --dontAsk',
+      'npx ts-node -T src/cli/cliMain.ts format src/unformatted.ts ./formatCodeSettings.json --tsConfigPath tmp/project1/tsconfig.json --dontAsk',
       'Error:'
     )
     await helper.expectLastExitCode(false)
@@ -68,7 +68,7 @@ export const               s =                "hello"
 	`.trim()
     )
     await client.enterAndWaitForData(
-      'npx ts-node src/cli/cliMain.ts format "./src/unformatted.ts" tmp/project1/formatCodeSettings2.json --tsConfigPath tmp/project1/tsconfig.json  --dontAsk',
+      'npx ts-node -T src/cli/cliMain.ts format "./src/unformatted.ts" tmp/project1/formatCodeSettings2.json --tsConfigPath tmp/project1/tsconfig.json  --dontAsk',
       'Finished writing (1) files.'
     )
     await helper.expectLastExitCode(true)
@@ -90,7 +90,7 @@ export const               s =                "hello"
 	`.trim()
     )
     await client.enterAndWaitForData(
-      'npx ts-node src/cli/cliMain.ts format "./src/unformatted.ts" tmp/project1/formatCodeSettings1.json --tsConfigPath tmp/project1/tsconfig.json  --dontAsk',
+      'npx ts-node -T src/cli/cliMain.ts format "./src/unformatted.ts" tmp/project1/formatCodeSettings1.json --tsConfigPath tmp/project1/tsconfig.json  --dontAsk',
       'Finished writing (1) files.'
     )
     await helper.expectLastExitCode(true)

@@ -49,7 +49,7 @@ describe('moveDeclaration codeFix', () => {
     `)
     )
     await client.enterAndWaitForData(
-      'npx ts-node src/cli/cliMain.ts moveDeclaration ./src/decl2.ts b ./src/decl1.ts --tsConfigPath tmp/project1/tsconfig.json --dontAsk',
+      'npx ts-node -T src/cli/cliMain.ts moveDeclaration ./src/decl2.ts b ./src/decl1.ts --tsConfigPath tmp/project1/tsconfig.json --dontAsk',
       'Finished writing'
     )
     await helper.expectLastExitCode(true)

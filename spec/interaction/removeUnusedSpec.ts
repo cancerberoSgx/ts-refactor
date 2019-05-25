@@ -32,14 +32,14 @@ describe('removeUnused codeFix', () => {
   })
 
   it('should ask for fix and input files if no arguments is given', async done => {
-    await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts', 'Select a code fix')
+    await client.enterAndWaitForData('npx ts-node -T src/cli/cliMain.ts', 'Select a code fix')
     await helper.focusListItem('removeUnused')
     await client.enterAndWaitForData('', 'Select files/folders to remove unused identifiers from')
     await helper.controlC()
     done()
   })
   it('should not ask for input files if there is an file argument', async done => {
-    await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts ./src/main.ts', 'Select a code fix')
+    await client.enterAndWaitForData('npx ts-node -T src/cli/cliMain.ts ./src/main.ts', 'Select a code fix')
     await helper.focusListItem('removeUnused')
     await client.enterAndWaitForData('', 'Configure Format Code Settings?')
     await helper.controlC()
@@ -47,7 +47,7 @@ describe('removeUnused codeFix', () => {
   })
   it('should not ask for codeFix or input files if both are provided as arguments', async done => {
     await client.enterAndWaitForData(
-      'npx ts-node src/cli/cliMain.ts removeUnused ./src/main.ts',
+      'npx ts-node -T src/cli/cliMain.ts removeUnused ./src/main.ts',
       'Configure Format Code Settings?'
     )
     await helper.controlC()
@@ -56,7 +56,7 @@ describe('removeUnused codeFix', () => {
   it('should ask only for confirmation if fix, and input files are provided as arguments', async done => {
     expect(removeWhites(cat('tmp/project1/src/test.ts').toString())).toBe(removeWhites(`var a = 1 export const c = 1`))
     await client.enterAndWaitForData(
-      'npx ts-node src/cli/cliMain.ts removeUnused ./src/test.ts --tsConfigPath tmp/project1/tsconfig.json',
+      'npx ts-node -T src/cli/cliMain.ts removeUnused ./src/test.ts --tsConfigPath tmp/project1/tsconfig.json',
       'Configure Format Code Settings?'
     )
     await client.enterAndWaitForData('', 'Are you sure you want to continue?')
@@ -68,7 +68,7 @@ describe('removeUnused codeFix', () => {
   it('should not ask for confirmation if fix, input files and --dontConfirm are given', async done => {
     expect(removeWhites(cat('tmp/project1/src/test.ts').toString())).toBe(removeWhites(`var a = 1 export const c = 1`))
     await client.enterAndWaitForData(
-      'npx ts-node src/cli/cliMain.ts removeUnused ./src/test.ts --tsConfigPath tmp/project1/tsconfig.json --dontConfirm',
+      'npx ts-node -T src/cli/cliMain.ts removeUnused ./src/test.ts --tsConfigPath tmp/project1/tsconfig.json --dontConfirm',
       'Configure Format Code Settings?'
     )
     await client.enterAndWaitForData('', 'Finished writing (1) files.')
@@ -79,7 +79,7 @@ describe('removeUnused codeFix', () => {
   it('should not ask for anything if fix, input files and --dontAsk are given', async done => {
     expect(removeWhites(cat('tmp/project1/src/test.ts').toString())).toBe(removeWhites(`var a = 1 export const c = 1`))
     await client.enterAndWaitForData(
-      'npx ts-node src/cli/cliMain.ts removeUnused ./src/test.ts --tsConfigPath tmp/project1/tsconfig.json --dontAsk',
+      'npx ts-node -T src/cli/cliMain.ts removeUnused ./src/test.ts --tsConfigPath tmp/project1/tsconfig.json --dontAsk',
       'Finished writing (1) files.'
     )
     await helper.expectLastExitCode(true)
@@ -98,7 +98,7 @@ describe('removeUnused codeFix', () => {
       `)
     )
     await client.enterAndWaitForData(
-      'npx ts-node src/cli/cliMain.ts removeUnused "./src/**/*test.ts" --tsConfigPath tmp/project1/tsconfig.json --dontAsk',
+      'npx ts-node -T src/cli/cliMain.ts removeUnused "./src/**/*test.ts" --tsConfigPath tmp/project1/tsconfig.json --dontAsk',
       'Finished writing (2) files.'
     )
     await helper.expectLastExitCode(true)

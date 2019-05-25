@@ -30,7 +30,7 @@ describe('CLI', () => {
   describe('tool options and validation', () => {
     it('--help should print usage help and exit with code 0', async done => {
       const data = await client.enterAndWaitForData(
-        'npx ts-node src/cli/cliMain.ts --help',
+        'npx ts-node -T src/cli/cliMain.ts --help',
         'Run ts-refactor --interactiveHelp for more details'
       )
       const helpOptions = [
@@ -48,7 +48,7 @@ describe('CLI', () => {
     })
     it('--InteractiveHelp should show interactive help menu, selecting exit should exit with code 0', async done => {
       const data = await client.enterAndWaitForData(
-        'npx ts-node src/cli/cliMain.ts --interactiveHelp',
+        'npx ts-node -T src/cli/cliMain.ts --interactiveHelp',
         'Select a Topic'
       )
       const helpOptions = ['Exit', 'Introduction', 'General Rules', 'Fix Descriptions']
@@ -61,7 +61,7 @@ describe('CLI', () => {
 
     it('--strangeArgument should error', async done => {
       await client.enterAndWaitForData(
-        'npx ts-node src/cli/cliMain.ts --strangeArgument',
+        'npx ts-node -T src/cli/cliMain.ts --strangeArgument',
         'Unknown tool option strangeArgument'
       )
       await helper.expectLastExitCode(false)
@@ -70,12 +70,12 @@ describe('CLI', () => {
 
     it('should target another project with --tsConfigPath', async done => {
       expect(
-        await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts organizeImports', 'Select files')
+        await client.enterAndWaitForData('npx ts-node -T src/cli/cliMain.ts organizeImports', 'Select files')
       ).not.toContain(' ◯ src/file2.ts')
       await helper.controlC()
       expect(
         await client.enterAndWaitForData(
-          'npx ts-node src/cli/cliMain.ts organizeImports --tsConfigPath tmp/project1/tsconfig.json',
+          'npx ts-node -T src/cli/cliMain.ts organizeImports --tsConfigPath tmp/project1/tsconfig.json',
           'Select files'
         )
       ).toContain(' ◯ src/file2.ts')
@@ -86,14 +86,14 @@ describe('CLI', () => {
 
   describe('code fixes general behavior', () => {
     it('should ask for a fix if no arguments are given at all and I can exit with ctrl-c', async done => {
-      await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts', 'Select a code fix')
+      await client.enterAndWaitForData('npx ts-node -T src/cli/cliMain.ts', 'Select a code fix')
       await helper.controlC()
       done()
     })
 
     it('should error if given a non file argument that is not a codeFix', async done => {
       await client.enterAndWaitForData(
-        'npx ts-node src/cli/cliMain.ts notACodeFix',
+        'npx ts-node -T src/cli/cliMain.ts notACodeFix',
         'Error: Unknown fix notACodeFix. Must be one of'
       )
       await helper.expectLastExitCode(false)
@@ -101,7 +101,7 @@ describe('CLI', () => {
     })
 
     it('fixes has a last Exit option which exit with code 0', async done => {
-      await client.enterAndWaitForData('npx ts-node src/cli/cliMain.ts', 'Select a code fix')
+      await client.enterAndWaitForData('npx ts-node -T src/cli/cliMain.ts', 'Select a code fix')
       await client.write(ansi.cursor.up())
       await client.enterAndWaitForData('', 'Bye')
       await helper.expectLastExitCode(true)
