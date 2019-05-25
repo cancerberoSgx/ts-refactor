@@ -16,5 +16,8 @@
   "indentMultiLineObjectLiteralBeginningOnBlankLine": true,
   "indentSize": 2,
   "tabSize": 4,
-  "convertTabsToSpaces": true
+  "convertTabsToSpaces": true,
+  "ensureNewLineAtEndOfFile": true,
+  "newLineCharacter": "\n",
+  "indentStyle": 2
 }

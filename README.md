@@ -1,4 +1,20 @@
-CLI interactive TypeScript refactor tool
+[![Build Status](https://travis-ci.org/cancerberosgx/ts-refactor.png?branch=master)](https://travis-ci.org/cancerberosgx/ts-refactor)
+
+CLI interactive TypeScript refactor tool. 
+
+# Examples
+
+## Organize imports
+
+```
+npx ts-refactor organizeImports \"src/**/*.ts*\" \"spec/**/*.ts*\" \"probes/**/*.ts*\" --dontAsk
+```
+
+## Format code
+
+```
+npx ts-refactor format \"src/**/*.ts*\" \"spec/**/*.ts*\" \"probes/**/*.ts*\" ./formatCodeSettings.json --tsConfigPath ./tsconfig.json --dontAsk
+```
 
 # Design first thoughts
 

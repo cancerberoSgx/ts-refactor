@@ -19,12 +19,12 @@ export interface FormatCodeSettings {
   readonly placeOpenBraceOnNewLineForControlBlocks?: boolean
   readonly insertSpaceBeforeTypeAnnotation?: boolean
   readonly indentMultiLineObjectLiteralBeginningOnBlankLine?: boolean
-  baseIndentSize?: number
-  indentSize?: number
-  tabSize?: number
-  newLineCharacter?: string
-  convertTabsToSpaces?: boolean
-  indentStyle?: IndentStyle
+  readonly baseIndentSize?: number
+  readonly indentSize?: number
+  readonly tabSize?: number
+  readonly newLineCharacter?: string
+  readonly convertTabsToSpaces?: boolean
+  readonly indentStyle?: IndentStyle
 }
 enum IndentStyle {
   None = 0,
