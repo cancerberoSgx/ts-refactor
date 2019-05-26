@@ -4,13 +4,13 @@ import { SourceFile } from 'ts-morph'
 import { inquireFormatCodeSettings } from '../../cli/inquire/inquireFormatCodeSettings'
 import { File, FIX, FixOptions, FixResult } from '../../fix'
 import { getFileRelativePath, isSourceFile } from '../../project'
-import { FormatCodeSettings } from '../formatTypes'
+import { AllFormatCodeSettings } from '../formatTypes'
 
 export interface SimpleFixConstructorActionOptions extends FixOptions {
   file: SourceFile
 }
 export interface FormatSettingsFixOptions extends FixOptions {
-  formatCodeSettings?: FormatCodeSettings
+  formatCodeSettings?: AllFormatCodeSettings
 }
 export interface SimpleFixConstructorOptions<T extends FormatSettingsFixOptions> {
   action(options: T & { file: SourceFile }): void
@@ -84,7 +84,7 @@ export class FormatSettingsFix<T extends FormatSettingsFixOptions> {
   }
 
   protected async inquireFormatCodeSettings(options: T): Promise<T> {
-    let formatCodeSettings: FormatCodeSettings | undefined
+    let formatCodeSettings: AllFormatCodeSettings | undefined
     const formatSettingsFile = (options.options.files || []).find(
       f => f.includes('formatCodeSettings') && f.endsWith('.json')
     )

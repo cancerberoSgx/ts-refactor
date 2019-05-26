@@ -74,8 +74,8 @@ export const               s =                "hello"
     await helper.expectLastExitCode(true)
     expect(cat('tmp/project1/src/unformatted.ts').toString()).toContain(
       `
-import { readFile } from 'fs'
-export const s = "hello"
+import { readFile } from 'fs';
+export const s = "hello";
 `.trim()
     )
 

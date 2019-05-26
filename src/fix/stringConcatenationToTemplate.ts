@@ -43,7 +43,7 @@ class StringConcatenationToTemplate extends FormatSettingsFix<Options> {
 It will change string concatenations to template expressions or vice versa, in provided files. 
 If a directory is provided it will apply the change to all its descendant files.
 This is, in general, a safe operation.
-Example mofiying several files non interactively:
+Example modifying several files non interactively:
   ${code(
     `npx ts-node src/cli/cliMain.ts ${FIX.stringTemplate} stringConcatenationToTemplate "./src/**/*string_*.ts*" --${
       ToolOptionName.dontAsk

@@ -24,6 +24,8 @@
   "quotePreference": "single",
   "importModuleSpecifierPreference": "relative",
   "importModuleSpecifierEnding": "minimal",
-  "allowTextChangesInNewFiles": "true"
+  "allowTextChangesInNewFiles": true,
+  "trailingSemicolon": false
+
 
 } 

@@ -1,7 +1,7 @@
 import { FixOptions } from '../fix'
 import { getEnumKeys } from '../misc'
 
-export interface FormatCodeSettings {
+interface FormatCodeSettings {
   ensureNewLineAtEndOfFile?: boolean
   readonly insertSpaceAfterCommaDelimiter?: boolean
   readonly insertSpaceAfterSemicolonInForStatements?: boolean
@@ -34,7 +34,67 @@ enum IndentStyle {
   Smart = 2
 }
 
-enum FormatCodeSettingsNames {
+// enum FormatCodeSettingsNames {
+//   ensureNewLineAtEndOfFile = 'ensureNewLineAtEndOfFile',
+//   insertSpaceAfterCommaDelimiter = 'insertSpaceAfterCommaDelimiter',
+//   insertSpaceAfterSemicolonInForStatements = 'insertSpaceAfterSemicolonInForStatements',
+//   insertSpaceBeforeAndAfterBinaryOperators = 'insertSpaceBeforeAndAfterBinaryOperators',
+//   insertSpaceAfterConstructor = 'insertSpaceAfterConstructor',
+//   insertSpaceAfterKeywordsInControlFlowStatements = 'insertSpaceAfterKeywordsInControlFlowStatements',
+//   insertSpaceAfterFunctionKeywordForAnonymousFunctions = 'insertSpaceAfterFunctionKeywordForAnonymousFunctions',
+//   insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis = 'insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis',
+//   insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets = 'insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets',
+//   insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces = 'insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces',
+//   insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces = 'insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces',
+//   insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces = 'insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces',
+//   insertSpaceAfterTypeAssertion = 'insertSpaceAfterTypeAssertion',
+//   insertSpaceBeforeFunctionParenthesis = 'insertSpaceBeforeFunctionParenthesis',
+//   placeOpenBraceOnNewLineForFunctions = 'placeOpenBraceOnNewLineForFunctions',
+//   placeOpenBraceOnNewLineForControlBlocks = 'placeOpenBraceOnNewLineForControlBlocks',
+//   insertSpaceBeforeTypeAnnotation = 'insertSpaceBeforeTypeAnnotation',
+//   indentMultiLineObjectLiteralBeginningOnBlankLine = 'indentMultiLineObjectLiteralBeginningOnBlankLine',
+//   baseIndentSize = 'baseIndentSize',
+//   indentSize = 'indentSize',
+//   tabSize = 'tabSize',
+//   newLineCharacter = 'newLineCharacter',
+//   convertTabsToSpaces = 'convertTabsToSpaces',
+//   indentStyle = 'indentStyle'
+// }
+// const formatCodeSettingsNames = getEnumKeys(FormatCodeSettingsNames)
+
+interface UserPreferences {
+  readonly disableSuggestions?: boolean
+  readonly quotePreference?: 'auto' | 'double' | 'single'
+  readonly includeCompletionsForModuleExports?: boolean
+  readonly includeCompletionsWithInsertText?: boolean
+  readonly importModuleSpecifierPreference?: 'relative' | 'non-relative'
+  /** Determines whether we import `foo/index.ts` as "foo", "foo/index", or "foo/index.js" */
+  readonly importModuleSpecifierEnding?: 'minimal' | 'index' | 'js'
+  readonly allowTextChangesInNewFiles?: boolean
+  readonly providePrefixAndSuffixTextForRename?: boolean
+}
+
+// enum UserPreferencesNames {
+//   disableSuggestions = 'disableSuggestions',
+//   quotePreference = 'quotePreference',
+//   includeCompletionsForModuleExports = 'includeCompletionsForModuleExports',
+//   includeCompletionsWithInsertText = 'includeCompletionsWithInsertText',
+//   importModuleSpecifierPreference = 'importModuleSpecifierPreference',
+//   /** Determines whether we import `foo/index.ts` as "foo", "foo/index", or "foo/index.js" */
+//   importModuleSpecifierEnding = 'importModuleSpecifierEnding',
+//   allowTextChangesInNewFiles = 'allowTextChangesInNewFiles',
+//   providePrefixAndSuffixTextForRename = 'providePrefixAndSuffixTextForRename'
+// }
+
+// const userPreferences = getEnumKeys(UserPreferencesNames)
+
+interface CustomFormatSettings {
+  trailingSemicolon?: boolean
+}
+
+export interface AllFormatCodeSettings extends FormatCodeSettings, UserPreferences, CustomFormatSettings {}
+
+enum AllCodeFormatCodeSettingsNames {
   ensureNewLineAtEndOfFile = 'ensureNewLineAtEndOfFile',
   insertSpaceAfterCommaDelimiter = 'insertSpaceAfterCommaDelimiter',
   insertSpaceAfterSemicolonInForStatements = 'insertSpaceAfterSemicolonInForStatements',
@@ -58,23 +118,8 @@ enum FormatCodeSettingsNames {
   tabSize = 'tabSize',
   newLineCharacter = 'newLineCharacter',
   convertTabsToSpaces = 'convertTabsToSpaces',
-  indentStyle = 'indentStyle'
-}
-export const formatCodeSettingsNames = getEnumKeys(FormatCodeSettingsNames)
+  indentStyle = 'indentStyle',
 
-export interface UserPreferences {
-  readonly disableSuggestions?: boolean
-  readonly quotePreference?: 'auto' | 'double' | 'single'
-  readonly includeCompletionsForModuleExports?: boolean
-  readonly includeCompletionsWithInsertText?: boolean
-  readonly importModuleSpecifierPreference?: 'relative' | 'non-relative'
-  /** Determines whether we import `foo/index.ts` as "foo", "foo/index", or "foo/index.js" */
-  readonly importModuleSpecifierEnding?: 'minimal' | 'index' | 'js'
-  readonly allowTextChangesInNewFiles?: boolean
-  readonly providePrefixAndSuffixTextForRename?: boolean
-}
-
-enum UserPreferencesNames {
   disableSuggestions = 'disableSuggestions',
   quotePreference = 'quotePreference',
   includeCompletionsForModuleExports = 'includeCompletionsForModuleExports',
@@ -83,11 +128,13 @@ enum UserPreferencesNames {
   /** Determines whether we import `foo/index.ts` as "foo", "foo/index", or "foo/index.js" */
   importModuleSpecifierEnding = 'importModuleSpecifierEnding',
   allowTextChangesInNewFiles = 'allowTextChangesInNewFiles',
-  providePrefixAndSuffixTextForRename = 'providePrefixAndSuffixTextForRename'
+  providePrefixAndSuffixTextForRename = 'providePrefixAndSuffixTextForRename',
+
+  trailingSemicolon = 'trailingSemicolon'
 }
 
-export const userPreferences = getEnumKeys(UserPreferencesNames)
+export const allFormatCodeSettingsNames = getEnumKeys(AllCodeFormatCodeSettingsNames)
 
 export interface FixWithFormatCodeSettingOptions extends FixOptions {
-  formatCodeSettings?: FormatCodeSettings
+  formatCodeSettings?: AllFormatCodeSettings
 }

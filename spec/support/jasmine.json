@@ -5,5 +5,5 @@
   ],
   "stopSpecOnExpectationFailure": true,
   "failFast": true,
-  "random": true
+  "random": false
 }

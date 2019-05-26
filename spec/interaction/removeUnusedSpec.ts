@@ -38,6 +38,7 @@ describe('removeUnused codeFix', () => {
     await helper.controlC()
     done()
   })
+
   it('should not ask for input files if there is an file argument', async done => {
     await client.enterAndWaitForData('npx ts-node -T src/cli/cliMain.ts ./src/main.ts', 'Select a code fix')
     await helper.focusListItem('removeUnused')
@@ -45,6 +46,7 @@ describe('removeUnused codeFix', () => {
     await helper.controlC()
     done()
   })
+
   it('should not ask for codeFix or input files if both are provided as arguments', async done => {
     await client.enterAndWaitForData(
       'npx ts-node -T src/cli/cliMain.ts removeUnused ./src/main.ts',
@@ -53,6 +55,7 @@ describe('removeUnused codeFix', () => {
     await helper.controlC()
     done()
   })
+
   it('should ask only for confirmation if fix, and input files are provided as arguments', async done => {
     expect(removeWhites(cat('tmp/project1/src/test.ts').toString())).toBe(removeWhites(`var a = 1 export const c = 1`))
     await client.enterAndWaitForData(
@@ -65,6 +68,7 @@ describe('removeUnused codeFix', () => {
     expect(removeWhites(cat('tmp/project1/src/test.ts').toString())).toBe(removeWhites(`export const c = 1`))
     done()
   })
+
   it('should not ask for confirmation if fix, input files and --dontConfirm are given', async done => {
     expect(removeWhites(cat('tmp/project1/src/test.ts').toString())).toBe(removeWhites(`var a = 1 export const c = 1`))
     await client.enterAndWaitForData(
@@ -76,6 +80,7 @@ describe('removeUnused codeFix', () => {
     expect(removeWhites(cat('tmp/project1/src/test.ts').toString())).toBe(removeWhites(`export const c = 1`))
     done()
   })
+
   it('should not ask for anything if fix, input files and --dontAsk are given', async done => {
     expect(removeWhites(cat('tmp/project1/src/test.ts').toString())).toBe(removeWhites(`var a = 1 export const c = 1`))
     await client.enterAndWaitForData(
@@ -86,6 +91,7 @@ describe('removeUnused codeFix', () => {
     expect(removeWhites(cat('tmp/project1/src/test.ts').toString())).toBe(removeWhites(`export const c = 1`))
     done()
   })
+
   it('should accept globs', async done => {
     expect(removeWhites(cat('tmp/project1/src/test.ts').toString())).toBe(removeWhites(`var a = 1 export const c = 1`))
     expect(removeWhites(cat('tmp/project1/src/second_test.ts').toString())).toBe(

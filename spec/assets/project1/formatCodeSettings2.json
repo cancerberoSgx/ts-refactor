@@ -24,5 +24,7 @@
   "quotePreference": "double",
   "importModuleSpecifierPreference": "non-relative",
   "importModuleSpecifierEnding": "index",
-  "allowTextChangesInNewFiles": "true"
+  
+  "allowTextChangesInNewFiles": true,
+  "trailingSemicolon": true
 }

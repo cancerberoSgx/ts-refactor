@@ -1,5 +1,9 @@
 import { prompt, registerPrompt } from 'inquirer'
-import { FixWithFormatCodeSettingOptions, FormatCodeSettings, formatCodeSettingsNames } from '../../fix/formatTypes'
+import {
+  AllFormatCodeSettings,
+  allFormatCodeSettingsNames,
+  FixWithFormatCodeSettingOptions
+} from '../../fix/formatTypes'
 
 // TODO: all properties are represented as booleans but there are some that are numbers or enums. A cheap solution, for example, tabSize?: number, could be creating several properties like tabSize2: boolean, tabSize4: boolean so we can keep using this widget
 
@@ -8,8 +12,10 @@ registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'))
  *
  * @param options wil try to read formatCodeSettings.json and if not optionally ask the user to fill them interactively
  */
-export async function inquireFormatCodeSettings(options: FixWithFormatCodeSettingOptions): Promise<FormatCodeSettings> {
-  const { formatCodeSettings } = await prompt<{ formatCodeSettings: FormatCodeSettings }>([
+export async function inquireFormatCodeSettings(
+  options: FixWithFormatCodeSettingOptions
+): Promise<AllFormatCodeSettings> {
+  const { formatCodeSettings } = await prompt<{ formatCodeSettings: AllFormatCodeSettings }>([
     {
       type: 'checkbox-plus',
       name: 'formatCodeSettings',
@@ -21,7 +27,7 @@ export async function inquireFormatCodeSettings(options: FixWithFormatCodeSettin
       default: [],
       // @ts-ignore
       source: function(answersSoFar: string[], input: string) {
-        return Promise.resolve(formatCodeSettingsNames.filter(p => p.includes(input)).sort())
+        return Promise.resolve(allFormatCodeSettingsNames.filter(p => p.includes(input)).sort())
       }
     }
   ])
