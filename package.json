@@ -1,6 +1,6 @@
 {
   "name": "ts-refactor",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "TypeScript code refactor interactive CLI tool",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -13,7 +13,7 @@
     "prepare": "tsc",
     "prettier": "ts-node -T src/cli/cliMain.ts organizeImports \"src/**\" \"spec/**/*Spec.ts*\" --dontAsk && npx prettier  --write --arrow-parens avoid --parser typescript --use-tabs false --no-semi true --single-quote true --tab-width 2 --trailing-comma none --end-of-line lf --prose-wrap preserve --print-width 120  --jsx-bracket-same-line true \"src/**/*.ts*\" \"spec/**/*Spec.ts*\"",
     "clean": "rm -rf dist",
-    "all": "npm run clean && npm run prettier && npm run build && npm test",    
+    "all": "npm run clean && npm run prettier && npm run build && npm test",
     "all-publish": "npm run all && git commit -a -m \"version patch\" && npm version patch && npm publish",
     "all-test": "npm run clean && npm run build && npm test"
   },
