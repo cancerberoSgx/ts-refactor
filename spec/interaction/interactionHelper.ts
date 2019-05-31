@@ -8,12 +8,12 @@ export class Helper {
     if (typeof zeroExitCode === 'undefined') {
       expect(
         await this.client.enterAndWaitForData(
-          `echo 1; node -e "console.log('better than echo:', 1+1)"; echo "flush";`,
+          `echo 1; node -e "console.log('better than echo: '+ (1+1))"; echo "flush";`,
           'better than echo: 2'
         )
       ).toContain('better than echo: 2')
     } else {
-      await this.client.enter(`echo "exit code $?"; node -e "console.log('better than echo:', 1+1)"; echo "flush";`)
+      await this.client.enter(`echo "exit code $?"; node -e "console.log('better than echo: '+ (1+1))"; echo "flush";`)
       await this.client.waitTime(100)
       if (zeroExitCode) {
         expect(await this.client.waitForData('better than echo: 2')).toContain(`exit code 0`)

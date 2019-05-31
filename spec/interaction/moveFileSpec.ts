@@ -19,14 +19,12 @@ describe('moveFile codeFix', () => {
     cp('-r', 'spec/assets/project1', 'tmp')
     done()
   })
-
   afterAll(async done => {
     await client.destroy().catch()
     helper = null as any
     rm('-r', 'tmp')
     done()
   })
-
   beforeEach(() => {
     rm('-r', 'tmp')
     mkdir('tmp')

@@ -1,6 +1,6 @@
 import { Driver } from 'cli-driver'
+import { removeWhites } from 'misc-utils-of-mine-generic'
 import { cat, cp, mkdir, rm } from 'shelljs'
-import { removeWhites } from '../../src/misc'
 import { Helper } from './interactionHelper'
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 12000

@@ -1,5 +1,5 @@
+import { enumKeys } from 'misc-utils-of-mine-generic'
 import { FIX } from './fix'
-import { getEnumKeys } from './misc'
 
 export interface ParsedArgs {
   fix: FIX
@@ -63,4 +63,4 @@ export const toolOptionTypes = {
   [ToolOptionName.dontConfirm]: ToolOptionType.boolean
 }
 
-export const toolOptionNames = getEnumKeys(ToolOptionName)
+export const toolOptionNames = enumKeys(ToolOptionName)

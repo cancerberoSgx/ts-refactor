@@ -1,7 +1,7 @@
 import { Driver } from 'cli-driver'
+import { removeWhites } from 'misc-utils-of-mine-generic'
 import { cat, cp, mkdir, rm } from 'shelljs'
 import { FIX } from '../../src/fix'
-import { removeWhites } from '../../src/misc'
 import { ToolOptionName } from '../../src/toolOption'
 import { Helper } from './interactionHelper'
 

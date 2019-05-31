@@ -1,5 +1,5 @@
+import { enumKeys } from 'misc-utils-of-mine-generic'
 import { Directory, Project, SourceFile } from 'ts-morph'
-import { getEnumKeys } from './misc'
 import { ParsedArgs } from './toolOption'
 
 export enum FIX {
@@ -20,7 +20,7 @@ export enum FIX {
   createDeclaration = 'createDeclaration'
 }
 
-export const fixNames = getEnumKeys(FIX)
+export const fixNames = enumKeys(FIX)
 
 export interface File {
   name: string

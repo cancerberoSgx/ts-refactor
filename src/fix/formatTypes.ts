@@ -1,5 +1,5 @@
+import { enumKeys } from 'misc-utils-of-mine-generic'
 import { FixOptions } from '../fix'
-import { getEnumKeys } from '../misc'
 
 interface FormatCodeSettings {
   ensureNewLineAtEndOfFile?: boolean
@@ -133,7 +133,7 @@ enum AllCodeFormatCodeSettingsNames {
   trailingSemicolon = 'trailingSemicolon'
 }
 
-export const allFormatCodeSettingsNames = getEnumKeys(AllCodeFormatCodeSettingsNames)
+export const allFormatCodeSettingsNames = enumKeys(AllCodeFormatCodeSettingsNames)
 
 export interface FixWithFormatCodeSettingOptions extends FixOptions {
   formatCodeSettings?: AllFormatCodeSettings
