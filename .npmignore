@@ -4,3 +4,4 @@ scripts
 tmp
 spec
 *.tgz
+.DS_Store
