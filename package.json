@@ -1,6 +1,6 @@
 {
   "name": "ts-refactor",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "TypeScript code refactor interactive CLI tool",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -25,7 +25,7 @@
     "inquirer": "^6.5.0",
     "inquirer-autocomplete-prompt": "^1.0.1",
     "inquirer-checkbox-plus-prompt": "^1.0.1",
-    "inquirer-code-prompts": "0.0.2",
+    "inquirer-code-prompts": "0.0.3",
     "misc-utils-of-mine-generic": "^0.2.15",
     "shelljs": "^0.8.3",
     "ts-morph": "^2.3.0",
