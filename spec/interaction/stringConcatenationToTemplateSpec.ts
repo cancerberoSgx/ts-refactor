@@ -43,11 +43,7 @@ const b = \`\${a} b c \${Math.PI} g \${function() {
     `)
     )
     await client.enterAndWaitForData(
-      `npx ts-node -T src/cli/cliMain.ts ${
-        FIX.stringTemplate
-      } stringConcatenationToTemplate "./src/**/*string_*.ts*" --tsConfigPath tmp/project1/tsconfig.json --${
-        ToolOptionName.dontAsk
-      }`,
+      `npx ts-node -T src/cli/cliMain.ts ${FIX.stringTemplate} stringConcatenationToTemplate "./src/**/*string_*.ts*" --tsConfigPath tmp/project1/tsconfig.json --${ToolOptionName.dontAsk}`,
       'Finished writing'
     )
     await helper.expectLastExitCode(true)

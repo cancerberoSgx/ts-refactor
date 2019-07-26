@@ -25,9 +25,7 @@ This is a safe operation :)
 Tip: provide a ${code(`formatCodeSettings.json`)} to configure the formatting (see General Rules section).
 Format several files using a format settings json file::
   ${code(
-    `ts-refactor ${FIX.format} "./src/**" "spec/**/*Spec.ts*" ./config/formatCodeSettings.json --${
-      ToolOptionName.dontAsk
-    }`
+    `ts-refactor ${FIX.format} "./src/**" "spec/**/*Spec.ts*" ./config/formatCodeSettings.json --${ToolOptionName.dontAsk}`
   )}
 `,
 

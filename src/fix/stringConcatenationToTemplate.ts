@@ -45,9 +45,7 @@ If a directory is provided it will apply the change to all its descendant files.
 This is, in general, a safe operation.
 Example modifying several files non interactively:
   ${code(
-    `npx ts-node src/cli/cliMain.ts ${FIX.stringTemplate} stringConcatenationToTemplate "./src/**/*string_*.ts*" --${
-      ToolOptionName.dontAsk
-    }`
+    `npx ts-node src/cli/cliMain.ts ${FIX.stringTemplate} stringConcatenationToTemplate "./src/**/*string_*.ts*" --${ToolOptionName.dontAsk}`
   )}
 TODO: Support FormatCodeSettings and UserPreferences
 WARNING: Although it should be relative safe to use, verify the changes and backup/commit your files before saving the changes.

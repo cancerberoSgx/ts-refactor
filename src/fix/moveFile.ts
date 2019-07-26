@@ -16,9 +16,7 @@ function moveFile(options: DestFileFixOptions) {
   if (sourceFile) {
     throw `A source file with path ${options.destPath} already exists. Refusing to move something at that location. `
   } else if ((!dir && destPathIsFile && options.inputFiles.length !== 1) || !isSourceFile(options.inputFiles[0])) {
-    throw `Refusing to a folder or move several files to a destination path that looks like a file (${
-      options.destPath
-    } has an extension)`
+    throw `Refusing to a folder or move several files to a destination path that looks like a file (${options.destPath} has an extension)`
   } else if ((!dir && destPathIsFile) || (options.inputFiles.length === 1 && !isSourceFile(options.inputFiles[0]))) {
     const t0 = Date.now()
     const oldPath = getFileRelativePath(options.inputFiles[0]!, project)
