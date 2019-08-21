@@ -89,7 +89,10 @@ interface UserPreferences {
 // const userPreferences = getEnumKeys(UserPreferencesNames)
 
 interface CustomFormatSettings {
-  trailingSemicolon?: boolean
+  /**
+   * If not defined it won't do any action. 
+   */
+  trailingSemicolon?: 'never'|'always'|'detect'
 }
 
 export interface AllFormatCodeSettings extends FormatCodeSettings, UserPreferences, CustomFormatSettings {}

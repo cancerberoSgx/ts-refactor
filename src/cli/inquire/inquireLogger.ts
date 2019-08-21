@@ -1,3 +1,4 @@
+/** hack to print bottom line msg in inquirer components */
 export async function uiLog(msg: string, timeout = 0) {
   if (!ui) {
     ui = new (require('inquirer').ui.BottomBar as any)()

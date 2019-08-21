@@ -6,6 +6,7 @@ import { showProjectDiff } from './cli/projectDiff'
 import { getFix } from './fix/fixes'
 import { buildProject, checkFilesInProject } from './project'
 import { ParsedArgs } from './toolOption'
+import { sleep } from 'misc-utils-of-mine-generic';
 
 export async function main(args: Partial<ParsedArgs>) {
   if (args.toolOptions && args.toolOptions.interactiveHelp) {
@@ -15,7 +16,8 @@ export async function main(args: Partial<ParsedArgs>) {
   const tsConfigFilePath = (args.toolOptions && args.toolOptions.tsConfigPath) || './tsconfig.json'
   const project = buildProject({ tsConfigFilePath })
   const options = await inquireMissing(args, project)
-  uiLog('Working...')
+  await uiLog('Working...')
+  // await sleep(4000)
   checkFilesInProject(options.inputFiles, project)
   const fix = getFix(options.fixName)! //checked at requireMissing
   const result = fix.fn({ ...options, project })

@@ -33,5 +33,5 @@ export async function inquireFiles(allFiles: File[], fix: Fix, options: FixOptio
       }
     }
   ])
-  return answers.files
+  return answers 
 }
