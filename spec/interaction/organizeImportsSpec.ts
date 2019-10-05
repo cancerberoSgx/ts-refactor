@@ -79,7 +79,7 @@ describe('organizeImports codeFix', () => {
     await helper.expectLastExitCode(true)
     expect(removeWhites(cat('tmp/project1/src/file1.ts').toString())).toBe(
       removeWhites(`
-      import { join } from 'path';
+      import { join } from 'path'
       export const c = join('a', 'b')
     `)
     )

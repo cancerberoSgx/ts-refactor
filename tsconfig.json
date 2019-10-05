@@ -10,8 +10,8 @@
     "rootDir": ".",
     "declaration": true,
     "strict": true,
-    "noImplicitAny": false
-    // "skipLibCheck": true
+    "noImplicitAny": false,
+    "skipLibCheck": true
   },
   "include": [
     "src", "spec"

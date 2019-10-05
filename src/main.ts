@@ -6,7 +6,6 @@ import { showProjectDiff } from './cli/projectDiff'
 import { getFix } from './fix/fixes'
 import { buildProject, checkFilesInProject } from './project'
 import { ParsedArgs } from './toolOption'
-import { sleep } from 'misc-utils-of-mine-generic';
 
 export async function main(args: Partial<ParsedArgs>) {
   if (args.toolOptions && args.toolOptions.interactiveHelp) {

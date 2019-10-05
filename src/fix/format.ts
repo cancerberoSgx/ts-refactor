@@ -7,12 +7,12 @@ import { FormatSettingsFix } from './abstract/formatSettingsFix'
 export const formatFix = new FormatSettingsFix({
   action(options) {
     options.file.formatText(options.formatCodeSettings)
-    var semi = options.formatCodeSettings && options.formatCodeSettings.trailingSemicolon || undefined
-      if (semi==='always') {
-        addTrailingSemicolons(options.file)
-      } else if (semi==='never') {
-        removeTrailingSemicolons(options.file)
-      }
+    var semi = (options.formatCodeSettings && options.formatCodeSettings.trailingSemicolon) || undefined
+    if (semi === 'always') {
+      addTrailingSemicolons(options.file)
+    } else if (semi === 'never') {
+      removeTrailingSemicolons(options.file)
+    }
   },
 
   name: FIX.format,

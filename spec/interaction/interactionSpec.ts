@@ -46,6 +46,7 @@ describe('CLI', () => {
       await helper.expectLastExitCode(true)
       done()
     })
+
     it('--InteractiveHelp should show interactive help menu, selecting exit should exit with code 0', async done => {
       const data = await client.enterAndWaitForData(
         'npx ts-node -T src/cli/cliMain.ts --interactiveHelp',

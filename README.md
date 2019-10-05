@@ -1,5 +1,3 @@
-
-
 [![Build Status](https://travis-ci.org/cancerberosgx/ts-refactor.png?branch=master)](https://travis-ci.org/cancerberosgx/ts-refactor)
 
 CLI interactive TypeScript refactor tool. 

@@ -19,12 +19,14 @@ describe('moveFile codeFix', () => {
     cp('-r', 'spec/assets/project1', 'tmp')
     done()
   })
+
   afterAll(async done => {
     await client.destroy().catch()
     helper = null as any
     rm('-r', 'tmp')
     done()
   })
+
   beforeEach(() => {
     rm('-r', 'tmp')
     mkdir('tmp')
@@ -38,6 +40,7 @@ describe('moveFile codeFix', () => {
     await helper.controlC()
     done()
   })
+
   it('should not ask for input files if there is an file argument', async done => {
     await client.enterAndWaitForData('npx ts-node -T src/cli/cliMain.ts ./src/main.ts', 'Select a code fix')
     await helper.focusListItem('moveFile')
@@ -46,6 +49,7 @@ describe('moveFile codeFix', () => {
     await helper.controlC()
     done()
   })
+
   it('should not ask for codeFix or input files if both are provided as arguments', async done => {
     await client.enterAndWaitForData(
       'npx ts-node -T src/cli/cliMain.ts moveFile ./src/main.ts',
@@ -54,6 +58,7 @@ describe('moveFile codeFix', () => {
     await helper.controlC()
     done()
   })
+
   it('should ask only for confirmation if fix, input files and dest file is provided as arguments', async done => {
     expect(test('-f', 'tmp/project1/src/newFile1.ts')).toBe(false)
     expect(test('-f', 'tmp/project1/src/file1.ts')).toBe(true)
@@ -68,6 +73,7 @@ describe('moveFile codeFix', () => {
     expect(test('-f', 'tmp/project1/src/file1.ts')).toBe(false)
     done()
   })
+
   it('should not ask for anything if fix, input files and dest file is provided as arguments and --dontConfirm is passed', async done => {
     expect(test('-f', 'tmp/project1/src/newFile1.ts')).toBe(false)
     expect(test('-f', 'tmp/project1/src/file1.ts')).toBe(true)

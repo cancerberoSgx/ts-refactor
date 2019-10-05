@@ -5,12 +5,11 @@ import { File, Fix, FixOptions } from '../../fix'
 registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'))
 
 export async function inquireFiles(allFiles: File[], fix: Fix, options: FixOptions): Promise<File[]> {
-  const answers = await prompt<File[]>([
+  const answers = await prompt<{ files: File[] }>([
     {
       type: 'checkbox-plus',
       name: 'files',
       message: fix.selectFilesMessage || 'Select files',
-      // @ts-ignore
       searchable: true,
       suffix: `${ansi.format(` (Type to filter. `, ['gray'])}${ansi.format('<space>', ['cyan'])}${ansi.format(
         ` to select, `,
@@ -21,10 +20,7 @@ export async function inquireFiles(allFiles: File[], fix: Fix, options: FixOptio
       validate(input: File[], answers) {
         return (fix.verifyInputFiles && fix.verifyInputFiles(input ? input : [], options)) || true
       },
-      // @ts-ignore
       source: function(answersSoFar: string[], input: string) {
-        // @ts-ignore
-        //TODO: add fuzzy  https://github.com/faressoft/inquirer-checkbox-plus-prompt
         return Promise.resolve(
           allFiles
             .filter(f => !f.name.startsWith('..') && f.name.includes(input))
@@ -33,5 +29,5 @@ export async function inquireFiles(allFiles: File[], fix: Fix, options: FixOptio
       }
     }
   ])
-  return answers 
+  return answers.files || []
 }

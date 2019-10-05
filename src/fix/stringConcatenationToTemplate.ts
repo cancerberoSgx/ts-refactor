@@ -8,6 +8,7 @@ import { FormatSettingsFix, SimpleFixConstructorActionOptions } from './abstract
 interface Options extends SimpleFixConstructorActionOptions {
   mode: 'stringConcatenationToTemplate' | 'templateToStringConcatenation'
 }
+
 // TODO: support format code settings for quotes.
 class StringConcatenationToTemplate extends FormatSettingsFix<Options> {
   async inquireOptions(options: Options) {
@@ -39,6 +40,7 @@ class StringConcatenationToTemplate extends FormatSettingsFix<Options> {
     Object.assign(options, superOptions, thisOptions)
     return { ...superOptions, thisOptions }
   }
+
   description = `
 It will change string concatenations to template expressions or vice versa, in provided files. 
 If a directory is provided it will apply the change to all its descendant files.
@@ -52,6 +54,7 @@ WARNING: Although it should be relative safe to use, verify the changes and back
   `
   _selectFilesMessage = 'Select files/folders in replace string concatenations to/from template expressions'
 }
+
 export const stringConcatenationToTemplateFix = new StringConcatenationToTemplate({
   action(options) {
     if (options.mode === 'stringConcatenationToTemplate') {

@@ -26,5 +26,5 @@
   "importModuleSpecifierEnding": "index",
   
   "allowTextChangesInNewFiles": true,
-  "trailingSemicolon": true
+  "trailingSemicolon": "always"
 }

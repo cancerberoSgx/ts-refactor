@@ -57,6 +57,7 @@ Move declaration named 'Home' from file 'src/model/types.ts' to existing file sr
   ): Declaration[] {
     return declarations.filter(d => options.options.fixOptions!.includes(d.getName()!))
   }
+
   printInputNodeForInteractiveSelect(d: Declaration): string {
     return `${d.getName()} (${(d.getKindName().endsWith('Declaration')
       ? d.getKindName().substring(0, d.getKindName().length - 'Declaration'.length)
