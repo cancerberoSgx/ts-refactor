@@ -2,7 +2,7 @@ import { enumKeys } from 'misc-utils-of-mine-generic'
 import { FIX } from './fix'
 
 export interface ParsedArgs {
-  fix: FIX
+  fix?: FIX
   fixOptions: string[]
   files: string[]
   toolOptions: ToolOptions

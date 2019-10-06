@@ -9,7 +9,7 @@ import { inquireFiles } from './inquire/inquireFiles'
 import { inquireFix } from './inquire/inquireFix'
 
 export async function inquireMissing(
-  options: Partial<ParsedArgs>,
+  options: ParsedArgs,
   project: Project
 ): Promise<FixOptions & { fixName: FIX }> {
   let fixName: FIX

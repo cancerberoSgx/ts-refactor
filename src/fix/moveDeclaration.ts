@@ -13,7 +13,9 @@ type Declaration =  // TODO: upgrade ts-simple-ast-extra and import this type
   | TypeAliasDeclaration
   | FunctionDeclaration
 
-export class MoveDeclarationFix extends InputNodeFix<Declaration> {
+  type D = Declaration&{getName():string}
+
+export class MoveDeclarationFix extends InputNodeFix<D> {
   name = FIX.moveDeclaration
 
   description = `
@@ -35,23 +37,37 @@ Move declaration named 'Home' from file 'src/model/types.ts' to existing file sr
 
   protected _selectFilesMessage = 'Select the file containing the declaration to move'
 
-  getValidNodes<T extends Node>(options: InputNodeFixOptions<Declaration>, file: SourceFile): T[] {
-    return (file.getClasses() as Declaration[])
+  getValidNodes(options: InputNodeFixOptions<D>, file: SourceFile): D[] {
+    const d =  (file.getClasses() as Declaration[])
       .concat(file.getInterfaces() as Declaration[])
       .concat(file.getEnums() as Declaration[])
+      .concat(file.getTypeAliases() as Declaration[])
       .concat(file.getFunctions() as Declaration[])
-      .filter(d => !!d.getName()) as any
+      .filter(d => d && d.getName && !!d.getName()) as D[]
+      // console.log(options.options.fixOptions, d.map(d=>d.getName()));
+      
+    return d
   }
 
   resolveInputNodesFromArguments(
-    options: InputNodeFixOptions<Declaration>,
-    declarations: Declaration[]
-  ): Declaration[] {
-    return declarations.filter(d => options.options.fixOptions!.includes(d.getName()!))
+    options: InputNodeFixOptions<D>, file: SourceFile
+  ): D[] {
+    const declarations =  this.getValidNodes(options, file)
+
+    if(options.options.fixOptions.length){
+    return declarations.filter(d => options.options.fixOptions.includes(d.getName()!)) 
+    // if(!matches.length){
+    //   return declarations
+    // } else {
+    //   return matches
+    // }
+    }else {
+      return declarations
+    }
   }
 
   printInputNodeForInteractiveSelect(d: Declaration): string {
-    return `${d.getName()} (${(d.getKindName().endsWith('Declaration')
+    return `${d.getName()}(${(d.getKindName().endsWith('Declaration')
       ? d.getKindName().substring(0, d.getKindName().length - 'Declaration'.length)
       : d.getKindName()
     ).toLowerCase()})`

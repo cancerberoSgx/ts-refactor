@@ -31,6 +31,17 @@ describe('moveDeclaration codeFix', () => {
     mkdir('tmp')
     cp('-r', 'spec/assets/project1', 'tmp')
   })
+
+  it(' A declaration name must be provided in order to use --dontAsk', async done => {
+    const s = await client.enterAndWaitForData(
+      'npx ts-node -T src/cli/cliMain.ts moveDeclaration src/lotsOfMovables.ts src/file1.ts --tsConfigPath tmp/project1/tsconfig.json --dontAsk',
+      'Error: A declaration name must be provided in order to use --dontAsk'
+    )
+    expect(s).toContain('C(class), I(interface), A(typealias)')
+    await helper.expectLastExitCode(false)
+    done()
+  })
+
   // issue injection!!
   xit('should accept files and declaration name via arguments', async done => {
     expect(removeWhites(cat('tmp/project1/src/decl1.ts').toString())).toBe(

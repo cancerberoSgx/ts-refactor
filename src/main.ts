@@ -8,15 +8,16 @@ import { buildProject, checkFilesInProject } from './project'
 import { ParsedArgs } from './toolOption'
 
 export async function main(args: Partial<ParsedArgs>) {
-  if (args.toolOptions && args.toolOptions.interactiveHelp) {
+  const o : ParsedArgs ={fixOptions: [], toolOptions: {}, files: [], ...args}
+  if (o.toolOptions.interactiveHelp) {
     await handleHelpAndExit({ fix: '__help__', goBackMode: 'exit' })
     return process.exit(0)
   }
-  const tsConfigFilePath = (args.toolOptions && args.toolOptions.tsConfigPath) || './tsconfig.json'
+  o.toolOptions.debug && console.log('Options: ', o.toolOptions)
+  const tsConfigFilePath = o.toolOptions.tsConfigPath || './tsconfig.json'
   const project = buildProject({ tsConfigFilePath })
-  const options = await inquireMissing(args, project)
+  const options = await inquireMissing(o, project)
   await uiLog('Working...')
-  // await sleep(4000)
   checkFilesInProject(options.inputFiles, project)
   const fix = getFix(options.fixName)! //checked at requireMissing
   const result = fix.fn({ ...options, project })
@@ -24,9 +25,8 @@ export async function main(args: Partial<ParsedArgs>) {
     throw 'No input files were found. Aborting. '
   }
   let confirmed = false
-  if (!args.toolOptions || !args.toolOptions!.dontWrite) {
-    if (!args.toolOptions || (!args.toolOptions!.dontConfirm && !args.toolOptions!.dontAsk)) {
-      const { proceed } = await prompt<{ proceed: 'continue' | 'cancel' | 'diff' }>([
+    if (!o.toolOptions.dontAsk) {
+      const { proceed } =o.toolOptions.dontConfirm ? {proceed: 'continue'} : await prompt<{ proceed: 'continue' | 'cancel' | 'diff' }>([
         {
           type: 'list',
           prefix: `The following (${result.files.length}) files will be modified:\n${result.files
@@ -43,7 +43,7 @@ export async function main(args: Partial<ParsedArgs>) {
       ])
       if (proceed === 'diff') {
         await showProjectDiff(project)
-        const { proceed } = await prompt<{ proceed: boolean }>([
+        const { proceed } =  await prompt<{ proceed: boolean }>([
           {
             type: 'confirm',
             name: 'proceed',
@@ -59,7 +59,6 @@ export async function main(args: Partial<ParsedArgs>) {
     } else {
       confirmed = true
     }
-  }
   if (confirmed) {
     project.saveSync()
     console.log(`Finished writing (${result.files.length}) files.`)
