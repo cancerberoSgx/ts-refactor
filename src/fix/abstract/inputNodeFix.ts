@@ -57,7 +57,7 @@ export abstract class InputNodeFix<T extends Node> extends DestFileFix<InputNode
           file,
           options.project
         )}", probably because --${
-          ToolOptionName.dontAsk
+        ToolOptionName.dontAsk
         } is used and it was not provided in arguments or didn't match. \n Valid input nodes found in "${getFileRelativePath(
           file,
           options.project

@@ -53,7 +53,7 @@ export const s = "hello"
 
   it('should throw if invalid formatCodeSettings.json file is provided as arguments', async done => {
     await client.enterAndWaitForData(
-      'npx ts-node -T src/cli/cliMain.ts format src/unformatted.ts ./formatCodeSettings.json --tsConfigPath tmp/project1/tsconfig.json --dontAsk',
+      'npx ts-node -T src/cli/cliMain.ts format src/unformatted.ts ./formatCodeSettings55.json --tsConfigPath tmp/project1/tsconfig.json --dontAsk',
       'Error:'
     )
     await helper.expectLastExitCode(false)
@@ -78,7 +78,6 @@ import { readFile } from 'fs';
 export const s = "hello";
 `.trim()
     )
-
     done()
   })
 
@@ -100,7 +99,6 @@ import {readFile} from 'fs'
 export const s="hello"
 `.trim()
     )
-
     done()
   })
 })

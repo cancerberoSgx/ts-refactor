@@ -1,4 +1,4 @@
-import { ansi } from 'cli-driver'
+import * as ansi from 'ansi-escape-sequences'
 import { createPatch } from 'diff'
 import { readFileSync } from 'fs'
 import { prompt } from 'inquirer'

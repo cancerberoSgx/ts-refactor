@@ -53,7 +53,7 @@ interface CustomFormatSettings {
   trailingSemicolon?: 'never' | 'always' | 'detect'
 }
 
-export interface AllFormatCodeSettings extends FormatCodeSettings, UserPreferences, CustomFormatSettings {}
+export interface AllFormatCodeSettings extends FormatCodeSettings, UserPreferences, CustomFormatSettings { }
 
 enum AllCodeFormatCodeSettingsNames {
   ensureNewLineAtEndOfFile = 'ensureNewLineAtEndOfFile',
@@ -98,6 +98,8 @@ export const allFormatCodeSettingsNames = enumKeys(AllCodeFormatCodeSettingsName
 export interface FixWithFormatCodeSettingOptions extends FixOptions {
   formatCodeSettings?: AllFormatCodeSettings
 }
+
+
 
 // enum UserPreferencesNames {
 //   disableSuggestions = 'disableSuggestions',

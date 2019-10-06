@@ -1,8 +1,8 @@
-import { ansi, Driver } from 'cli-driver';
+import { ansi, Driver } from 'cli-driver'
 
 export class Helper {
 
-  constructor(protected client: Driver) {}
+  constructor(protected client: Driver) { }
 
   async expectLastExitCode(zeroExitCode?: boolean) {
     if (typeof zeroExitCode === 'undefined') {
@@ -31,7 +31,7 @@ export class Helper {
   async focusFile(codeFix: string) {
     return this.arrowUntilFocused(this.client, codeFix, s => s.includes(` ❯◯ ${codeFix}`) || s.includes(` ❯◉ ${codeFix}`))
   }
-  
+
   async focusListItem(label: string) {
     return this.arrowUntilFocused(this.client, label, s => s.includes(`❯ ${label}`))
   }

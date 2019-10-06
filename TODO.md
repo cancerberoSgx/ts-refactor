@@ -6,12 +6,13 @@ important
 
 
 ## TODO
+- [ ] inquireSettings : all properties are represented as booleans but there are some that are numbers or enums.
 - [ ] inquireFiles and settings: add fuzzy  https://github.com/faressoft/inquirer-checkbox-plus-prompt
 - [ ] json schema for formatCodeSettings.json 
 - [ ] formatCodeSettings.json validation API and CLI
 - [ ] all rename refactors should support template name based on previous name, current folder/path. example ts-refactor rename ""
  CO M BO: replaceLiteralValue, addStatement and "code fix template arguments" - see below. 
-  - []replaceLiteralValue : similar to rename but for replace literal values: ts-node replace "src/**" StringLiteral "add-to-cart". 
+  - [ ] replaceLiteralValue : similar to rename but for replace literal values: ts-node replace "src/**" StringLiteral "add-to-cart". 
   - [ ] also could be a more aggresive variabt to replace any substring (useful for comments?)
   - [ ] addStatement: useful in combination with other fixes that need to add an import, comment, variable decl, "use strict", etc.
     - []for example `ts-refactor addStatement ""src/**/*" ImportSpecifier first "import {intl} from $SPECIFIER1$"`

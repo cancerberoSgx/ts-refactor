@@ -73,8 +73,8 @@ ${ansi.format('Input Files', ['underline'])}.
 ${ansi.format('Fixes', ['underline'])}
   
   * Any command line argument that is not a file (doesn't contain the character ${code(
-    `/`
-  )}) will be considered a fix name or fix option. 
+      `/`
+    )}) will be considered a fix name or fix option. 
   * The first of these arguments will be considered a fix name and the rest the fix options.
   * Depending on the fix, some of the files provided as arguments can be considered input files and other fix options. For example, the command 
     ${code(`ts-refactor moveFile src/model/foo.ts src/model/abstract/foo.ts`)} 
@@ -92,23 +92,23 @@ ${ansi.format('Format', ['underline'])}
     ${code(`ts-refactor format ./config/formatCodeSettings.json "./src/**" `)}
   * Examples of such files can be found here: https://github.com/cancerberoSgx/ts-refactor/blob/master/spec/assets/project1
   * Any file containing "formatCodeSettings" and ending with ".json" will be considered a format code settings. Example: ${code(
-    '"foo/formatCodeSettings33.json"'
-  )} will match this file.
+      '"foo/formatCodeSettings33.json"'
+    )} will match this file.
    * If not found or not valid JSON the tool will throw error
    * If the file is given then the tool won't ask interactively for format code settings.
    * The path to the file must be relative to the current directory (not to the custom tsconfig json if using ${code(
-     `--${ToolOptionName.tsConfigPath}`
-   )})
+      `--${ToolOptionName.tsConfigPath}`
+    )})
     
 ${ansi.format('Interaction', ['underline'])}
   
   * If the command arguments doesn't provide all the information required by the fix, it will ask the user for the missing data interactively.
   * Everything is optional, so for example, by just executing ${code(
-    `ts-refactor`
-  )}, the tool will ask everything to the user interactively
+      `ts-refactor`
+    )}, the tool will ask everything to the user interactively
   * If ${code(
-    '--' + ToolOptionName.dontAsk
-  )} is provided, the tool won't ask anything and if any data is missing in the command line arguments it will fail. This is nice when you want to make sure the tool won't be waiting for user confirmation / input (CI / automatized environments)
+      '--' + ToolOptionName.dontAsk
+    )} is provided, the tool won't ask anything and if any data is missing in the command line arguments it will fail. This is nice when you want to make sure the tool won't be waiting for user confirmation / input (CI / automatized environments)
   
 `,
     ['gray']
@@ -120,16 +120,16 @@ function helpFixes() {
     `${ansiEscapes.clearTerminal}${ansi.format('Code Fixes Descriptions', ['underline', 'bold', 'blue'])}
  
 ${getFixes()
-  .sort((a, b) => a.name.localeCompare(b.name))
-  .map(
-    f => `${fix(f.name)}:
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map(
+        f => `${fix(f.name)}:
   ${f.description
-    .trim()
-    .split('\n')
-    .join('\n  ')} 
+            .trim()
+            .split('\n')
+            .join('\n  ')} 
  \n`
-  )
-  .join('')}
+      )
+      .join('')}
 `,
     ['gray']
   )

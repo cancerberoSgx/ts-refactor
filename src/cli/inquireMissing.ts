@@ -52,14 +52,14 @@ export async function inquireMissing(
     console.log(`Matched files: ${inputFileRepresentations.map(f => f.name).join(', ')}`)
   inputFileRepresentations = fix.extractInputFiles
     ? fix.extractInputFiles(
-        inputFileRepresentations,
-        {
-          inputFiles: [],
-          project,
-          options
-        },
+      inputFileRepresentations,
+      {
+        inputFiles: [],
+        project,
         options
-      )
+      },
+      options
+    )
     : inputFileRepresentations
   const inputFiles = inputFileRepresentations
     .map(f => (f.isFolder ? project.getDirectory(f.path) : project.getSourceFile(f.path)))
@@ -67,7 +67,7 @@ export async function inquireMissing(
     // restore arguments original file order
     .sort((a, b) =>
       fileInOptionsNormalizedNames.findIndex(f => getFilePath(a).endsWith(f)) <
-      fileInOptionsNormalizedNames.findIndex(f => getFilePath(b).endsWith(f))
+        fileInOptionsNormalizedNames.findIndex(f => getFilePath(b).endsWith(f))
         ? -1
         : 1
     )

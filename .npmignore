@@ -1,7 +1,10 @@
 dist/spec
 src
 scripts
-tmp
+tmp*
 spec
 *.tgz
 .DS_Store
+.travis*
+TODO.md
+tsconfig.json

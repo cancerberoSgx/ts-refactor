@@ -1,12 +1,4 @@
-import {
-  ClassDeclaration,
-  EnumDeclaration,
-  FunctionDeclaration,
-  InterfaceDeclaration,
-  Node,
-  SourceFile,
-  TypeAliasDeclaration
-} from 'ts-morph'
+import { ClassDeclaration, EnumDeclaration, FunctionDeclaration, InterfaceDeclaration, Node, SourceFile, TypeAliasDeclaration } from 'ts-morph'
 import { moveDeclaration } from 'ts-simple-ast-extra'
 import { code } from '../cli/inquire/ansiStyle'
 import { File, FIX } from '../fix'
@@ -76,8 +68,8 @@ Move declaration named 'Home' from file 'src/model/types.ts' to existing file sr
   verifyInputFiles(files: File[], options: InputNodeFixOptions<Declaration>) {
     return files.length !== 1 || files[0].isFolder
       ? `You can only select one file (not directory) to select the declaration to move from. Given: files.length==${
-          files.length
-        } && files[0].isFolder===${files[0] && files[0].isFolder})`
+      files.length
+      } && files[0].isFolder===${files[0] && files[0].isFolder})`
       : undefined
   }
 
