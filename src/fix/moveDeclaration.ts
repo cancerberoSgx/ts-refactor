@@ -1,4 +1,4 @@
-import { ClassDeclaration, EnumDeclaration, FunctionDeclaration, InterfaceDeclaration, Node, SourceFile, TypeAliasDeclaration } from 'ts-morph'
+import { ClassDeclaration, EnumDeclaration, FunctionDeclaration, InterfaceDeclaration, SourceFile, TypeAliasDeclaration } from 'ts-morph'
 import { moveDeclaration } from 'ts-simple-ast-extra'
 import { code } from '../cli/inquire/ansiStyle'
 import { File, FIX } from '../fix'
@@ -13,7 +13,7 @@ type Declaration =  // TODO: upgrade ts-simple-ast-extra and import this type
   | TypeAliasDeclaration
   | FunctionDeclaration
 
-  type D = Declaration&{getName():string}
+type D = Declaration & { getName(): string }
 
 export class MoveDeclarationFix extends InputNodeFix<D> {
   name = FIX.moveDeclaration
@@ -38,30 +38,30 @@ Move declaration named 'Home' from file 'src/model/types.ts' to existing file sr
   protected _selectFilesMessage = 'Select the file containing the declaration to move'
 
   getValidNodes(options: InputNodeFixOptions<D>, file: SourceFile): D[] {
-    const d =  (file.getClasses() as Declaration[])
+    const d = (file.getClasses() as Declaration[])
       .concat(file.getInterfaces() as Declaration[])
       .concat(file.getEnums() as Declaration[])
       .concat(file.getTypeAliases() as Declaration[])
       .concat(file.getFunctions() as Declaration[])
       .filter(d => d && d.getName && !!d.getName()) as D[]
-      // console.log(options.options.fixOptions, d.map(d=>d.getName()));
-      
+    // console.log(options.options.fixOptions, d.map(d=>d.getName()));
+
     return d
   }
 
   resolveInputNodesFromArguments(
     options: InputNodeFixOptions<D>, file: SourceFile
   ): D[] {
-    const declarations =  this.getValidNodes(options, file)
+    const declarations = this.getValidNodes(options, file)
 
-    if(options.options.fixOptions.length){
-    return declarations.filter(d => options.options.fixOptions.includes(d.getName()!)) 
-    // if(!matches.length){
-    //   return declarations
-    // } else {
-    //   return matches
-    // }
-    }else {
+    if (options.options.fixOptions.length) {
+      return declarations.filter(d => options.options.fixOptions.includes(d.getName()!))
+      // if(!matches.length){
+      //   return declarations
+      // } else {
+      //   return matches
+      // }
+    } else {
       return declarations
     }
   }

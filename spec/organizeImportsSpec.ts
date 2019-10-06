@@ -1,8 +1,6 @@
 import { cp, mkdir, rm } from 'shelljs'
 import { organizeImportsFix } from '../src/fix/organizeImports'
 import { buildProject } from '../src/project'
-import { getFixes } from '../src/fix/fixes'
-import { FIX } from '../src/fix'
 
 describe('organizeImports', () => {
   const projectPath = 'tmp/organizeImports'
@@ -28,7 +26,7 @@ describe('organizeImports', () => {
       project,
       inputFiles: project.getSourceFiles().filter(f => (files ? files.find(f2 => f.getFilePath().endsWith(f2)) : true)),
       options: {
-        files: [], fixOptions: [],  toolOptions: {}
+        files: [], fixOptions: [], toolOptions: {}
       }
     })
     return {

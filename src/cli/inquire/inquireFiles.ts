@@ -1,8 +1,6 @@
 import * as ansi from 'ansi-escape-sequences'
-import { prompt, registerPrompt } from 'inquirer'
+import { prompt } from 'inquirer'
 import { File, Fix, FixOptions } from '../../fix'
-
-registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'))
 
 export async function inquireFiles(allFiles: File[], fix: Fix, options: FixOptions): Promise<File[]> {
   const answers = await prompt<{ files: File[] }>([

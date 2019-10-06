@@ -78,7 +78,7 @@ export interface Fix<Options extends FixOptions = FixOptions, ThisFixOptions = a
 export interface FixOptions {
   project: Project
   inputFiles: (SourceFile | Directory)[]
-  options:  ParsedArgs
+  options: ParsedArgs
 }
 
 export interface FixResult {
