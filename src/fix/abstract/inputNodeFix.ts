@@ -41,23 +41,17 @@ export abstract class InputNodeFix<T extends NamedNode & Node> extends DestFileF
     inputNodes = this.resolveInputNodesFromArguments(options, file)
 
     if (inputNodes.length > 1 && options.options.fixOptions.length == 0 && !options.options.toolOptions.dontAsk) {
-
-      // if(!options.options.toolOptions.dontAsk){
       const thisOptions = await prompt<{ nodes: T[] }>([
-        // TODO: support multiple input nodes
         {
           type: 'checkbox-plus',
           name: 'nodes',
           message: this.getInquirerInputNodeMessage(options, file),
           searchable: true,
-          suffix: `${ansi.format(` (Type to filter. `, ['gray'])}${ansi.format('<space>', ['cyan'])}${ansi.format(
-            ` to select, `,
-            ['gray']
-          )}${ansi.format('<enter>', ['cyan'])}${ansi.format(` to end)`, ['gray'])}`,
+          suffix: `${ansi.format(` (Type to filter. `, ['gray'])}${ansi.format('<space>', ['cyan'])}${ansi.format(` to select, `, ['gray'])}${ansi.format('<enter>', ['cyan'])}${ansi.format(` to end)`, ['gray'])}`,
           highlight: true,
           pageSize: 10,
           validate(input, answers) {
-            return input.length === 0 ? 'You must select at least one' : true
+            return input.length !== 1 ? 'Select ONE' : true
           },
           source: function(answersSoFar: string[], input: string) {
             return Promise.resolve(
@@ -65,25 +59,11 @@ export abstract class InputNodeFix<T extends NamedNode & Node> extends DestFileF
                 name: printInputNodeForInteractiveSelect(d),
                 value: d
               }))
-              // allFiles
-              //   .filter(f => !f.name.startsWith('..') && f.name.includes(input))
-              //   .map(f => ({ name: f.name.replace(input, `${ansi.format(input, ['green'])}`), value: f }))
             )
           }
-
-          // choices: inputNodes.map(d => ({
-          //   name: this.printInputNodeForInteractiveSelect(d),
-          //   value: d
-          // }))
         }
       ])
       inputNodes = thisOptions.nodes
-      // } else {
-      //   throw new Error(`Multiple nodes matched but --dontAsk was given. Aborting. Valid declarations found in ${file.getFilePath()} are: \n ${this.getValidNodes(options, file).map(f=>f.getName()+`(${f.getKindName()})`).join(', ')}`)
-      // }
-      // }
-      // } else {
-
     }
 
     if (this.failOnInputNodeNotFound && inputNodes.length === 0) {

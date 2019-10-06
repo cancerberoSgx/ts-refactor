@@ -42,6 +42,42 @@ describe('moveDeclaration codeFix', () => {
     done()
   })
 
+  it('interactive path providing files but no declaration, should ask for declaration --dontAskFormatCodeSettings', async done => {
+    await client.enterAndWaitForData(
+      'npx ts-node -T src/cli/cliMain.ts moveDeclaration src/lotsOfMovables.ts src/file1.ts --tsConfigPath tmp/project1/tsconfig.json --dontAskFormatCodeSettings',
+      'Select declaration to move from file "src/lotsOfMovables.ts"'
+    )
+    await helper.focusCheckboxListItem('I(interface)')
+    const s = await client.enterAndWaitForData(' ', 'The following (2) files will be modified:')
+    expect(s).toContain('src/file1.ts, src/lotsOfMovables.ts')
+    expect(cat('tmp/project1/src/lotsOfMovables.ts').toString()).toContain(`
+export interface I {}
+export class C implements I {}
+export type A = number
+`.trim())
+    expect(cat('tmp/project1/src/file1.ts').toString()).toContain(`
+import { resolve, join } from 'path'
+export const c = join('a', 'b')
+`.trim())
+    await client.enterAndWaitForData('', 'Finished writing (2) files')
+    expect(cat('tmp/project1/src/lotsOfMovables.ts').toString()).toContain(`
+import { I } from "./file1";
+
+export class C implements I {}
+export type A = number
+`.trim())
+    expect(cat('tmp/project1/src/file1.ts').toString()).toContain(`
+import { join } from 'path'
+
+export interface I {
+}
+
+export const c = join('a', 'b')
+`.trim())
+    await helper.expectLastExitCode(true)
+    done()
+  })
+
   // issue injection!!
   xit('should accept files and declaration name via arguments', async done => {
     expect(removeWhites(cat('tmp/project1/src/decl1.ts').toString())).toBe(

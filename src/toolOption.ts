@@ -13,6 +13,7 @@ export interface ToolOptions {
    * Make sure there are no interactions (useful for CI - automated scripts)
    */
   dontAsk?: boolean
+  dontAskFormatCodeSettings?: boolean
   /**
    * Path to a `tsconfig.json` project configuration file, in which case that project will be the target one.
    * 
@@ -47,7 +48,8 @@ export enum ToolOptionName {
   tsConfigPath = 'tsConfigPath',
   dontWrite = 'dontWrite',
   dontConfirm = 'dontConfirm',
-  interactiveHelp = 'interactiveHelp'
+  interactiveHelp = 'interactiveHelp',
+  dontAskFormatCodeSettings = 'dontAskFormatCodeSettings'
 }
 
 export enum ToolOptionType {
@@ -61,7 +63,8 @@ export const toolOptionTypes = {
   [ToolOptionName.dontAsk]: ToolOptionType.boolean,
   [ToolOptionName.tsConfigPath]: ToolOptionType.string,
   [ToolOptionName.dontWrite]: ToolOptionType.boolean,
-  [ToolOptionName.dontConfirm]: ToolOptionType.boolean
+  [ToolOptionName.dontConfirm]: ToolOptionType.boolean,
+  [ToolOptionName.dontAskFormatCodeSettings]: ToolOptionType.boolean
 }
 
 export const toolOptionNames = enumKeys(ToolOptionName)

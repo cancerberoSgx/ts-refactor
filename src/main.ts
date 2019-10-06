@@ -29,20 +29,21 @@ export async function main(args: Partial<ParsedArgs>) {
   }
   let confirmed = false
   if (!o.toolOptions.dontAsk) {
-    const { proceed } = o.toolOptions.dontConfirm ? { proceed: 'continue' } : await prompt<{ proceed: 'continue' | 'cancel' | 'diff' }>([
-      {
-        type: 'list',
-        prefix: `The following (${result.files.length}) files will be modified:\n${result.files
-          .map(f => f.name)
-          .join(', ')}\n`,
-        message: `Are you sure you want to continue?`,
-        choices: [
-          { name: 'Yes, proceed writing files.', value: 'continue' },
-          { name: `No, cancel the operation.`, value: 'cancel' },
-          { name: `Show me a diff of modified files first`, value: 'diff' }
-        ],
-        name: 'proceed'
-      }
+    await uiLogClose()
+    const { proceed } = o.toolOptions.dontConfirm ? { proceed: 'continue' } : await prompt<{ proceed: 'continue' | 'cancel' | 'diff' }>([{
+      type: 'list',
+      prefix: `The following (${result.files.length}) files will be modified:\n${result.files
+        .map(f => f.name).sort()
+        .join(', ')}\n`,
+      message: `Are you sure you want to continue?`,
+      pageSize: 3,
+      choices: [
+        { name: 'Yes, proceed writing files.', value: 'continue' },
+        { name: `No, cancel the operation.`, value: 'cancel' },
+        { name: `Show me a diff of modified files first`, value: 'diff' }
+      ],
+      name: 'proceed'
+    }
     ])
     if (proceed === 'diff') {
       await showProjectDiff(project)

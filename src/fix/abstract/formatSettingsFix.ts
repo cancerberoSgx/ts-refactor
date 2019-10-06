@@ -105,7 +105,7 @@ Error: ${error}`)
       if (options.options.toolOptions && options.options.toolOptions.dontAsk) {
         return { ...options, formatCodeSettings: {} }
       }
-      const { configureFormatCodeSettings } = await prompt<{ configureFormatCodeSettings: boolean }>([
+      const { configureFormatCodeSettings } = options.options.toolOptions.dontAskFormatCodeSettings ? { configureFormatCodeSettings: false } : await prompt<{ configureFormatCodeSettings: boolean }>([
         {
           type: 'confirm',
           name: 'configureFormatCodeSettings',

@@ -45,7 +45,7 @@ export async function inquireFormatCodeSettings(
 
   // TODO: all properties are represented as booleans but there are some that are numbers or enums. A cheap solution, for example, tabSize?: number, could be creating several properties like tabSize2: boolean, tabSize4: boolean so we can keep using this widget
 
-  const { formatCodeSettings } = await prompt<{ formatCodeSettings: AllFormatCodeSettings }>([
+  const { formatCodeSettings } = options.options.toolOptions.dontAskFormatCodeSettings ? { formatCodeSettings: options.formatCodeSettings || {} } : await prompt<{ formatCodeSettings: AllFormatCodeSettings }>([
     {
       type: 'checkbox-plus',
       name: 'formatCodeSettings',
