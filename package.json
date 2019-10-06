@@ -1,6 +1,6 @@
 {
   "name": "ts-refactor",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "TypeScript code refactor interactive CLI tool",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
