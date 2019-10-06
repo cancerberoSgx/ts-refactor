@@ -1,144 +1,56 @@
-import { enumKeys } from 'misc-utils-of-mine-generic'
+import { enumKeys, notUndefined, RemoveProperties } from 'misc-utils-of-mine-generic'
 import { FixOptions } from '../fix'
+import { FormatOptions, ts } from 'ts-simple-ast-extra'
+import { formatOptions } from './formatOptions'
+import { never } from 'rxjs'
 
-interface FormatCodeSettings {
-  ensureNewLineAtEndOfFile?: boolean
-  insertSpaceAfterCommaDelimiter?: boolean
-  insertSpaceAfterSemicolonInForStatements?: boolean
-  insertSpaceBeforeAndAfterBinaryOperators?: boolean
-  insertSpaceAfterConstructor?: boolean
-  insertSpaceAfterKeywordsInControlFlowStatements?: boolean
-  insertSpaceAfterFunctionKeywordForAnonymousFunctions?: boolean
-  insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis?: boolean
-  insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets?: boolean
-  insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces?: boolean
-  insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces?: boolean
-  insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces?: boolean
-  insertSpaceAfterTypeAssertion?: boolean
-  insertSpaceBeforeFunctionParenthesis?: boolean
-  placeOpenBraceOnNewLineForFunctions?: boolean
-  placeOpenBraceOnNewLineForControlBlocks?: boolean
-  insertSpaceBeforeTypeAnnotation?: boolean
-  indentMultiLineObjectLiteralBeginningOnBlankLine?: boolean
-  baseIndentSize?: number
-  indentSize?: number
-  tabSize?: number
-  newLineCharacter?: string
-  convertTabsToSpaces?: boolean
-  indentStyle?: IndentStyle
-}
-
-enum IndentStyle {
-  None = 0,
-  Block = 1,
-  Smart = 2
-}
-
-interface UserPreferences {
-  disableSuggestions?: boolean
-  quotePreference?: 'auto' | 'double' | 'single'
-  includeCompletionsForModuleExports?: boolean
-  includeCompletionsWithInsertText?: boolean
-  importModuleSpecifierPreference?: 'relative' | 'non-relative'
-  /** Determines whether we import `foo/index.ts` as "foo", "foo/index", or "foo/index.js" */
-  importModuleSpecifierEnding?: 'minimal' | 'index' | 'js'
-  allowTextChangesInNewFiles?: boolean
-  providePrefixAndSuffixTextForRename?: boolean
-}
-
-interface CustomFormatSettings {
-  /**
-   * If not defined it won't do any action.
-   */
-  trailingSemicolon?: 'never' | 'always' | 'detect'
-}
-
-export interface AllFormatCodeSettings extends FormatCodeSettings, UserPreferences, CustomFormatSettings { }
-
-enum AllCodeFormatCodeSettingsNames {
-  ensureNewLineAtEndOfFile = 'ensureNewLineAtEndOfFile',
-  insertSpaceAfterCommaDelimiter = 'insertSpaceAfterCommaDelimiter',
-  insertSpaceAfterSemicolonInForStatements = 'insertSpaceAfterSemicolonInForStatements',
-  insertSpaceBeforeAndAfterBinaryOperators = 'insertSpaceBeforeAndAfterBinaryOperators',
-  insertSpaceAfterConstructor = 'insertSpaceAfterConstructor',
-  insertSpaceAfterKeywordsInControlFlowStatements = 'insertSpaceAfterKeywordsInControlFlowStatements',
-  insertSpaceAfterFunctionKeywordForAnonymousFunctions = 'insertSpaceAfterFunctionKeywordForAnonymousFunctions',
-  insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis = 'insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis',
-  insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets = 'insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets',
-  insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces = 'insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces',
-  insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces = 'insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces',
-  insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces = 'insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces',
-  insertSpaceAfterTypeAssertion = 'insertSpaceAfterTypeAssertion',
-  insertSpaceBeforeFunctionParenthesis = 'insertSpaceBeforeFunctionParenthesis',
-  placeOpenBraceOnNewLineForFunctions = 'placeOpenBraceOnNewLineForFunctions',
-  placeOpenBraceOnNewLineForControlBlocks = 'placeOpenBraceOnNewLineForControlBlocks',
-  insertSpaceBeforeTypeAnnotation = 'insertSpaceBeforeTypeAnnotation',
-  indentMultiLineObjectLiteralBeginningOnBlankLine = 'indentMultiLineObjectLiteralBeginningOnBlankLine',
-  baseIndentSize = 'baseIndentSize',
-  indentSize = 'indentSize',
-  tabSize = 'tabSize',
-  newLineCharacter = 'newLineCharacter',
-  convertTabsToSpaces = 'convertTabsToSpaces',
-  indentStyle = 'indentStyle',
-
-  disableSuggestions = 'disableSuggestions',
-  quotePreference = 'quotePreference',
-  includeCompletionsForModuleExports = 'includeCompletionsForModuleExports',
-  includeCompletionsWithInsertText = 'includeCompletionsWithInsertText',
-  importModuleSpecifierPreference = 'importModuleSpecifierPreference',
-  importModuleSpecifierEnding = 'importModuleSpecifierEnding',
-  allowTextChangesInNewFiles = 'allowTextChangesInNewFiles',
-  providePrefixAndSuffixTextForRename = 'providePrefixAndSuffixTextForRename',
-
-  trailingSemicolon = 'trailingSemicolon'
-}
-
-export const allFormatCodeSettingsNames = enumKeys(AllCodeFormatCodeSettingsNames)
+export interface AllFormatCodeSettings extends  RemoveProperties<FormatOptions, 'file'|'project'> { }
 
 export interface FixWithFormatCodeSettingOptions extends FixOptions {
   formatCodeSettings?: AllFormatCodeSettings
 }
 
+export const allFormatCodeSettingsNames = formatOptions.properties!.map(o=>o.name)
 
-
-// enum UserPreferencesNames {
-//   disableSuggestions = 'disableSuggestions',
-//   quotePreference = 'quotePreference',
-//   includeCompletionsForModuleExports = 'includeCompletionsForModuleExports',
-//   includeCompletionsWithInsertText = 'includeCompletionsWithInsertText',
-//   importModuleSpecifierPreference = 'importModuleSpecifierPreference',
-//   /** Determines whether we import `foo/index.ts` as "foo", "foo/index", or "foo/index.js" */
-//   importModuleSpecifierEnding = 'importModuleSpecifierEnding',
-//   allowTextChangesInNewFiles = 'allowTextChangesInNewFiles',
-//   providePrefixAndSuffixTextForRename = 'providePrefixAndSuffixTextForRename'
-// }
-
-// const userPreferences = getEnumKeys(UserPreferencesNames)
-
-// enum FormatCodeSettingsNames {
-//   ensureNewLineAtEndOfFile = 'ensureNewLineAtEndOfFile',
-//   insertSpaceAfterCommaDelimiter = 'insertSpaceAfterCommaDelimiter',
-//   insertSpaceAfterSemicolonInForStatements = 'insertSpaceAfterSemicolonInForStatements',
-//   insertSpaceBeforeAndAfterBinaryOperators = 'insertSpaceBeforeAndAfterBinaryOperators',
-//   insertSpaceAfterConstructor = 'insertSpaceAfterConstructor',
-//   insertSpaceAfterKeywordsInControlFlowStatements = 'insertSpaceAfterKeywordsInControlFlowStatements',
-//   insertSpaceAfterFunctionKeywordForAnonymousFunctions = 'insertSpaceAfterFunctionKeywordForAnonymousFunctions',
-//   insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis = 'insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis',
-//   insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets = 'insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets',
-//   insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces = 'insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces',
-//   insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces = 'insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces',
-//   insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces = 'insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces',
-//   insertSpaceAfterTypeAssertion = 'insertSpaceAfterTypeAssertion',
-//   insertSpaceBeforeFunctionParenthesis = 'insertSpaceBeforeFunctionParenthesis',
-//   placeOpenBraceOnNewLineForFunctions = 'placeOpenBraceOnNewLineForFunctions',
-//   placeOpenBraceOnNewLineForControlBlocks = 'placeOpenBraceOnNewLineForControlBlocks',
-//   insertSpaceBeforeTypeAnnotation = 'insertSpaceBeforeTypeAnnotation',
-//   indentMultiLineObjectLiteralBeginningOnBlankLine = 'indentMultiLineObjectLiteralBeginningOnBlankLine',
-//   baseIndentSize = 'baseIndentSize',
-//   indentSize = 'indentSize',
-//   tabSize = 'tabSize',
-//   newLineCharacter = 'newLineCharacter',
-//   convertTabsToSpaces = 'convertTabsToSpaces',
-//   indentStyle = 'indentStyle'
-// }
-// const formatCodeSettingsNames = getEnumKeys(FormatCodeSettingsNames)
+export const defaultFormatOptions: Required<AllFormatCodeSettings> = {
+  "insertSpaceBeforeAndAfterBinaryOperators": false,
+  "insertSpaceAfterCommaDelimiter": false,
+  "insertSpaceAfterSemicolonInForStatements": false,
+  "insertSpaceAfterConstructor": false,
+  "insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": false,
+  "insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": false,
+  "insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
+  "insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": false,
+  "insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": false,
+  "insertSpaceAfterTypeAssertion": false,
+  "insertSpaceBeforeFunctionParenthesis": false,
+  "placeOpenBraceOnNewLineForFunctions": false,
+  "placeOpenBraceOnNewLineForControlBlocks": false,
+  "insertSpaceBeforeTypeAnnotation": false,
+  "indentMultiLineObjectLiteralBeginningOnBlankLine": false,
+  "indentSize": 2,
+  ensureNewLineAtEndOfFile: false, 
+  insertSpaceAfterKeywordsInControlFlowStatements: false, 
+  insertSpaceAfterFunctionKeywordForAnonymousFunctions: false, 
+  baseIndentSize: 0,
+  tabSize: 2, 
+  newLineCharacter: '\n', 
+  indentStyle: ts.IndentStyle.Block, 
+  disableSuggestions: false,
+  emptyLinesMax: 1,
+  emptyLinesTrim: false,
+  _projectManipulationSetted: false,
+  formatJsdocs: false,
+  "convertTabsToSpaces": false,
+  "quotePreference": "single",
+  "importModuleSpecifierPreference": "relative",
+  "importModuleSpecifierEnding": "minimal",
+  "allowTextChangesInNewFiles": false,
+  "trailingSemicolons": 'always',
+  includeCompletionsForModuleExports: true, 
+  includeCompletionsWithInsertText: true, 
+  providePrefixAndSuffixTextForRename: false, 
+  organizeImports: true,
+  verifyErrors: "syntactical", 
+  formatJsdocsFormatBefore: false, formatJsdocsFormatAfter: false, jsdocLineMaxLength: 110
+}

@@ -1,20 +1,16 @@
-export interface FormatOptionsMember {
-    signature: string
-    name?: string
-    typeText?: string
-    optional?: boolean
-    jsDocsText?: string
-    markdown?: string
-}
+const { Form } = require('enquirer');
+ 
+const prompt = ()=>new Form({
+  name: 'user',
+  message: 'Please provide the following information:',
+  choices: props().map(p=>({
+    name: p.name, 
+    message: p.name
+  }))
+});
+ 
 
-export interface FormatOptions {
-    name: string,
-    properties: FormatOptionsMember[]
-}
-
-export const formatOptions: FormatOptions = {
-    name: 'formatOptions',
-    properties: [
+  const props = ()=> [
         {
             "name": "verifyErrors",
             "signature": "verifyErrors?: 'all' | 'syntactical' | 'semantical'",
@@ -275,4 +271,7 @@ export const formatOptions: FormatOptions = {
             "jsDocsText": ""
         }
     ]
-}
+
+prompt().run()
+  .then(value => console.log('Answer:', value))
+  .catch(console.error);
