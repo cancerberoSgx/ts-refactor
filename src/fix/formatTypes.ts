@@ -1,9 +1,9 @@
-import { enumKeys, notUndefined, RemoveProperties } from 'misc-utils-of-mine-generic'
-import { FixOptions } from '../fix'
+import { notUndefined, RemoveProperties } from 'misc-utils-of-mine-generic'
 import { FormatOptions, ts } from 'ts-simple-ast-extra'
+import { FixOptions } from '../fix'
 import { formatOptions } from './formatOptions'
 
-export interface AllFormatCodeSettings extends RemoveProperties<FormatOptions, 'file' | 'project'> { }
+export interface AllFormatCodeSettings extends RemoveProperties<FormatOptions, 'file' | 'project' | 'debug'> { }
 
 export interface FixWithFormatCodeSettingOptions extends FixOptions {
   formatCodeSettings?: AllFormatCodeSettings
@@ -12,22 +12,22 @@ export interface FixWithFormatCodeSettingOptions extends FixOptions {
 export const allFormatCodeSettingsNames = formatOptions.properties!.map(o => o.name).filter(notUndefined)
 
 export const defaultFormatOptions: Required<AllFormatCodeSettings> = {
-  "insertSpaceBeforeAndAfterBinaryOperators": false,
-  "insertSpaceAfterCommaDelimiter": false,
-  "insertSpaceAfterSemicolonInForStatements": false,
-  "insertSpaceAfterConstructor": false,
-  "insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": false,
-  "insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": false,
-  "insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
-  "insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": false,
-  "insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": false,
-  "insertSpaceAfterTypeAssertion": false,
-  "insertSpaceBeforeFunctionParenthesis": false,
-  "placeOpenBraceOnNewLineForFunctions": false,
-  "placeOpenBraceOnNewLineForControlBlocks": false,
-  "insertSpaceBeforeTypeAnnotation": false,
-  "indentMultiLineObjectLiteralBeginningOnBlankLine": false,
-  "indentSize": 2,
+  'insertSpaceBeforeAndAfterBinaryOperators': false,
+  'insertSpaceAfterCommaDelimiter': false,
+  'insertSpaceAfterSemicolonInForStatements': false,
+  'insertSpaceAfterConstructor': false,
+  'insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis': false,
+  'insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets': false,
+  'insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces': false,
+  'insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces': false,
+  'insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces': false,
+  'insertSpaceAfterTypeAssertion': false,
+  'insertSpaceBeforeFunctionParenthesis': false,
+  'placeOpenBraceOnNewLineForFunctions': false,
+  'placeOpenBraceOnNewLineForControlBlocks': false,
+  'insertSpaceBeforeTypeAnnotation': false,
+  'indentMultiLineObjectLiteralBeginningOnBlankLine': false,
+  'indentSize': 2,
   ensureNewLineAtEndOfFile: false,
   insertSpaceAfterKeywordsInControlFlowStatements: false,
   insertSpaceAfterFunctionKeywordForAnonymousFunctions: false,
@@ -40,16 +40,16 @@ export const defaultFormatOptions: Required<AllFormatCodeSettings> = {
   emptyLinesTrim: false,
   _projectManipulationSetted: false,
   formatJsdocs: false,
-  "convertTabsToSpaces": false,
-  "quotePreference": "single",
-  "importModuleSpecifierPreference": "relative",
-  "importModuleSpecifierEnding": "minimal",
-  "allowTextChangesInNewFiles": false,
-  "trailingSemicolons": 'always',
+  'convertTabsToSpaces': false,
+  'quotePreference': 'single',
+  'importModuleSpecifierPreference': 'relative',
+  'importModuleSpecifierEnding': 'minimal',
+  'allowTextChangesInNewFiles': false,
+  'trailingSemicolons': 'always',
   includeCompletionsForModuleExports: true,
   includeCompletionsWithInsertText: true,
   providePrefixAndSuffixTextForRename: false,
   organizeImports: true,
-  verifyErrors: "syntactical",
+  verifyErrors: 'syntactical',
   formatJsdocsFormatBefore: false, formatJsdocsFormatAfter: false, jsdocLineMaxLength: 110
 }

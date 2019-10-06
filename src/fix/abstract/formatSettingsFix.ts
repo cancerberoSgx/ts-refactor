@@ -20,12 +20,14 @@ export interface SimpleFixConstructorOptions<T extends FormatSettingsFixOptions>
 }
 
 /**
- * A very simple fix that supports format code settings as options (since most refactors will optionally use them.). it has a shortcut for fn() -
+ * A very simple fix that supports format code settings as options (since most refactors will optionally use
+ * them.). it has a shortcut for fn() -
  * that subclasses that execute a transformation file per file can use by passing {action} as constructor option.
- *
+ * 
  * Also they can pass the rest of the info so they don't have to subclass this and just instantiate.
- *
- * See organizeImports, format. See stringConcatenationToTemplate for an example sub classing this to add a new option.
+ * 
+ * See organizeImports, format. See stringConcatenationToTemplate for an example sub classing this to add a new
+ * option.
  */
 export class FormatSettingsFix<T extends FormatSettingsFixOptions> {
   name: FIX = FIX.moveDeclaration
@@ -119,7 +121,9 @@ Error: ${error}`)
     return { ...options, formatCodeSettings: formatCodeSettings || {} }
   }
 
-  /** built dummy result with modified files after the operation is executed. */
+  /**
+   * built dummy result with modified files after the operation is executed.
+   */
   protected buildDummyFixResult(options: FixOptions) {
     return {
       files: options.project

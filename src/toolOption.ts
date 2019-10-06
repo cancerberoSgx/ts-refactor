@@ -15,12 +15,13 @@ export interface ToolOptions {
   dontAsk?: boolean
   /**
    * Path to a `tsconfig.json` project configuration file, in which case that project will be the target one.
-   *
+   * 
    * By default, the tool will work with `tsconfig.json` in the current folder.
    */
   tsConfigPath?: string
   /**
-   * If true, the tool won't write changes to the files. This is useful to simulate if the fix won't fail, how many changes there would be, etc.
+   * If true, the tool won't write changes to the files. This is useful to simulate if the fix won't fail, how many
+   * changes there would be, etc.
    */
   dontWrite?: boolean
   dontConfirm?: boolean

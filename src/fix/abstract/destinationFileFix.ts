@@ -10,7 +10,8 @@ export interface DestFileFixOptions extends SimpleFixConstructorActionOptions {
 }
 
 /**
- * This extends FormatSettingsFix and add another option: destPath for those fixes that require a destination path option (move file, moveDeclaration, etc).
+ * This extends FormatSettingsFix and add another option: destPath for those fixes that require a destination
+ * path option (move file, moveDeclaration, etc).
  * The default behavior is for moveFile, where the destination file must not exists so :
  *  * If there is a non existent file in given file arguments then assumes thats the destination path.
  *  * Other wise it inquires the user to define a non existent file path suggesting from existing files.

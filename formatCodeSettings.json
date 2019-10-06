@@ -21,7 +21,7 @@
   "importModuleSpecifierEnding": "minimal",
   "allowTextChangesInNewFiles": true,
   "trailingSemicolons": "never",
-  "formatJsdocs": false,
+  "formatJsdocs": true,
   "organizeImports": true,
   "jsdocLineMaxLength": 110
 }

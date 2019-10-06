@@ -1,8 +1,8 @@
-import { AllFormatCodeSettings, allFormatCodeSettingsNames, FixWithFormatCodeSettingOptions } from '../../fix/formatTypes'
 // import { Snippet } from 'enquirer'
 // import humanizeString from 'humanize-string'
 // import { formatOptions } from '../../fix/formatOptions';
-import {registerPrompt, prompt} from 'inquirer'
+import { prompt, registerPrompt } from 'inquirer'
+import { AllFormatCodeSettings, allFormatCodeSettingsNames, FixWithFormatCodeSettingOptions } from '../../fix/formatTypes'
 /**
  * wil try to read formatCodeSettings.json and if not optionally ask the user to fill them interactively
  */
@@ -10,34 +10,34 @@ export async function inquireFormatCodeSettings(
   options: FixWithFormatCodeSettingOptions
 ): Promise<AllFormatCodeSettings> {
 
-//   const snippet = new Snippet({
-//     name: 'formatCodeSettings',
-//     message: 'Format settings for generated code',
-//     required: false,
-//     //@ts-ignore
-//     rows: 10,
-//     // limit: 10,
-//     fields: [
-//       {
-//         name: 'test',
-//         message: 'Author Name',
-//         initial: 'foo',
-//         validate(value: string, state: any, item: any, index: number) {
-//           if (item && item.name === 'test' && !['a', 'b'].includes(value)) {
-//             return snippet.styles.danger('Author name must be "a" or "b');
-//           }
-//           return true;
-//         }
-//       }
-//     ],
-//     template: `
-// ${[{ name: 'test' }, ...formatOptions.properties]!.map(n => `${humanizeString(n.name!)}: \${${n.name}}`).join('\n')}
-// `.trim()
-//   });
+  //   const snippet = new Snippet({
+  //     name: 'formatCodeSettings',
+  //     message: 'Format settings for generated code',
+  //     required: false,
+  //     //@ts-ignore
+  //     rows: 10,
+  //     // limit: 10,
+  //     fields: [
+  //       {
+  //         name: 'test',
+  //         message: 'Author Name',
+  //         initial: 'foo',
+  //         validate(value: string, state: any, item: any, index: number) {
+  //           if (item && item.name === 'test' && !['a', 'b'].includes(value)) {
+  //             return snippet.styles.danger('Author name must be "a" or "b');
+  //           }
+  //           return true;
+  //         }
+  //       }
+  //     ],
+  //     template: `
+  // ${[{ name: 'test' }, ...formatOptions.properties]!.map(n => `${humanizeString(n.name!)}: \${${n.name}}`).join('\n')}
+  // `.trim()
+  //   });
 
-//   // const formatCodeSettings = {}
-//   const formatCodeSettings = await snippet.run()
-//   return { ...(options.formatCodeSettings || {}), ...(formatCodeSettings || {}) }
+  //   // const formatCodeSettings = {}
+  //   const formatCodeSettings = await snippet.run()
+  //   return { ...(options.formatCodeSettings || {}), ...(formatCodeSettings || {}) }
 
   // .then(answer => console.log('Answer:', answer.result))
   // .catch(console.error);

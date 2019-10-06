@@ -1,4 +1,4 @@
-import { format} from 'ts-simple-ast-extra'
+import { format } from 'ts-simple-ast-extra'
 import { code } from '../cli/inquire/ansiStyle'
 import { FIX } from '../fix'
 import { ToolOptionName } from '../toolOption'
@@ -7,7 +7,7 @@ import { FormatSettingsFix } from './abstract/formatSettingsFix'
 export const formatFix = new FormatSettingsFix({
   action(options) {
     const o = {
-      ...options.formatCodeSettings||{},
+      ...options.formatCodeSettings || {},
       ...options
     }
     options.options.toolOptions && options.options.toolOptions.debug && console.log('Format options ', options.formatCodeSettings)
