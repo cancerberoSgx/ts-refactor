@@ -20,7 +20,7 @@
   "importModuleSpecifierPreference": "relative",
   "importModuleSpecifierEnding": "minimal",
   "allowTextChangesInNewFiles": true,
-  "trailingSemicolon": "never",
+  "trailingSemicolons": "never",
   "formatJsdocs": false,
   "organizeImports": true,
   "jsdocLineMaxLength": 110

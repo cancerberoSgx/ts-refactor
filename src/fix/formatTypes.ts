@@ -2,15 +2,14 @@ import { enumKeys, notUndefined, RemoveProperties } from 'misc-utils-of-mine-gen
 import { FixOptions } from '../fix'
 import { FormatOptions, ts } from 'ts-simple-ast-extra'
 import { formatOptions } from './formatOptions'
-import { never } from 'rxjs'
 
-export interface AllFormatCodeSettings extends  RemoveProperties<FormatOptions, 'file'|'project'> { }
+export interface AllFormatCodeSettings extends RemoveProperties<FormatOptions, 'file' | 'project'> { }
 
 export interface FixWithFormatCodeSettingOptions extends FixOptions {
   formatCodeSettings?: AllFormatCodeSettings
 }
 
-export const allFormatCodeSettingsNames = formatOptions.properties!.map(o=>o.name)
+export const allFormatCodeSettingsNames = formatOptions.properties!.map(o => o.name).filter(notUndefined)
 
 export const defaultFormatOptions: Required<AllFormatCodeSettings> = {
   "insertSpaceBeforeAndAfterBinaryOperators": false,
@@ -29,13 +28,13 @@ export const defaultFormatOptions: Required<AllFormatCodeSettings> = {
   "insertSpaceBeforeTypeAnnotation": false,
   "indentMultiLineObjectLiteralBeginningOnBlankLine": false,
   "indentSize": 2,
-  ensureNewLineAtEndOfFile: false, 
-  insertSpaceAfterKeywordsInControlFlowStatements: false, 
-  insertSpaceAfterFunctionKeywordForAnonymousFunctions: false, 
+  ensureNewLineAtEndOfFile: false,
+  insertSpaceAfterKeywordsInControlFlowStatements: false,
+  insertSpaceAfterFunctionKeywordForAnonymousFunctions: false,
   baseIndentSize: 0,
-  tabSize: 2, 
-  newLineCharacter: '\n', 
-  indentStyle: ts.IndentStyle.Block, 
+  tabSize: 2,
+  newLineCharacter: '\n',
+  indentStyle: ts.IndentStyle.Block,
   disableSuggestions: false,
   emptyLinesMax: 1,
   emptyLinesTrim: false,
@@ -47,10 +46,10 @@ export const defaultFormatOptions: Required<AllFormatCodeSettings> = {
   "importModuleSpecifierEnding": "minimal",
   "allowTextChangesInNewFiles": false,
   "trailingSemicolons": 'always',
-  includeCompletionsForModuleExports: true, 
-  includeCompletionsWithInsertText: true, 
-  providePrefixAndSuffixTextForRename: false, 
+  includeCompletionsForModuleExports: true,
+  includeCompletionsWithInsertText: true,
+  providePrefixAndSuffixTextForRename: false,
   organizeImports: true,
-  verifyErrors: "syntactical", 
+  verifyErrors: "syntactical",
   formatJsdocsFormatBefore: false, formatJsdocsFormatAfter: false, jsdocLineMaxLength: 110
 }

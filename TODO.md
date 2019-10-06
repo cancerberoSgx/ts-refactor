@@ -6,6 +6,7 @@ important
 
 
 ## TODO
+- [ ] settings.json - warn if a unknown property is detected
 - [ ] inquireSettings : all properties are represented as booleans but there are some that are numbers or enums.
 - [ ] inquireFiles and settings: add fuzzy  https://github.com/faressoft/inquirer-checkbox-plus-prompt
 - [ ] json schema for formatCodeSettings.json 

@@ -68,13 +68,13 @@ export const               s =                "hello"
 	`.trim()
     )
     await client.enterAndWaitForData(
-      'npx ts-node -T src/cli/cliMain.ts format "./src/unformatted.ts" tmp/project1/formatCodeSettings2.json --tsConfigPath tmp/project1/tsconfig.json  --dontAsk',
+      'npx ts-node -T src/cli/cliMain.ts format "./src/unformatted.ts" tmp/project1/formatCodeSettings2.json --tsConfigPath tmp/project1/tsconfig.json --dontAsk',
       'Finished writing (1) files.'
     )
     await helper.expectLastExitCode(true)
     expect(cat('tmp/project1/src/unformatted.ts').toString()).toContain(
       `
-import { readFile } from 'fs';
+import { readFile } from "fs";
 export const s = "hello";
 `.trim()
     )
@@ -96,7 +96,7 @@ export const               s =                "hello"
     expect(cat('tmp/project1/src/unformatted.ts').toString()).toContain(
       `
 import {readFile} from 'fs'
-export const s="hello"
+export const s='hello'
 `.trim()
     )
     done()

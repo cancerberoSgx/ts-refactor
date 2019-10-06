@@ -1,4 +1,4 @@
-import { addTrailingSemicolons, removeTrailingSemicolons } from 'ts-simple-ast-extra'
+import { format} from 'ts-simple-ast-extra'
 import { code } from '../cli/inquire/ansiStyle'
 import { FIX } from '../fix'
 import { ToolOptionName } from '../toolOption'
@@ -6,13 +6,19 @@ import { FormatSettingsFix } from './abstract/formatSettingsFix'
 
 export const formatFix = new FormatSettingsFix({
   action(options) {
-    options.file.formatText(options.formatCodeSettings)
-    var semi = (options.formatCodeSettings && options.formatCodeSettings.trailingSemicolons) || undefined
-    if (semi === 'always') {
-      addTrailingSemicolons(options.file)
-    } else if (semi === 'never') {
-      removeTrailingSemicolons(options.file)
+    const o = {
+      ...options.formatCodeSettings||{},
+      ...options
     }
+    options.options.toolOptions && options.options.toolOptions.debug && console.log('Format options ', options.formatCodeSettings)
+    format(o)
+    // options.file.formatText(options.formatCodeSettings)
+    // var semi = (options.formatCodeSettings && options.formatCodeSettings.trailingSemicolons) || undefined
+    // if (semi === 'always') {
+    //   addTrailingSemicolons(options.file)
+    // } else if (semi === 'never') {
+    //   removeTrailingSemicolons(options.file)
+    // }
   },
 
   name: FIX.format,
