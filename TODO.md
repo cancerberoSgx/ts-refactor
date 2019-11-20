@@ -1,14 +1,17 @@
-important
 
-  * encapsulate API only in a separate project
-  * build a CLI separately
-    * ideally two CLIs one non interactive and fast and the intereactive heavier in separate repos.
+## Issues
 
+ * interactively organizeImports, select a file, codeSettings: no, show diff -> it won't show any files to select
 
 ## TODO
+ * encapsulate API only in a separate project
+ * build a CLI separately
+   * ideally two CLIs one non interactive and fast and the interactive heavier in separate repos.
+- [ ] node inquirer: a view showing the source code and letting user navigating and selecting nodes visually (ast-explorer like)
+- [ ] inquireFiles : an option to select folder with a tree (for large projects)
 - [ ] settings.json - warn if a unknown property is detected
 - [ ] inquireSettings : all properties are represented as booleans but there are some that are numbers or enums.
-- [ ] inquireFiles and settings: add fuzzy  https://github.com/faressoft/inquirer-checkbox-plus-prompt
+- [x] inquireFiles and settings: add fuzzy  https://github.com/faressoft/inquirer-checkbox-plus-prompt
 - [ ] json schema for formatCodeSettings.json 
 - [ ] formatCodeSettings.json validation API and CLI
 - [ ] all rename refactors should support template name based on previous name, current folder/path. example ts-refactor rename ""
@@ -18,24 +21,23 @@ important
   - [ ] addStatement: useful in combination with other fixes that need to add an import, comment, variable decl, "use strict", etc.
     - []for example `ts-refactor addStatement ""src/**/*" ImportSpecifier first "import {intl} from $SPECIFIER1$"`
   - [ ] code fix template argument**
-    -   []previous one wont work if we cannot define what's $SPECIFIER1$ from the CLI
+    -   [] previous one wont work if we cannot define what's $SPECIFIER1$ from the CLI
     - [ ] we do it in a separate argument - same command:
       -   []`ts-refactor addStatement ""src/**/*" ImportSpecifier first "import {intl} from $SPECIFIER1$" "$S P ECIFIER1$=asModuleSpecifierRelativePathTo('./src/util/Internationalization.ts')"`
     - []we create a useful couple
     - [ ] and a easy to use extension mechanism so others can be added as plugins
     - [ ] question, is "ImportSpecifier" argument really necessary?
-- []pri n t the equivalent non interactive command on finish
-- [ ] be able to load fix options from a .json file (format code settings)
+- [ ] pri n t the equivalent non interactive command on finish
+- [x] be able to load fix options from a .json file (format code settings)
 - [ ] apply more than one codefix by cli args: ts-refactor organizeImports,removeUnused ./src --dontConfirm
-- [ ] --dontAsk should throw if something is missing
+- [x] --dontAsk should throw if something is missing
 - [ ] move the inquire inputFiles implementation to FixClasses (SimpleFix)
 - [ ] TODO: move lessPrompt.ts to its own project
-- [ ] todo: organizeImports : userpreferences
-- [ ] movedeclaration: accept declaration name as parameter.
-- [ ] stringConcatenationToTemplate: mode as param - or perhaps divide in two refactors.
+- [x] todo: organizeImports : userpreferences
+- [x] movedeclaration: accept declaration name as parameter.
+- [x] stringConcatenationToTemplate: mode as param - or perhaps divide in two refactors.
 - [ ] move  declaration issue with three files simple
 - [ ] moveDeclaration should support target non existing file and in that case create it
-- [ ] add fuzze to inquireFiles https://github.com/faressoft/inquirer-checkbox-plus-prompt
 - [ ] `ts-refactor initFormatSettings` - will ask most important properties from codeSettings and when finish generate such file. in each step user can   go back - select default, and finish the process with defaults for the rest.
 - []`` 
  

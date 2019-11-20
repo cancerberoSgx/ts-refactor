@@ -7,15 +7,15 @@
   "bin": "bin/ts-refactor.js",
   "scripts": {
     "watch": "tsc --watch",
-    "build": "tsc",
+    "build": "npm run clean && tsc",
     "test": "ts-node -T node_modules/jasmine/bin/jasmine",
     "test-debug": "node --inspect-brk node_modules/ts-node/dist/bin node_modules/jasmine/bin/jasmine.js",
-    "prepare": "tsc",
-    "lint": "npx ts-refactor format \"src/**/*.ts*\" \"spec/interaction/**/*.ts*\" \"spec/*.ts*\" ./formatCodeSettings.json --tsConfigPath ./tsconfig.json --dontAsk",
-    "clean": "rm -rf dist",
-    "all": "npm run clean && npm run build && npm run lint && npm run build && npm test",
+    "prepare": "npm run build",
+    "lint": " npx ts-refactor format \"src/**/*.ts*\" \"spec/*.ts*\" \"interaction/*.ts*\" ./formatCodeSettings.json --dontAsk",
+    "clean": "rm -rf dist tmp*",
+    "all": "npm run build && npm run lint && npm run build && npm test",
     "all-publish": "npm run all && git commit -a -m \"version patch\" && npm version patch && npm publish",
-    "all-test": "npm run clean && npm run build && npm test"
+    "all-from-scratch": "rm -rf node_modules/ package-lock.json && ncu -u && npm i && npm run all"
   },
   "author": "Sebastian Gurin",
   "license": "MIT",
@@ -52,5 +52,11 @@
     "command line",
     "interactive"
   ],
-  "repository": "https://github.com/cancerberoSgx/ts-refactor"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cancerberoSgx/ts-refactor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cancerberoSgx/ts-refactor"
+  }
 }
